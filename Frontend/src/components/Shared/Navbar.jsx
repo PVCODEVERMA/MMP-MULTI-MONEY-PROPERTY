@@ -16,6 +16,7 @@ const navLinks = [
   { to: "/plans", label: "Pricing" },
   { to: "/ourCustomers", label: "Our Customers" },
   { to: "/projectsListing", label: "Resources" },
+  { to: "/broker/dashboard", label: "Dashboard" },
   { to: "/lead-form", label: "Contact" },
   { to: "/signup", label: "Signup" },
 ];
@@ -109,7 +110,7 @@ export default function Navbar() {
 
             {/* Admin Icon */}
             <Link
-              to="/admin"
+              to="/admin/dashboard"
               className="ml-4 p-2 rounded-full hover:bg-blue-600 transition flex items-center"
             >
               Admin
@@ -146,7 +147,7 @@ export default function Navbar() {
                   {/* Menu Items */}
                   <div className="py-2">
                     <Link
-                      to="/broker"
+                      to="/broker/dashboard"
                       className="flex items-center px-4 py-2 text-sm hover:bg-blue-50 text-gray-700 group"
                       onClick={() => setProfileOpen(false)}
                     >
@@ -157,7 +158,7 @@ export default function Navbar() {
                     </Link>
 
                     <Link
-                      to="/profile"
+                      to="/myprofile"
                       className="flex items-center px-4 py-2 text-sm hover:bg-blue-50 text-gray-700 group"
                       onClick={() => setProfileOpen(false)}
                     >
@@ -247,7 +248,20 @@ export default function Navbar() {
 
             {/* Admin Link for Mobile */}
             <Link
-              to="/admin"
+              to="/admin/dashboard"
+              className={`flex items-center gap-2 px-3 py-2 rounded 
+                ${
+                  isActive("/admin")
+                    ? "bg-white text-blue-700 font-bold"
+                    : "hover:bg-blue-600 hover:text-white/90"
+                }`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <UserIcon className="w-5 h-5" />
+              Admin Panel
+            </Link>
+            <Link
+              to="/settings"
               className={`flex items-center gap-2 px-3 py-2 rounded 
                 ${
                   isActive("/admin")
@@ -257,7 +271,7 @@ export default function Navbar() {
               onClick={() => setMenuOpen(false)}
             >
               <Cog6ToothIcon className="w-5 h-5" />
-              Admin Panel
+              Settings
             </Link>
           
             <Link

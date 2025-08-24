@@ -22,6 +22,8 @@ import OurCustomers from "./pages/OurCustomers";
 import FAQSection from "./pages/FAQSection";
 import ProjectsListing from "./pages/ProjectsListing";
 import ProjectDetailsView from "./pages/ProjectDetailsView";
+import MyProfile from "./pages/MyProfile";
+import Settings from "./pages/Settings";
 
 function App() {
   const location = useLocation();
@@ -47,6 +49,8 @@ function App() {
         <Route path="/plans" element={<SubscriptionPlans />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/myprofile" element={<MyProfile />} />
+        <Route path="/settings" element={<Settings />} />
         
         <Route path="/fAQSection" element={<FAQSection />} />
 
