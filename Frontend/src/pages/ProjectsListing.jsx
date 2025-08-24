@@ -7,7 +7,8 @@ import {
   MagnifyingGlassIcon,
   HomeIcon,
   BuildingOfficeIcon,
-  BuildingStorefrontIcon
+  BuildingStorefrontIcon,
+  ArrowTopRightOnSquareIcon 
 } from "@heroicons/react/24/outline";
 
 import ahmedabaadImag from "../assets/projectListing/Ahmedabad.avif";
@@ -17,6 +18,7 @@ import chennaiImag from "../assets/projectListing/chennai.avif";
 import hadapsarImag from "../assets/projectListing/Hadapsar.avif";
 import mumbaiImag from "../assets/projectListing/mumbai.avif";
 import gurgaonImg from "../assets/projectListing/Gurgaon.avif";
+import { Link } from "react-router-dom";
 
 // Sample data for projects
 const projectsData = [
@@ -489,9 +491,14 @@ const ProjectCard = ({ project, getPropertyTypeIcon }) => {
         
         <div className="flex justify-between items-center mt-2">
           <p className="text-green-600 font-semibold text-lg">{project.priceRange}</p>
-          <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm">
+          
+          <Link 
+            to={`/projectDetailsView/${project.id}`}
+            className="hidden md:flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm"
+          >
             View Details
-          </button>
+            <ArrowTopRightOnSquareIcon className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </motion.div>
