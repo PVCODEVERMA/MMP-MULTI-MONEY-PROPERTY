@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import WilmingtonImag from "../assets/HelpAndContact/Wilmington.jpg";
-import lindalImag from "../assets/HelpAndContact/LindaImag.jpeg";
+// import lindalImag from "../assets/HelpAndContact/LindaImag.jpeg";
 import TrichyImag from "../assets/HelpAndContact/TrichyIndia.jpg"
 import MiltonKeynesImag from "../assets/HelpAndContact/MiltonKeynes.jpg";
 import contact_support from "../assets/HelpAndContact/contact_support.png";

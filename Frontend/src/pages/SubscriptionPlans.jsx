@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FAQSection from "./FAQSection";
-import TrustedBySection from "./TrustedBySection";
+// import TrustedBySection from "./TrustedBySection";
 
 const packages = [
   {
@@ -231,7 +231,7 @@ export default function SubscriptionPlans() {
       </div>
 
       {/* Trusted By */}
-      <TrustedBySection />
+      {/* <TrustedBySection /> */}
 
       {/* FAQ */}
       <FAQSection />
