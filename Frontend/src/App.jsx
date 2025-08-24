@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Shared/Navbar";
 import Home from "./pages/Home";
-import ProjectListing from "./pages/ProjectListing";
+
 import LeadForm from "./pages/LeadForm";
 import SubscriptionPlans from "./pages/SubscriptionPlans";
 import Login from "./components/Auth/Login";
@@ -20,6 +20,7 @@ import AddLead from "./components/Admin/AddLead";
 import PerformanceData from "./components/Broker/PerformanceData";
 import OurCustomers from "./pages/OurCustomers";
 import FAQSection from "./pages/FAQSection";
+import ProjectsListing from "./pages/ProjectsListing";
 
 function App() {
   const location = useLocation();
@@ -36,7 +37,8 @@ function App() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />
-        <Route path="/projects" element={<ProjectListing />} />
+        <Route path="/projectsListing" element={<ProjectsListing />} />
+        
         <Route path="/lead-form" element={<LeadForm />} />
         <Route path="/ourCustomers" element={<OurCustomers />} />
         <Route path="/plans" element={<SubscriptionPlans />} />

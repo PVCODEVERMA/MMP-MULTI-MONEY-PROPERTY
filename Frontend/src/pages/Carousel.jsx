@@ -1,40 +1,44 @@
 import React, { useState, useEffect } from "react";
-
+import project01 from "../assets/project/project01.jpg";
+import project02 from "../assets/project/project02.jpg";
+import project03 from "../assets/project/project03.jpg";
+import project04 from "../assets/project/project04.jpg";
+import project05 from "../assets/project/project05.jpg";
 const featuredProjects = [
   {
     id: 1,
     name: "Godrej Greens",
     city: "Ahmedabad",
     priceRange: "₹60L - 1.2Cr",
-    image: "https://lens.usercontent.google.com/image?vsrid=CIOE7cnOi9zy_AEQAhgBIiQwNGE0OWQzMi0xMjNmLTRlNjQtOTAyMy05OGQ5ZDFlMzdiZTgyBiICdHAoADj1j9a3p6CPAw&gsessionid=YozxXI6on0Dj4FZJ_CGp5P8r9UPXHNkvkWloolbZ8-KWWE-E6ZZ-kg",
+    image: project01,
   },
   {
     id: 2,
     name: "DLF Park",
     city: "Gurgaon",
     priceRange: "₹80L - 2Cr",
-    image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=900&q=80",
+    image: project02,
   },
   {
     id: 3,
     name: "Sobha Elite",
     city: "Bangalore",
     priceRange: "₹1Cr - 3Cr",
-    image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?fit=crop&w=900&q=80",
+    image: project03,
   },
   {
     id: 4,
     name: "Prestige Lakeview",
     city: "Mumbai",
     priceRange: "₹2Cr - 5Cr",
-    image: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?fit=crop&w=900&q=80",
+    image: project04,
   },
   {
     id: 5,
     name: "Kapil Towers",
     city: "Pune",
     priceRange: "₹90L - 1.5Cr",
-    image: "https://images.unsplash.com/photo-1465101162946-4377e57745c3?fit=crop&w=900&q=80",
+    image: project05,
   },
 ];
 

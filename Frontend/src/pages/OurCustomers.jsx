@@ -1,41 +1,45 @@
 
 import React, { useState } from "react";
 
+import pv from "../assets/OurCustomersImg/pv.jpg";
+import customer01 from "../assets/OurCustomersImg/21.jpg";
+import customer02 from "../assets/OurCustomersImg/68.jpg";
+import CRM from "../assets/OurCustomersImg/CRM.png";
 const testimonials = [
   {
     name: "Amit Jain",
     company: "DreamBuild Realty",
-    photo: "https://randomuser.me/api/portraits/men/35.jpg",
+    photo: customer01,
     quote: "MMP has truly transformed our lead conversion workflow. The support is outstanding and the automation features saved us hours every week."
   },
   {
     name: "Priya Mehta",
     company: "UrbanHomes",
-    photo: "https://randomuser.me/api/portraits/women/68.jpg",
+    photo: pv,
     quote: "Thanks to MMP Hybrid, our brokers get leads faster and our customers are happier. Onboarding was seamless and the dashboard is super easy!"
   },
   {
     name: "Raghav Singh",
     company: "Elite Prop",
-    photo: "https://randomuser.me/api/portraits/men/21.jpg",
+    photo: customer02,
     quote: "The reporting tools and analytics on broker performance set MMP apart. It’s perfect for medium and large brokerages to scale!",
   },
   {
     name: "Meera Joshi",
     company: "CityHomes",
-    photo: "https://randomuser.me/api/portraits/women/55.jpg",
+    photo: pv,
     quote: "Absolutely love the dashboard and reporting. The team at MMP listens to feedback and keeps adding new features.",
   },
   {
     name: "Gopal Singh",
     company: "Skyline Realtors",
-    photo: "https://randomuser.me/api/portraits/men/59.jpg",
+    photo: customer01,
     quote: "MMP helps our field agents keep everything organized and follow up efficiently. Highly recommended!",
   },
   {
     name: "Saloni Parikh",
     company: "EstateWorld",
-    photo: "https://randomuser.me/api/portraits/women/83.jpg",
+    photo: pv,
     quote: "The CSV export and lead tracking makes reporting to management simple. Support is responsive and fast.",
   },
 ];
@@ -75,7 +79,7 @@ export default function OurCustomers() {
       
           
         
-       <img src="https://www.helloleads.io/customer-testimonials/img/testimonial-header-image.png" alt="" />
+       <img src={CRM} alt="" />
       </div>
     </section>
      <section className="max-w-5xl mx-auto my-16 p-8 bg-white rounded-xl shadow-lg">

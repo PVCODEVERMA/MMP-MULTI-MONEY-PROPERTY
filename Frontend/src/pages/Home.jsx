@@ -11,6 +11,23 @@ import {
   StarIcon,
   ArrowRightIcon
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+
+// Sample images (replace with your actual imports)
+const lands01 = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
+const lands02 = "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
+const lands03 = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
+const lands04 = "https://images.unsplash.com/photo-1600585154526-990dced4db0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
+const lands05 = "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
+const lands06 = "https://images.unsplash.com/photo-1605146769289-440113cc3d00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
+const lands07 = "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
+
+const mumbai = "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80";
+const delhi = "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80";
+const bangalore = "https://images.unsplash.com/photo-1630855366526-fec00bb324b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80";
+const chennai = "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80";
+const hyderabad = "https://images.unsplash.com/photo-1598890777032-9c78a5c9f0f2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80";
+const ahmedabad = "https://images.unsplash.com/photo-1633172905740-6f6a5e8e486e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80";
 
 // Sample data for projects
 const projects = [
@@ -21,7 +38,7 @@ const projects = [
     area: "Prahlad Nagar",
     priceRange: "₹60L - 1.2Cr", 
     description: "Luxury apartments with modern amenities and green spaces",
-    photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
+    photo: lands01,
     featured: true,
     sponsored: false,
     leads: 42
@@ -33,7 +50,7 @@ const projects = [
     area: "Sector 56",
     priceRange: "₹80L - 2.0Cr", 
     description: "Premium residential complex with world-class facilities",
-    photo: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
+    photo: lands02,
     featured: true,
     sponsored: true,
     leads: 38
@@ -45,7 +62,7 @@ const projects = [
     area: "Whitefield",
     priceRange: "₹1Cr - 3Cr", 
     description: "Elegant living spaces with panoramic city views",
-    photo: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
+    photo: lands03,
     featured: true,
     sponsored: false,
     leads: 56
@@ -57,7 +74,7 @@ const projects = [
     area: "OMR",
     priceRange: "₹90L - 2.5Cr", 
     description: "Waterfront residences with exclusive clubhouse",
-    photo: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
+    photo: lands04,
     featured: true,
     sponsored: true,
     leads: 29
@@ -69,7 +86,7 @@ const projects = [
     area: "Lower Parel",
     priceRange: "₹1.5Cr - 4Cr", 
     description: "Ultra-luxury towers with concierge services",
-    photo: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
+    photo: lands05,
     featured: true,
     sponsored: true,
     leads: 67
@@ -85,7 +102,7 @@ const freeListings = [
     area: "Hadapsar",
     priceRange: "₹50L - 90L", 
     description: "Affordable homes with community amenities",
-    photo: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
+    photo: lands06,
     featured: false,
     sponsored: false,
     leads: 18
@@ -97,7 +114,7 @@ const freeListings = [
     area: "Mahadevapura",
     priceRange: "₹85L - 1.5Cr", 
     description: "Modern apartments with convenient access to IT hubs",
-    photo: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
+    photo: lands07,
     featured: false,
     sponsored: false,
     leads: 22
@@ -106,12 +123,12 @@ const freeListings = [
 
 // City data
 const cities = [
-  { name: "Mumbai", count: 124, image: "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" },
-  { name: "Delhi", count: 98, image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" },
-  { name: "Bangalore", count: 156, image: "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" },
-  { name: "Chennai", count: 76, image: "https://images.unsplash.com/photo-1532664189809-02133fee698d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" },
-  { name: "Hyderabad", count: 89, image: "https://images.unsplash.com/photo-1590649880760-2d4b0f523de7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" },
-  { name: "Ahmedabad", count: 64, image: "https://images.unsplash.com/photo-1564501049416-2c36b7720350?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" }
+  { name: "Mumbai", count: 124, image: mumbai },
+  { name: "Delhi", count: 98, image: delhi },
+  { name: "Bangalore", count: 156, image: bangalore },
+  { name: "Chennai", count: 76, image: chennai },
+  { name: "Hyderabad", count: 89, image: hyderabad },
+  { name: "Ahmedabad", count: 64, image: ahmedabad }
 ];
 
 // Carousel Component
@@ -151,13 +168,13 @@ const Carousel = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
           className="w-full h-full absolute inset-0"
-          style={{
-            backgroundImage: `url(${projects[currentIndex].photo})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
         >
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          <img 
+            src={projects[currentIndex].photo} 
+            alt={projects[currentIndex].name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-transparent bg-opacity-40"></div>
         </motion.div>
       </AnimatePresence>
 
@@ -179,23 +196,28 @@ const Carousel = () => {
           >
             Verified real estate leads, seamless payments, and easy broker management
           </motion.p>
+          <Link to='/projectsListing'>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full text-lg flex items-center justify-center mx-auto transition-all hover:scale-105"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full text-lg flex items-center justify-center mx-auto transition-all hover:scale-105 cursor-pointer"
           >
-            Explore Properties <ArrowRightIcon className="ml-2 h-5 w-5" />
+            
+                  Explore Properties <ArrowRightIcon className="ml-2 h-5 w-5" />
+           
+            
           </motion.button>
+           </Link>
         </div>
       </div>
 
-      {/* Project Info Card */}
+      {/* Project Info Card - Responsive positioning */}
       <motion.div 
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.6 }}
-        className="absolute left-8 bottom-8 bg-white bg-opacity-90 backdrop-blur-sm rounded-xl p-6 shadow-2xl max-w-md"
+        className="absolute left-4 right-4 md:left-8 bottom-4 md:bottom-8 bg-white bg-opacity-90 backdrop-blur-sm rounded-xl p-4 md:p-6 shadow-2xl max-w-md mx-auto md:mx-0"
       >
         <div className="flex items-center mb-2">
           {projects[currentIndex].featured && (
@@ -209,163 +231,62 @@ const Carousel = () => {
             </span>
           )}
         </div>
-        <h2 className="text-2xl font-bold text-indigo-900 mb-2">
+        <h2 className="text-xl md:text-2xl font-bold text-indigo-900 mb-2">
           {projects[currentIndex].name}
         </h2>
         <div className="flex items-center text-indigo-700 mb-2">
           <MapPinIcon className="h-4 w-4 mr-1" />
           {projects[currentIndex].area}, {projects[currentIndex].city}
         </div>
-        <p className="text-gray-600 mb-4">{projects[currentIndex].description}</p>
-        <p className="text-green-600 font-semibold text-xl mb-4">
+        <p className="text-gray-600 text-sm md:text-base mb-4">{projects[currentIndex].description}</p>
+        <p className="text-green-600 font-semibold text-lg md:text-xl mb-4">
           {projects[currentIndex].priceRange}
         </p>
-        <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+        <Link to='/lead-form'>
+        <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer">
           Request Information
         </button>
+        </Link>
       </motion.div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Responsive positioning */}
       <button 
         onClick={goToPrevious}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
+        className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
       >
-        <ChevronLeftIcon className="h-6 w-6 text-indigo-900" />
+        <ChevronLeftIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900 cursor-pointer" />
       </button>
       <button 
         onClick={goToNext}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
+        className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
       >
-        <ChevronRightIcon className="h-6 w-6 text-indigo-900" />
+        <ChevronRightIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900 cursor-pointer" />
       </button>
 
-      {/* Play/Pause Button */}
+      {/* Play/Pause Button - Responsive positioning */}
       <button 
         onClick={() => setIsPlaying(!isPlaying)}
-        className="absolute right-4 top-4 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
+        className="absolute right-2 md:right-4 top-2 md:top-4 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
       >
         {isPlaying ? (
-          <PauseIcon className="h-6 w-6 text-indigo-900" />
+          <PauseIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900" />
         ) : (
-          <PlayIcon className="h-6 w-6 text-indigo-900" />
+          <PlayIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900" />
         )}
       </button>
 
       {/* Dots Indicator */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {projects.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`h-3 w-3 rounded-full transition-all ${
+            className={`h-2 w-2 md:h-3 md:w-3 rounded-full transition-all ${
               index === currentIndex ? 'bg-white' : 'bg-white bg-opacity-50'
             }`}
           />
         ))}
       </div>
-    </div>
-  );
-};
-
-// Lead Form Component
-const LeadForm = ({ project }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: `I'm interested in ${project.name}`
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Form submission logic would go here
-    alert(`Thank you for your interest in ${project.name}! We'll contact you soon.`);
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  return (
-    <div className="bg-white rounded-xl shadow-lg p-6">
-      <h3 className="text-xl font-bold text-indigo-900 mb-4">Request Information</h3>
-      <p className="text-gray-600 mb-6">Get more details about this property</p>
-      
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="name">
-            Full Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="email">
-            Email Address
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="phone">
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
-        
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="message">
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows="3"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          ></textarea>
-        </div>
-        
-        <button
-          type="submit"
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-        >
-          Submit Request
-        </button>
-        
-        <p className="text-xs text-gray-500 mt-4 text-center">
-          By submitting this form, you agree to our Privacy Policy
-        </p>
-      </form>
     </div>
   );
 };
@@ -412,52 +333,13 @@ const ProjectCard = ({ project, featured = false }) => {
         </div>
         <p className="text-gray-600 text-sm mb-4 flex-grow">{project.description}</p>
         <p className="text-green-600 font-semibold text-lg mb-4">{project.priceRange}</p>
+        <Link to='/lead-form'>
         <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors w-full">
           Contact Now
         </button>
+        </Link>
       </div>
     </motion.div>
-  );
-};
-
-// City Page Component
-const CityPage = ({ cityName }) => {
-  const cityProjects = projects.filter(project => project.city === cityName);
-  const allCityListings = [...cityProjects, ...freeListings.filter(listing => listing.city === cityName)];
-  
-  return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-indigo-900 mb-2">Properties in {cityName}</h1>
-          <p className="text-gray-600">Discover the best properties in {cityName}</p>
-        </div>
-        
-        {/* Featured Listings */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-indigo-800 mb-6 flex items-center">
-            <StarIcon className="h-6 w-6 mr-2 text-amber-500" /> Featured Listings
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {cityProjects.map(project => (
-              <ProjectCard key={project.id} project={project} featured={true} />
-            ))}
-          </div>
-        </div>
-        
-        {/* Free Listings */}
-        <div>
-          <h2 className="text-2xl font-bold text-indigo-800 mb-6">Other Listings</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {freeListings
-              .filter(listing => listing.city === cityName)
-              .map(project => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 
@@ -470,12 +352,12 @@ export default function Home() {
       <Carousel />
       
       {/* Cities Section */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center text-indigo-900 mb-12">
+      <section className="py-12 md:py-16 px-4 md:px-8 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-indigo-900 mb-8 md:mb-12">
           Explore Properties by City
         </h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 mb-12 md:mb-16">
           {cities.map(city => (
             <motion.div
               key={city.name}
@@ -485,21 +367,21 @@ export default function Home() {
               <img 
                 src={city.image} 
                 alt={city.name} 
-                className="w-full h-24 object-cover" 
+                className="w-full h-20 md:h-24 object-cover" 
               />
-              <div className="p-4 text-center">
-                <h3 className="font-semibold text-indigo-900">{city.name}</h3>
-                <p className="text-sm text-gray-600">{city.count} properties</p>
+              <div className="p-3 text-center">
+                <h3 className="font-semibold text-indigo-900 text-sm md:text-base">{city.name}</h3>
+                <p className="text-xs md:text-sm text-gray-600">{city.count} properties</p>
               </div>
             </motion.div>
           ))}
         </div>
         
         {/* Tabs for Featured vs All */}
-        <div className="bg-white rounded-xl shadow-sm p-2 flex mb-8 max-w-md mx-auto">
+        <div className="bg-white rounded-xl shadow-sm p-2 flex mb-6 md:mb-8 max-w-md mx-auto">
           <button
             onClick={() => setActiveTab('featured')}
-            className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+            className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors text-sm md:text-base cursor-pointer ${
               activeTab === 'featured' 
                 ? 'bg-indigo-600 text-white' 
                 : 'text-gray-600 hover:text-indigo-700'
@@ -509,7 +391,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveTab('all')}
-            className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+            className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors text-sm md:text-base cursor-pointer ${
               activeTab === 'all' 
                 ? 'bg-indigo-600 text-white' 
                 : 'text-gray-600 hover:text-indigo-700'
@@ -520,7 +402,7 @@ export default function Home() {
         </div>
         
         {/* Properties Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {(activeTab === 'featured' ? projects : [...projects, ...freeListings])
             .map((project) => (
               <ProjectCard key={project.id} project={project} />
@@ -530,17 +412,17 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16 bg-indigo-900 text-white">
-        <div className="max-w-7xl mx-auto px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Find Your Dream Property?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
+      <section className="py-12 md:py-16 bg-indigo-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Ready to Find Your Dream Property?</h2>
+          <p className="text-lg md:text-xl mb-6 md:mb-8 max-w-3xl mx-auto">
             Join thousands of satisfied customers who found their perfect home through MMP Hybrid Portal
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-white text-indigo-900 hover:bg-gray-100 font-bold py-3 px-8 rounded-full text-lg transition-all flex items-center justify-center">
-              Browse Properties <ArrowRightIcon className="ml-2 h-5 w-5" />
+          <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
+            <button className="bg-white text-indigo-900 hover:bg-gray-100 font-bold py-2 md:py-3 px-6 md:px-8 rounded-full text-base md:text-lg transition-all flex items-center justify-center">
+              Browse Properties <ArrowRightIcon className="ml-2 h-4 w-4 md:h-5 md:w-5" />
             </button>
-            <button className="bg-transparent border border-white hover:bg-indigo-800 text-white font-bold py-3 px-8 rounded-full text-lg transition-all">
+            <button className="bg-transparent border border-white hover:bg-indigo-800 text-white font-bold py-2 md:py-3 px-6 md:px-8 rounded-full text-base md:text-lg transition-all">
               Contact Our Team
             </button>
           </div>
@@ -549,7 +431,3 @@ export default function Home() {
     </div>
   );
 }
-
-// Example of how to use the CityPage component
-// You would typically have this in a separate route
-const MumbaiPage = () => <CityPage cityName="Mumbai" />;

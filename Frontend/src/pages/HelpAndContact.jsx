@@ -1,11 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// Demo images for region cards (replace with your own or Unsplash images)
+import WilmingtonImag from "../assets/HelpAndContact/Wilmington.jpg";
+import lindalImag from "../assets/HelpAndContact/LindaImag.jpeg";
+import TrichyImag from "../assets/HelpAndContact/TrichyIndia.jpg"
+import MiltonKeynesImag from "../assets/HelpAndContact/MiltonKeynes.jpg";
+import contact_support from "../assets/HelpAndContact/contact_support.png";
+import schedule_demo from "../assets/HelpAndContact/schedule_demo.png";
+import faq from "../assets/HelpAndContact/faq.png";
 const regions = [
   {
     name: "North America",
     city: "Wilmington, DE",
-    img: "https://upload.wikimedia.org/wikipedia/commons/a/a1/Statue_of_Liberty_7.jpg",
+    img: WilmingtonImag,
     address: (
       <>
         3422 Old Capitol Trail, Suite 15<br />
@@ -17,7 +23,7 @@ const regions = [
   {
     name: "Europe",
     city: "Milton Keynes, UK",
-    img: "https://upload.wikimedia.org/wikipedia/commons/1/10/Tower_Bridge_London_Feb_2006.jpg",
+    img: MiltonKeynesImag,
     address: (
       <>
         6 Grant Gardens, Oxley Park<br />
@@ -29,7 +35,7 @@ const regions = [
   {
     name: "Asia",
     city: "Trichy, India",
-    img: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Srirangam_Ranganathaswamy_temple.jpg",
+    img: TrichyImag,
     address: (
       <>
         6, Alexandria Road<br />
@@ -46,7 +52,7 @@ export default function HelpAndContact() {
       {/* Ask Linda Section */}
       <section className="bg-white max-w-5xl mx-auto rounded-xl shadow-lg p-8 flex flex-col md:flex-row items-center gap-8 border mb-10">
         <img
-          src="https://images.pexels.com/photos/1138903/pexels-photo-1138903.jpeg?auto=compress&w=240&h=240&fit=crop"
+          src={ MiltonKeynesImag }
           alt="Ask Linda"
           className="w-44 h-44 object-cover rounded-lg border shadow-md"
         />
@@ -110,17 +116,17 @@ export default function HelpAndContact() {
       <div className="flex flex-col md:flex-row justify-center items-center gap-12">
         {/* Register Demo */}
         <Link className="flex flex-col items-center group transition hover:scale-105">
-          <img src="https://www.helloleads.io/contact/img/schedule_demo.png" alt="" />
+          <img src={contact_support} alt="" />
           
         </Link>
         {/* FAQ */}
         <Link to='/fAQSection' className="flex flex-col items-center group transition hover:scale-105">
-          <img src="https://www.helloleads.io/contact/img/faq.png" alt="" />
+          <img src={faq} alt="" />
           
         </Link>
         {/* Contact Support */}
         <Link to='/lead-form' className="flex flex-col items-center group transition hover:scale-105">
-          <img src="https://www.helloleads.io/contact/img/contact_support.png" alt="" />
+          <img src={schedule_demo} alt="" />
           
         </Link>
       </div>
