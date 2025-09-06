@@ -8,6 +8,14 @@ import {
   MapPinIcon ,
 } from "@heroicons/react/24/outline";
 
+
+import image01 from "../../assets/phome_Image/ExclusivePropertiesImg/photo_01.avif"
+import image02 from "../../assets/phome_Image/ExclusivePropertiesImg/photo_02.avif"
+import image03 from "../../assets/phome_Image/ExclusivePropertiesImg/photo_03.avif"
+import image04 from "../../assets/phome_Image/ExclusivePropertiesImg/photo_04.avif"
+import image05 from "../../assets/phome_Image/ExclusivePropertiesImg/photo_05.avif"
+
+
 const ExclusiveOwnerProperties = ({ 
   handleGetStarted, 
   handleBookDemo,
@@ -25,7 +33,7 @@ const ExclusiveOwnerProperties = ({
       location: "Budh Vihar, New Delhi",
       possession: "Ready to Move",
       images: 3,
-      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      image: image01,
       postedBy: "Owner",
       postedTime: "Today",
       ownerName: "Rajesh Kumar",
@@ -37,7 +45,7 @@ const ExclusiveOwnerProperties = ({
       location: "Gulmohar Enclave Gulmohar Park, New Delhi",
       possession: "Ready to Move",
       images: 20,
-      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      image: image02,
       postedBy: "Broker",
       postedTime: "Yesterday",
       ownerName: "Sunil Properties",
@@ -49,7 +57,7 @@ const ExclusiveOwnerProperties = ({
       location: "Gulmohar Enclave Gulmohar Park, New Delhi",
       possession: "Ready to Move",
       images: 20,
-      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      image: image03,
       postedBy: "Owner",
       postedTime: "2 days ago",
       ownerName: "Priya Sharma",
@@ -61,7 +69,7 @@ const ExclusiveOwnerProperties = ({
       location: "Vikaspuri, New Delhi",
       possession: "Ready to Move",
       images: 17,
-      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      image: image04,
       postedBy: "User",
       postedTime: "3 days ago",
       ownerName: "Amit Verma",
@@ -73,7 +81,7 @@ const ExclusiveOwnerProperties = ({
       location: "Greater Kailash, New Delhi",
       possession: "Ready to Move",
       images: 15,
-      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      image: image05,
       postedBy: "Owner",
       postedTime: "Just now",
       ownerName: "Vikram Singh",

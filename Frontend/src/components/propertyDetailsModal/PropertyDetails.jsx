@@ -15,6 +15,15 @@ import {
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
 
+import image01 from "../../assets/PropertyDetails/photo_01.avif"
+import image02 from "../../assets/PropertyDetails/photo_02.avif"
+import image03 from "../../assets/PropertyDetails/photo_03.avif"
+import image04 from "../../assets/PropertyDetails/photo_04.avif"
+
+
+import image21 from "../../assets/PropertyDetails/photo_21.avif"
+import image22 from "../../assets/PropertyDetails/photo_22.avif"
+
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,6 +31,7 @@ const PropertyDetails = () => {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
 
   // Sample property data
   const propertyData = {
@@ -32,10 +42,10 @@ const PropertyDetails = () => {
       location: "Budh Vihar, New Delhi",
       possession: "Ready to Move",
       images: [
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+        image01,
+        image02,
+        image03,
+        image04
       ],
       details: {
         area: "850 sq.ft",
@@ -68,8 +78,8 @@ const PropertyDetails = () => {
       location: "Gulmohar Enclave Gulmohar Park, New Delhi",
       possession: "Ready to Move",
       images: [
-        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+        image21,
+        image22
       ],
       details: {
         area: "1850 sq.ft",

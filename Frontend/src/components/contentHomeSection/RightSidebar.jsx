@@ -2,16 +2,20 @@
 import React, { useState, useEffect } from "react";
 import ActionButtons from "../actionButtons/ActionButtons.jsx";
 
+import SlidebarImg01 from "../../assets/phome_Image/RightSidebar/SlidebarImg_01.avif"
+import SlidebarImg02 from "../../assets/phome_Image/RightSidebar/SlidebarImg_02.avif"
+import SlidebarImg03 from "../../assets/phome_Image/RightSidebar/SlidebarImg_03.avif"
+import SlidebarImg04 from "../../assets/phome_Image/RightSidebar/SlidebarImg_04.avif"
+
 const RightSidebar = ({ handleGetStarted, handleBookDemo }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   // Sample images (replace with your actual image URLs)
   const sliderImages = [
-    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    SlidebarImg01,
+    SlidebarImg02,
+    SlidebarImg03,
+    SlidebarImg04,
   ];
 
   // Auto slide effect
