@@ -1,288 +1,647 @@
-import React, { useState, useEffect } from "react";
-import FAQSection from "./FAQSection";
-// import TrustedBySection from "./TrustedBySection";
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  CheckIcon,
+  XMarkIcon,
+  CreditCardIcon,
+  PhoneIcon,
+  StarIcon,
+  ShieldCheckIcon,
+  ClockIcon,
+  UserGroupIcon,
+  EyeIcon,
+  ArrowLeftIcon,
+  ExclamationTriangleIcon
+} from '@heroicons/react/24/outline';
 
-const packages = [
-  {
-    id: "starter",
-    name: "Starter",
-    monthly: 5000,
-    yearly: 5000 * 12 * 0.67,
-    quota: 10,
-    description: "Ideal for new brokers just getting started.",
-    features: [
-      "2000 active Leads",
-      "6000 Emails per month",
-      "Unlimited Email Warm Up",
-      "Unlimited Email Accounts",
-      "Dynamic IP Addresses",
-      "Centralised Master Inbox",
-      "Dynamic Sequences",
-    ],
-  },
-  {
-    id: "growth",
-    name: "Growth",
-    monthly: 10000,
-    yearly: 10000 * 12 * 0.67,
-    quota: 25,
-    description: "Recommended for brokers scaling up their business.",
-    features: [
-      "up to 12M Active Lead Credits",
-      "Dynamic Sequences",
-      "up to 60M Email Credits (p/m)",
-      "Custom CRM",
-      "Unlimited Email Warm Up",
-      "Email Guide Assistance",
-      "Unlimited Email Accounts",
-    ],
-  },
-  {
-    id: "premium",
-    name: "Premium",
-    monthly: 20000,
-    yearly: 20000 * 12 * 0.67,
-    quota: 60,
-    description: "Perfect for high-volume brokers with priority support.",
-    recommended: true,
-    features: [
-      "up to 12M Active Lead Credits",
-      "Dynamic Sequences",
-      "up to 60M Email Credits (p/m)",
-      "Custom CRM",
-      "Unlimited Email Warm Up",
-      "Email Guide Assistance",
-      "Unlimited Email Accounts",
-    ],
-  },
-];
+const SubscriptionPlans = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [selectedPlan, setSelectedPlan] = useState('premium');
+  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [showPayment, setShowPayment] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [error, setError] = useState('');
 
-export default function SubscriptionPlans() {
-  const [selectedPlan, setSelectedPlan] = useState(null);
-  const [billingType, setBillingType] = useState("monthly");
-  const [isAnimating, setIsAnimating] = useState(false);
+  const searchInfo = location.state || {};
 
-  // Animation for billing toggle
+  // Subscription Plans with Brand Colors
+  const plans = [
+    {
+      id: 'basic',
+      name: 'Basic Broker',
+      monthlyPrice: 999,
+      yearlyPrice: 9999,
+      originalMonthlyPrice: 1999,
+      originalYearlyPrice: 19999,
+      leads: '25 Property Leads',
+      contacts: '50 Owner Contacts',
+      popular: false,
+      features: [
+        '25 verified property leads per month',
+        '50 direct owner phone numbers',
+        'Basic property alerts',
+        'Email support',
+        'Mobile app access',
+        'Lead tracking dashboard'
+      ],
+      limitations: [
+        'No premium listings access',
+        'No dedicated manager'
+      ]
+    },
+    {
+      id: 'premium',
+      name: 'Premium Broker',
+      monthlyPrice: 2999,
+      yearlyPrice: 29999,
+      originalMonthlyPrice: 4999,
+      originalYearlyPrice: 49999,
+      leads: '100 Property Leads',
+      contacts: 'Unlimited Contacts',
+      popular: true,
+      features: [
+        '100 verified property leads per month',
+        'Unlimited direct owner phone numbers',
+        'Priority property alerts',
+        'WhatsApp support',
+        'Dedicated relationship manager',
+        'Premium listings access',
+        'Advanced lead analytics',
+        'Market insights reports',
+        'Lead scoring system'
+      ],
+      limitations: []
+    },
+    {
+      id: 'enterprise',
+      name: 'Enterprise Broker',
+      monthlyPrice: 7999,
+      yearlyPrice: 79999,
+      originalMonthlyPrice: 12999,
+      originalYearlyPrice: 129999,
+      leads: 'Unlimited Leads',
+      contacts: 'Unlimited Contacts',
+      popular: false,
+      features: [
+        'Unlimited verified property leads',
+        'Unlimited direct owner contacts',
+        'Instant property alerts',
+        '24/7 phone support',
+        'Personal property consultant',
+        'Exclusive premium listings',
+        'Custom market reports',
+        'Lead automation tools',
+        'Multi-city access',
+        'Team collaboration tools',
+        'API access for integration'
+      ],
+      limitations: []
+    }
+  ];
+
+  // Error boundary effect
   useEffect(() => {
-    setIsAnimating(true);
-    const timer = setTimeout(() => setIsAnimating(false), 500);
-    return () => clearTimeout(timer);
-  }, [billingType]);
+    try {
+      // Validate plans data
+      if (!plans || plans.length === 0) {
+        setError('Unable to load subscription plans. Please try again.');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please refresh the page.');
+    }
+  }, []);
 
-  const handleBuyNow = (e, plan) => {
-    e.stopPropagation();
-    
-    // Animation effect
-    const button = e.target;
-    button.classList.add("animate-ping");
-    
-    setTimeout(() => {
-      button.classList.remove("animate-ping");
-      alert(
-        `Selected plan: ${plan.name}\nBilling: ${
-          billingType.charAt(0).toUpperCase() + billingType.slice(1)
-        }`
-      );
-    }, 600);
+  const handlePlanSelect = (planId) => {
+    setSelectedPlan(planId);
+    setError(''); // Clear any previous errors
   };
 
-  return (
-    <>
-      {/* Pricing Section */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-6 animate-fade-in-down">
-          Choose Your Subscription Plan
-        </h1>
-        <p className="text-center text-gray-600 mb-10 animate-fade-in-up">
-          Flexible plans for every stage of your growth
-        </p>
+  const handleSubscribe = (plan) => {
+    if (!plan) {
+      setError('Please select a valid plan');
+      return;
+    }
+    setShowPayment(true);
+    setError('');
+  };
 
-        {/* Billing toggle */}
-        <div className="flex justify-center items-center mb-10">
-          <span
-            className={`mr-2 font-semibold transition-colors duration-300 ${
-              billingType === "monthly" ? "text-blue-700" : "text-gray-500"
-            }`}
+  const handlePayment = async () => {
+    setLoading(true);
+    setError('');
+    
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const selectedPlanData = plans.find(p => p.id === selectedPlan);
+      
+      if (!selectedPlanData) {
+        throw new Error('Invalid plan selected');
+      }
+
+      // Navigate to success page
+      navigate('/payment-success', {
+        state: {
+          plan: selectedPlanData,
+          billingCycle,
+          searchInfo,
+          paymentMethod,
+          amount: getPrice(selectedPlanData)
+        }
+      });
+    } catch (err) {
+      setError('Payment failed. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const getPrice = (plan) => {
+    if (!plan) return 0;
+    return billingCycle === 'monthly' ? plan.monthlyPrice : plan.yearlyPrice;
+  };
+
+  const getOriginalPrice = (plan) => {
+    if (!plan) return 0;
+    return billingCycle === 'monthly' ? plan.originalMonthlyPrice : plan.originalYearlyPrice;
+  };
+
+  const getSavings = (plan) => {
+    if (!plan) return 0;
+    return getOriginalPrice(plan) - getPrice(plan);
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-IN').format(price);
+  };
+
+  // Error state
+  if (error && !showPayment) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F7F7F7' }}>
+        <div className="text-center bg-white p-8 rounded-2xl shadow-lg max-w-md">
+          <ExclamationTriangleIcon className="w-16 h-16 mx-auto mb-4 text-red-500" />
+          <h2 className="text-2xl font-bold mb-4" style={{ color: '#164058' }}>
+            Oops! Something went wrong
+          </h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 rounded-lg font-semibold text-white transition-colors"
+            style={{ backgroundColor: '#FF9C00' }}
           >
-            Monthly
-          </span>
-          <label className="relative inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              checked={billingType === "yearly"}
-              onChange={() =>
-                setBillingType(
-                  billingType === "monthly" ? "yearly" : "monthly"
-                )
-              }
-              className="sr-only"
-            />
-            <div className={`w-14 h-7 bg-gray-300 rounded-full p-1 transition-all duration-300 ${isAnimating ? 'scale-110' : ''}`}>
-              <div
-                className={`bg-white w-5 h-5 rounded-full shadow-md transform transition-all duration-300 ${
-                  billingType === "yearly" ? "translate-x-7 bg-green-500" : ""
-                }`}
-              ></div>
-            </div>
-          </label>
-          <span
-            className={`ml-2 font-semibold transition-colors duration-300 ${
-              billingType === "yearly" ? "text-green-700" : "text-gray-500"
-            }`}
-          >
-            Yearly{" "}
-            <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded ml-1 animate-pulse">
-              Save 33%
-            </span>
-          </span>
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen py-8" style={{ backgroundColor: '#F7F7F7' }}>
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 mb-6 px-4 py-2 rounded-lg transition-colors hover:bg-gray-100"
+          style={{ color: '#164058', backgroundColor: 'white' }}
+        >
+          <ArrowLeftIcon className="w-5 h-5" />
+          Back to Search
+        </button>
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
+          <h1 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: '#164058' }}>
+            Unlock <span style={{ color: '#FF9C00' }}>Premium Property Leads</span>
+          </h1>
+          <p className="text-lg md:text-xl mb-4" style={{ color: '#164058' }}>
+            Get verified property leads and direct owner contacts
+          </p>
+          
+          {/* Search Context */}
+          {searchInfo?.fromSearch && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="p-4 rounded-lg mb-6" 
+              style={{ backgroundColor: '#FF9C00', color: 'white' }}
+            >
+              <p className="text-lg font-semibold">
+                🔒 To access search results for "{searchInfo.searchQuery}" you need a subscription
+              </p>
+              <p>Choose a plan below to unlock verified leads and owner contacts</p>
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Billing Toggle */}
+        <div className="flex justify-center mb-8">
+          <div className="flex items-center p-1 rounded-lg shadow-md" style={{ backgroundColor: 'white' }}>
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-6 py-2 rounded-md font-medium transition-all ${
+                billingCycle === 'monthly' 
+                  ? 'text-white shadow-md' 
+                  : 'hover:bg-gray-100'
+              }`}
+              style={{ 
+                backgroundColor: billingCycle === 'monthly' ? '#FF9C00' : 'transparent',
+                color: billingCycle === 'monthly' ? 'white' : '#164058'
+              }}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingCycle('yearly')}
+              className={`px-6 py-2 rounded-md font-medium transition-all relative ${
+                billingCycle === 'yearly' 
+                  ? 'text-white shadow-md' 
+                  : 'hover:bg-gray-100'
+              }`}
+              style={{ 
+                backgroundColor: billingCycle === 'yearly' ? '#FF9C00' : 'transparent',
+                color: billingCycle === 'yearly' ? 'white' : '#164058'
+              }}
+            >
+              Yearly
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                Save 40%
+              </span>
+            </button>
+          </div>
         </div>
 
-        {/* Plans */}
-        <div className="grid gap-8 md:grid-cols-3">
-          {packages.map((plan, index) => {
-            const price =
-              billingType === "monthly" ? plan.monthly : Math.round(plan.yearly);
+        {/* Plans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`bg-white rounded-2xl shadow-lg overflow-hidden relative transform transition-all hover:scale-105 cursor-pointer ${
+                selectedPlan === plan.id ? 'ring-4' : ''
+              } ${plan.popular ? 'ring-4' : ''}`}
+              style={{ 
+                ringColor: plan.popular || selectedPlan === plan.id ? '#FF9C00' : 'transparent'
+              }}
+              onClick={() => handlePlanSelect(plan.id)}
+            >
+              {/* Popular Badge */}
+              {plan.popular && (
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 py-1 rounded-full font-bold text-white text-sm z-10" style={{ backgroundColor: '#FF9C00' }}>
+                  ⭐ MOST POPULAR
+                </div>
+              )}
 
-            return (
-              <div
-                key={plan.id}
-                onClick={() => setSelectedPlan(plan.id)}
-                className={`cursor-pointer border rounded-2xl p-8 shadow-md transition-all duration-300 relative overflow-hidden
-                  ${selectedPlan === plan.id
-                    ? "border-blue-600 bg-blue-50 scale-105 shadow-lg"
-                    : "border-gray-200 bg-white hover:scale-105"
-                  }
-                  ${plan.recommended ? "ring-2 ring-green-500" : ""}
-                  animate-fade-in-up
-                `}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {plan.recommended && (
-                  <div className="absolute top-0 right-0">
-                    <div className="absolute transform rotate-45 bg-green-500 text-center text-white font-semibold py-1 right-[-35px] top-[20px] w-[170px]">
-                      Recommended
+              <div className="p-6 lg:p-8">
+                {/* Plan Header */}
+                <div className="text-center mb-6">
+                  <h3 className="text-xl lg:text-2xl font-bold mb-4" style={{ color: '#164058' }}>
+                    {plan.name}
+                  </h3>
+                  
+                  {/* Price */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <span className="text-sm text-gray-500 line-through">
+                        ₹{formatPrice(getOriginalPrice(plan))}
+                      </span>
+                    </div>
+                    <div className="text-3xl lg:text-4xl font-bold" style={{ color: '#164058' }}>
+                      ₹{formatPrice(getPrice(plan))}
+                    </div>
+                    <p className="text-sm text-gray-600">
+                      per {billingCycle === 'monthly' ? 'month' : 'year'}
+                    </p>
+                    <div className="inline-block px-3 py-1 rounded-full text-sm font-semibold text-white mt-2" style={{ backgroundColor: '#FF9C00' }}>
+                      Save ₹{formatPrice(getSavings(plan))}
                     </div>
                   </div>
-                )}
-                
-                <div className="relative">
-                  <h2 className="text-2xl font-bold mb-2">{plan.name}</h2>
-                  <p className="text-gray-600 mb-6">{plan.description}</p>
-                  <div className="mb-4">
-                    <p className="text-4xl font-extrabold text-indigo-700 mb-0">
-                      ₹{price.toLocaleString()}
-                    </p>
-                    <p className="text-lg font-medium text-gray-500 -mt-1">
-                      {billingType === "yearly" ? "per year" : "per month"}
-                    </p>
+
+                  {/* Key Stats */}
+                  <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-lg" style={{ backgroundColor: '#F7F7F7' }}>
+                    <div className="text-center">
+                      <div className="text-xl lg:text-2xl font-bold" style={{ color: '#FF9C00' }}>
+                        {plan.leads.split(' ')[0]}
+                      </div>
+                      <div className="text-xs lg:text-sm" style={{ color: '#164058' }}>
+                        Property Leads
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl lg:text-2xl font-bold" style={{ color: '#FF9C00' }}>
+                        {plan.contacts.split(' ')[0]}
+                      </div>
+                      <div className="text-xs lg:text-sm" style={{ color: '#164058' }}>
+                        Owner Contacts
+                      </div>
+                    </div>
                   </div>
-                  <p className="mb-6 text-green-600 font-semibold flex items-center">
-                    <span className="mr-2">Lead Quota:</span>
-                    <span className="text-xl animate-bounce">{plan.quota}</span>
-                    <span className="ml-1">/month</span>
-                  </p>
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-center gap-2 text-gray-700 transition-transform duration-200 hover:translate-x-1"
-                      >
-                        <span className="text-green-500 text-xl">✓</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    className={`w-full py-3 rounded-xl font-semibold text-lg mt-2 transition-all duration-300 relative overflow-hidden group
-                      ${selectedPlan === plan.id
-                        ? "bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg cursor-default"
-                        : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 hover:shadow-xl"
-                      }
-                    `}
-                    disabled={selectedPlan === plan.id}
-                    onClick={(e) => handleBuyNow(e, plan)}
-                  >
-                    <span className="relative z-10">
-                      {selectedPlan === plan.id ? (
-                        <span className="flex items-center justify-center">
-                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                          </svg>
-                          Selected
-                        </span>
-                      ) : (
-                        "Buy Now"
-                      )}
-                    </span>
-                    
-                    {/* Animated background effect for button */}
-                    {selectedPlan !== plan.id && (
-                      <>
-                        <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
-                        <span className="absolute inset-0 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white to-transparent opacity-40"></span>
-                      </>
-                    )}
-                  </button>
+                </div>
+
+                {/* Features */}
+                <ul className="space-y-3 mb-6 max-h-64 overflow-y-auto">
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <CheckIcon className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0" style={{ color: '#FF9C00' }} />
+                      <span className="text-gray-700 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                  {plan.limitations.map((limitation, idx) => (
+                    <li key={`limitation-${idx}`} className="flex items-start">
+                      <XMarkIcon className="w-5 h-5 text-red-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-500 text-sm line-through">{limitation}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSubscribe(plan);
+                  }}
+                  className="w-full py-3 px-6 rounded-lg font-semibold transition-all transform hover:scale-105 text-white focus:outline-none focus:ring-4 focus:ring-opacity-50"
+                  style={{ 
+                    backgroundColor: plan.popular ? '#FF9C00' : '#164058',
+                    focusRingColor: plan.popular ? '#FF9C00' : '#164058'
+                  }}
+                >
+                  Choose {plan.name}
+                </button>
+
+                {/* Support Info */}
+                <div className="text-center mt-4 text-sm text-gray-600">
+                  <ClockIcon className="w-4 h-4 inline mr-1" />
+                  24/7 Support Available
                 </div>
               </div>
-            );
-          })}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Feature Comparison */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-white rounded-2xl shadow-lg p-6 lg:p-8 mb-12"
+        >
+          <h3 className="text-2xl font-bold text-center mb-6" style={{ color: '#164058' }}>
+            Compare All Features
+          </h3>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <thead>
+                <tr style={{ backgroundColor: '#F7F7F7' }}>
+                  <th className="text-left py-4 px-4 font-semibold" style={{ color: '#164058' }}>
+                    Features
+                  </th>
+                  <th className="text-center py-4 px-4 font-semibold" style={{ color: '#164058' }}>
+                    Basic
+                  </th>
+                  <th className="text-center py-4 px-4 font-semibold" style={{ color: '#FF9C00' }}>
+                    Premium ⭐
+                  </th>
+                  <th className="text-center py-4 px-4 font-semibold" style={{ color: '#164058' }}>
+                    Enterprise
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-sm">
+                {[
+                  ['Monthly Property Leads', '25', '100', 'Unlimited'],
+                  ['Owner Phone Numbers', '50', 'Unlimited', 'Unlimited'],
+                  ['Dedicated Manager', '❌', '✅', '✅'],
+                  ['Market Reports', '❌', '✅', '✅ Custom'],
+                  ['API Access', '❌', '❌', '✅'],
+                  ['Multi-city Access', '❌', '❌', '✅'],
+                  ['Team Tools', '❌', '❌', '✅'],
+                ].map((row, index) => (
+                  <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 font-medium" style={{ color: '#164058' }}>{row[0]}</td>
+                    <td className="text-center py-3 px-4">{row[1]}</td>
+                    <td className="text-center py-3 px-4 font-semibold" style={{ color: '#FF9C00' }}>{row[2]}</td>
+                    <td className="text-center py-3 px-4">{row[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
+
+        {/* Success Stories */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="rounded-2xl p-6 lg:p-8"
+          style={{ background: 'linear-gradient(135deg, #F7F7F7 0%, white 100%)' }}
+        >
+          <h3 className="text-2xl font-bold text-center mb-8" style={{ color: '#164058' }}>
+            Success Stories from Our Brokers
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                name: "Rajesh Kumar",
+                role: "Property Broker, Mumbai",
+                story: "Premium plan helped me close 15 deals in 2 months. Direct owner contacts saved me hours of searching!",
+                deals: "15 deals closed",
+                savings: "₹50,000 saved"
+              },
+              {
+                name: "Priya Sharma",
+                role: "Real Estate Agent, Delhi",
+                story: "Enterprise plan's unlimited leads transformed my business. Now I have more clients than I can handle!",
+                deals: "25+ deals monthly",
+                savings: "₹1,20,000 revenue boost"
+              },
+              {
+                name: "Amit Patel",
+                role: "Independent Broker, Pune",
+                story: "Started with Basic plan, upgraded to Premium after seeing results. Best investment for my business!",
+                deals: "8 deals in first month",
+                savings: "₹30,000 commission"
+              }
+            ].map((testimonial, index) => (
+              <motion.div 
+                key={index} 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 + index * 0.1 }}
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4" style={{ backgroundColor: '#FF9C00' }}>
+                    <UserGroupIcon className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-semibold" style={{ color: '#164058' }}>
+                      {testimonial.name}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {testimonial.role}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-700 text-sm mb-4">
+                  "{testimonial.story}"
+                </p>
+                <div className="flex items-center justify-between">
+                  <div className="text-sm" style={{ color: '#FF9C00' }}>
+                    <strong>{testimonial.deals}</strong>
+                  </div>
+                  <div className="text-sm" style={{ color: '#164058' }}>
+                    <strong>{testimonial.savings}</strong>
+                  </div>
+                </div>
+                <div className="flex items-center mt-2">
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon key={i} className="w-4 h-4 text-yellow-500 fill-current" />
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Trust Badges */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+          {[
+            { icon: ShieldCheckIcon, text: "100% Verified Leads" },
+            { icon: PhoneIcon, text: "Direct Owner Contacts" },
+            { icon: EyeIcon, text: "Real-time Updates" },
+            { icon: UserGroupIcon, text: "24/7 Support" }
+          ].map((badge, index) => (
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2 + index * 0.1 }}
+              className="text-center p-4"
+            >
+              <div className="w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center" style={{ backgroundColor: '#FF9C00' }}>
+                <badge.icon className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-sm font-medium" style={{ color: '#164058' }}>
+                {badge.text}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
 
-      {/* Trusted By */}
-      {/* <TrustedBySection /> */}
+      {/* Payment Modal */}
+      <AnimatePresence>
+        {showPayment && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="bg-white rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+            >
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#164058' }}>
+                Complete Your Subscription
+              </h3>
+              
+              {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                  <div className="flex items-center">
+                    <ExclamationTriangleIcon className="w-5 h-5 mr-2" />
+                    {error}
+                  </div>
+                </div>
+              )}
+              
+              <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: '#F7F7F7' }}>
+                <div className="font-semibold text-lg" style={{ color: '#164058' }}>
+                  {plans.find(p => p.id === selectedPlan)?.name}
+                </div>
+                <div className="text-2xl font-bold" style={{ color: '#FF9C00' }}>
+                  ₹{formatPrice(getPrice(plans.find(p => p.id === selectedPlan)))}
+                </div>
+                <div className="text-sm text-gray-600">
+                  per {billingCycle}
+                </div>
+              </div>
 
-      {/* FAQ */}
-      <FAQSection />
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-2" style={{ color: '#164058' }}>
+                  Payment Method
+                </label>
+                <div className="space-y-2">
+                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                    <input 
+                      type="radio" 
+                      name="payment" 
+                      value="card"
+                      checked={paymentMethod === 'card'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="mr-3" 
+                    />
+                    <CreditCardIcon className="w-5 h-5 mr-2" style={{ color: '#FF9C00' }} />
+                    <span style={{ color: '#164058' }}>Credit/Debit Card</span>
+                  </label>
+                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                    <input 
+                      type="radio" 
+                      name="payment" 
+                      value="upi"
+                      checked={paymentMethod === 'upi'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="mr-3" 
+                    />
+                    <span className="mr-2" style={{ color: '#FF9C00' }}>💳</span>
+                    <span style={{ color: '#164058' }}>UPI Payment</span>
+                  </label>
+                </div>
+              </div>
 
-      {/* CTA Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-100 py-16 px-6 text-center mt-12">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 animate-pulse">
-          Ready to see if we're a good fit?
-        </h2>
-        <p className="text-gray-600 mb-8 text-lg">
-          Start your 30-day free trial today — no credit card or commitment
-          required.
-        </p>
-        <button className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white px-8 py-3 rounded-full font-semibold text-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-          Get Started
-        </button>
-      </div>
-
-      {/* Add custom CSS for animations */}
-      <style jsx>{`
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fade-in-down {
-          animation: fadeInDown 0.6s ease-out forwards;
-        }
-        
-        .animate-fade-in-up {
-          opacity: 0;
-          animation: fadeInUp 0.6s ease-out forwards;
-        }
-      `}</style>
-    </>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => {
+                    setShowPayment(false);
+                    setError('');
+                  }}
+                  disabled={loading}
+                  className="flex-1 bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handlePayment}
+                  disabled={loading}
+                  className="flex-1 font-semibold py-3 px-6 rounded-lg transition-colors text-white disabled:opacity-50 flex items-center justify-center"
+                  style={{ backgroundColor: '#FF9C00' }}
+                >
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Processing...
+                    </>
+                  ) : (
+                    'Pay Now'
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
   );
-}
+};
+
+export default SubscriptionPlans;

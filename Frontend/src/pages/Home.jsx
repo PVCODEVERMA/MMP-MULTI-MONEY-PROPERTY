@@ -1,471 +1,722 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  PlayIcon,
-  PauseIcon,
-  PhoneIcon,
-  EnvelopeIcon,
-  MapPinIcon,
-  StarIcon,
-  ArrowRightIcon,
+  MagnifyingGlassIcon,
+  HomeIcon,
+  GiftIcon,
+  ChevronDownIcon,
+  FunnelIcon,
+  BuildingOfficeIcon,
+  HomeModernIcon,
+  XMarkIcon,
+  CalendarDaysIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import LocationSelector from "../components/locationSelector/LocationSelector.jsx";
+import PropertyDetailsModal from "../components/propertyDetailsModal/PropertyDetailsModal.jsx";
+import ActionButtons from "../components/actionButtons/ActionButtons.jsx";
+import BlurText from "../shadcnComponent/BlurText.jsx";
+import ExclusiveOwnerProperties from "../components/propertyDetailsModal/ExclusiveOwnerProperties.jsx";
+import MainContentSection from "../components/contentHomeSection/MainContentSection.jsx";
 
-// Sample images (replace with your actual imports)
-import lands01 from "../assets/home-img/Lands01.avif";
-import lands02 from "../assets/home-img/Lands02.avif";
-import lands03 from "../assets/home-img/Lands03.avif";
-import lands04 from "../assets/home-img/Lands04.avif";
-import lands05 from "../assets/home-img/Lands04.avif";
-import lands06 from "../assets/home-img/Lands05.avif";
-import lands07 from "../assets/home-img/Lands06.avif";
+const Home = () => {
+  const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
 
-import mumbai from "../assets/projectListing/Mumbai.avif";
-import delhi from "../assets/projectListing/Delhi.jpg";
-import bangalore from "../assets/projectListing/Bangalore.avif";
-import chennai from "../assets/projectListing/Chennai.avif";
-import hyderabad from "../assets/projectListing/Hadapsar.avif";
-import ahmedabad from "../assets/projectListing/Ahmedabad.avif";
-import StatsSection from "./ReviewsSection";
-import HappyBrokersSection from "./HappyBrokersSection";
-import TrustBadgesSection from "./TrustBadgesSection";
-import SuccessStoriesSection from "./SuccessStoriesSection";
+  const [activeTab, setActiveTab] = useState("Buy");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [searchData, setSearchData] = useState({
+    location: "",
+    propertyType: "",
+    budget: "",
+    searchQuery: "",
+    bhk: "",
+    area: "",
+    possession: "",
+    postedBy: "",
+    propertyAge: "",
+    date: "",
+    time: "",
+  });
 
-// Sample data for projects
-const projects = [
-  {
-    id: 1,
-    name: "Godrej Greens",
-    city: "Ahmedabad",
-    area: "Prahlad Nagar",
-    priceRange: "₹60L - 1.2Cr",
-    description: "Luxury apartments with modern amenities and green spaces",
-    photo: lands01,
-    featured: true,
-    sponsored: false,
-    leads: 42,
-  },
-  {
-    id: 2,
-    name: "DLF Park",
-    city: "Gurgaon",
-    area: "Sector 56",
-    priceRange: "₹80L - 2.0Cr",
-    description: "Premium residential complex with world-class facilities",
-    photo: lands02,
-    featured: true,
-    sponsored: true,
-    leads: 38,
-  },
-  {
-    id: 3,
-    name: "Sobha Elite",
-    city: "Bangalore",
-    area: "Whitefield",
-    priceRange: "₹1Cr - 3Cr",
-    description: "Elegant living spaces with panoramic city views",
-    photo: lands03,
-    featured: true,
-    sponsored: false,
-    leads: 56,
-  },
-  {
-    id: 4,
-    name: "Prestige Lakeside",
-    city: "Chennai",
-    area: "OMR",
-    priceRange: "₹90L - 2.5Cr",
-    description: "Waterfront residences with exclusive clubhouse",
-    photo: lands04,
-    featured: true,
-    sponsored: true,
-    leads: 29,
-  },
-  {
-    id: 5,
-    name: "Lodha Bellissimo",
-    city: "Mumbai",
-    area: "Lower Parel",
-    priceRange: "₹1.5Cr - 4Cr",
-    description: "Ultra-luxury towers with concierge services",
-    photo: lands05,
-    featured: true,
-    sponsored: true,
-    leads: 67,
-  },
-  {
-    id: 6,
-    name: "Lodha Bellissimo",
-    city: "Mumbai",
-    area: "Lower Parel",
-    priceRange: "₹1.5Cr - 4Cr",
-    description: "Ultra-luxury towers with concierge services",
-    photo: lands05,
-    featured: true,
-    sponsored: true,
-    leads: 67,
-  },
-];
+  // Modal States
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
 
-// Free listings data
-const freeListings = [
-  {
-    id: 6,
-    name: "Amanora Park",
-    city: "Pune",
-    area: "Hadapsar",
-    priceRange: "₹50L - 90L",
-    description: "Affordable homes with community amenities",
-    photo: lands06,
-    featured: false,
-    sponsored: false,
-    leads: 18,
-  },
-  {
-    id: 7,
-    name: "Brigade Metropolis",
-    city: "Bangalore",
-    area: "Mahadevapura",
-    priceRange: "₹85L - 1.5Cr",
-    description: "Modern apartments with convenient access to IT hubs",
-    photo: lands07,
-    featured: false,
-    sponsored: false,
-    leads: 22,
-  },
-];
+  // Lock body scroll when modals are open
+  useEffect(() => {
+    const shouldLock = showAdvancedFilters || isPropertyModalOpen;
+    if (shouldLock) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showAdvancedFilters, isPropertyModalOpen]);
 
-// City data
-const cities = [
-  { name: "Mumbai", count: 124, image: mumbai },
-  { name: "Delhi", count: 98, image: delhi },
-  { name: "Bangalore", count: 156, image: bangalore },
-  { name: "Chennai", count: 76, image: chennai },
-  { name: "Hyderabad", count: 89, image: hyderabad },
-  { name: "Ahmedabad", count: 64, image: ahmedabad },
-];
+  // Property types with icons
+  const propertyTypes = [
+    { id: "apartment", name: "Apartment", icon: "🏢", count: "50,000+" },
+    { id: "villa", name: "Villa", icon: "🏡", count: "12,000+" },
+    { id: "plot", name: "Plot", icon: "🌿", count: "8,000+" },
+    { id: "office", name: "Office", icon: "🏢", count: "5,000+" },
+    { id: "shop", name: "Shop", icon: "🏪", count: "3,000+" },
+    { id: "warehouse", name: "Warehouse", icon: "🏭", count: "2,000+" },
+  ];
 
-// Carousel Component
-const Carousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const handleAnimationComplete = () => {
+    console.log("Animation completed!");
+  };
+
+  const handleSearch = () => {
+    console.log("Search Data:", searchData);
+    navigate("/subscription-plans", {
+      state: {
+        searchQuery: searchData.searchQuery || searchData.location,
+        searchType: activeTab.toLowerCase(),
+        filters: searchData,
+        fromSearch: true,
+      },
+    });
+  };
+
+  const handleGetStarted = () => {
+    navigate("/get-started");
+  };
+
+  const handleBookDemo = () => {
+    navigate("/book-demo");
+  };
+
+  const clearSearch = () => {
+    setSearchData({
+      location: "",
+      propertyType: "",
+      budget: "",
+      searchQuery: "",
+      bhk: "",
+      area: "",
+      possession: "",
+      postedBy: "",
+      propertyAge: "",
+      date: "",
+      time: "",
+    });
+  };
+
+  // Get current date and time for default values
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const date = now.toISOString().split("T")[0];
+    const time = now.toTimeString().slice(0, 5);
+    return { date, time };
+  };
 
   useEffect(() => {
-    let interval;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
-      }, 5000);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
-  };
-
-  const goToPrevious = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + projects.length) % projects.length
-    );
-  };
-
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
-  };
+    const { date, time } = getCurrentDateTime();
+    setSearchData((prev) => ({
+      ...prev,
+      date: prev.date || date,
+      time: prev.time || time,
+    }));
+  }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="w-full h-full absolute inset-0"
-        >
-          <img
-            src={projects[currentIndex].photo}
-            alt={projects[currentIndex].name}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-transparent bg-opacity-40"></div>
-        </motion.div>
-      </AnimatePresence>
+    <div className="min-h-screen bg-[#F7F7F7]">
+      {/* Enhanced Header Section */}
+      <div className="bg-[#F7F7F7]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Main Title Section */}
+          <div className="text-center pt-12 sm:pt-16 pb-6 sm:pb-8 relative">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl mt-8 sm:mt-14 sm:ml-30 font-bold text-center">
+              <div className="text-center">
+                <BlurText
+                  text="Get Fresh Buyer Inquiries, Straight to Your Dashboard."
+                  delay={150}
+                  animateBy="words"
+                  direction="top"
+                  onAnimationComplete={handleAnimationComplete}
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold"
+                  style={{ color: "#FF9C00" }}
+                />
+              </div>
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl max-w-4xl mx-auto mt-5 sm:mt-8 leading-relaxed text-gray-600 px-4">
+              MMP helps brokers & builders in Delhi NCR close more deals with{" "}
+              <span className="font-bold">
+                location-based leads, property listings, and full transparency.
+              </span>
+            </p>
 
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center text-white max-w-4xl px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl md:text-6xl font-bold mb-4"
-          >
-            Welcome to MMP Hybrid Portal
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-xl md:text-2xl mb-8"
-          >
-            Verified real estate leads, seamless payments, and easy broker
-            management
-          </motion.p>
-          <Link to="/projectsListing">
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full text-lg flex items-center justify-center mx-auto transition-all hover:scale-105 cursor-pointer"
-            >
-              Explore Properties <ArrowRightIcon className="ml-2 h-5 w-5" />
-            </motion.button>
-          </Link>
-        </div>
-      </div>
-
-      {/* Project Info Card - Responsive positioning */}
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.6 }}
-        className="absolute left-4 right-4 md:left-8 bottom-4 md:bottom-8 bg-white bg-opacity-90 backdrop-blur-sm rounded-xl p-4 md:p-6 shadow-2xl max-w-md mx-auto md:mx-0"
-      >
-        <div className="flex items-center mb-2">
-          {projects[currentIndex].featured && (
-            <span className="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center mr-2">
-              <StarIcon className="h-3 w-3 mr-1" /> Featured
-            </span>
-          )}
-          {projects[currentIndex].sponsored && (
-            <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-              Sponsored
-            </span>
-          )}
-        </div>
-        <h2 className="text-xl md:text-2xl font-bold text-indigo-900 mb-2">
-          {projects[currentIndex].name}
-        </h2>
-        <div className="flex items-center text-indigo-700 mb-2">
-          <MapPinIcon className="h-4 w-4 mr-1" />
-          {projects[currentIndex].area}, {projects[currentIndex].city}
-        </div>
-        <p className="text-gray-600 text-sm md:text-base mb-4">
-          {projects[currentIndex].description}
-        </p>
-        <p className="text-green-600 font-semibold text-lg md:text-xl mb-4">
-          {projects[currentIndex].priceRange}
-        </p>
-        <Link to="/lead-form">
-          <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer">
-            Request Information
-          </button>
-        </Link>
-      </motion.div>
-
-      {/* Navigation Arrows - Responsive positioning */}
-      <button
-        onClick={goToPrevious}
-        className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
-      >
-        <ChevronLeftIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900 cursor-pointer" />
-      </button>
-      <button
-        onClick={goToNext}
-        className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
-      >
-        <ChevronRightIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900 cursor-pointer" />
-      </button>
-
-      {/* Play/Pause Button - Responsive positioning */}
-      <button
-        onClick={() => setIsPlaying(!isPlaying)}
-        className="absolute right-2 md:right-4 top-2 md:top-4 bg-white bg-opacity-70 hover:bg-opacity-100 p-2 rounded-full shadow-md transition-all"
-      >
-        {isPlaying ? (
-          <PauseIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900" />
-        ) : (
-          <PlayIcon className="h-5 w-5 md:h-6 md:w-6 text-indigo-900" />
-        )}
-      </button>
-
-      {/* Dots Indicator */}
-      <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {projects.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`h-2 w-2 md:h-3 md:w-3 rounded-full transition-all ${
-              index === currentIndex ? "bg-white" : "bg-white bg-opacity-50"
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// Project Card Component
-const ProjectCard = ({ project, featured = false }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.03 }}
-      className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer h-full flex flex-col"
-    >
-      <div className="relative">
-        <img
-          src={project.photo}
-          alt={project.name}
-          className="w-full h-48 object-cover"
-        />
-        <div className="absolute top-3 left-3 flex space-x-2">
-          {project.featured && (
-            <span className="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center">
-              <StarIcon className="h-3 w-3 mr-1" /> Featured
-            </span>
-          )}
-          {project.sponsored && (
-            <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-              Sponsored
-            </span>
-          )}
-        </div>
-        <div className="absolute bottom-3 left-3">
-          <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-            {project.leads} leads
-          </span>
-        </div>
-      </div>
-      <div className="p-6 flex-grow flex flex-col">
-        <h3 className="text-xl font-bold mb-2 text-indigo-900">
-          {project.name}
-        </h3>
-        <div className="flex items-center text-indigo-700 mb-2">
-          <MapPinIcon className="h-4 w-4 mr-1" />
-          {project.area}, {project.city}
-        </div>
-        <p className="text-gray-600 text-sm mb-4 flex-grow">
-          {project.description}
-        </p>
-        <p className="text-green-600 font-semibold text-lg mb-4">
-          {project.priceRange}
-        </p>
-        <Link to="/lead-form">
-          <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors w-full">
-            Contact Now
-          </button>
-        </Link>
-      </div>
-    </motion.div>
-  );
-};
-
-// Home Page Component
-export default function Home() {
-  const [activeTab, setActiveTab] = useState("featured");
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <Carousel />
-
-      {/* Cities Section */}
-      <section className="py-12 md:py-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center text-indigo-900 mb-8 md:mb-12">
-          Explore Properties by City LeadsGorilla Today…
-        </h2>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 mb-12 md:mb-16">
-          {cities.map((city) => (
-            <motion.div
-              key={city.name}
-              whileHover={{ scale: 1.05 }}
-              className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
-            >
-              <img
-                src={city.image}
-                alt={city.name}
-                className="w-full h-20 md:h-24 object-cover"
+            {/* Hero Action Buttons */}
+            <div className="mt-6 sm:mt-8 flex justify-center px-4">
+              <ActionButtons
+                primaryText="Get Started Today"
+                onPrimaryClick={handleGetStarted}
+                size="medium"
               />
-              <div className="p-3 text-center">
-                <h3 className="font-semibold text-indigo-900 text-sm md:text-base">
-                  {city.name}
-                </h3>
-                <p className="text-xs md:text-sm text-gray-600">
-                  {city.count} properties
-                </p>
+            </div>
+          </div>
+
+          {/* Enhanced Search Bar - Mobile First */}
+          <div className="pb-6 sm:pb-8">
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.3 }}
+              className="max-w-7xl mx-auto"
+            >
+              <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100">
+                {/* Search Form - Stack on Mobile, Row on Desktop */}
+                <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 items-stretch">
+                  {/* Location Selector */}
+                  <div className="w-full lg:flex-1">
+                    <LocationSelector
+                      selectedLocation={searchData.location}
+                      onLocationChange={(location) =>
+                        setSearchData({ ...searchData, location })
+                      }
+                      placeholder="location.."
+                    />
+                  </div>
+
+                  {/* Property Type Selector */}
+                  <div className="w-full lg:w-48 relative cursor-pointer">
+                    <HomeIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-orange-500 z-10 pointer-events-none" />
+                    <select
+                      className="w-full pl-12 pr-10 py-3 border border-gray-300 rounded-xl appearance-none bg-white text-gray-700 text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent min-h-[44px] cursor-pointer"
+                      value={searchData.propertyType}
+                      onChange={(e) =>
+                        setSearchData({
+                          ...searchData,
+                          propertyType: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Property Type</option>
+                      <option value="1-bhk">1 BHK</option>
+                      <option value="2-bhk">2 BHK</option>
+                      <option value="3-bhk">3 BHK</option>
+                      <option value="4-bhk">4+ BHK</option>
+                      <option value="villa">Villa</option>
+                      <option value="plot">Plot</option>
+                      <option value="commercial">Commercial</option>
+                      <option value="office">Office Space</option>
+                      <option value="shop">Shop/Retail</option>
+                      <option value="warehouse">Warehouse</option>
+                    </select>
+                    <ChevronDownIcon className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                  </div>
+
+                  {/* Budget Selector */}
+                  <div className="w-full lg:w-48 relative">
+                    <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-lg font-bold text-orange-500 z-10">
+                      ₹
+                    </span>
+                    <select
+                      className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl appearance-none bg-white text-gray-700 text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent min-h-[44px] cursor-pointer"
+                      value={searchData.budget}
+                      onChange={(e) =>
+                        setSearchData({ ...searchData, budget: e.target.value })
+                      }
+                    >
+                      <option value="">Budget</option>
+                      <option value="0-25">Under 25 Lakhs</option>
+                      <option value="25-50">25-50 Lakhs</option>
+                      <option value="50-75">50-75 Lakhs</option>
+                      <option value="75-100">75L-1 Crore</option>
+                      <option value="100-200">1-2 Crores</option>
+                      <option value="200-500">2-5 Crores</option>
+                      <option value="500+">5+ Crores</option>
+                    </select>
+                    <ChevronDownIcon className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                  </div>
+
+                  {/* Date Input */}
+                  <div className="w-full lg:w-48 relative">
+                    <input
+                      type="date"
+                      className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 text-base min-h-[44px] cursor-pointer"
+                      value={searchData.date}
+                      onChange={(e) =>
+                        setSearchData({ ...searchData, date: e.target.value })
+                      }
+                    />
+                    <CalendarDaysIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-orange-500 z-10 pointer-events-none" />
+                  </div>
+
+                  {/* Search Input - Only Search Icon */}
+                  <div className="w-full lg:w-64 relative">
+                    <input
+                      type="text"
+                      placeholder="Search Properties Leads.."
+                      className="w-full pr-12 pl-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 text-base min-h-[44px]"
+                      value={searchData.searchQuery || ""}
+                      onChange={(e) =>
+                        setSearchData({
+                          ...searchData,
+                          searchQuery: e.target.value,
+                        })
+                      }
+                      onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+                    />
+                    <MagnifyingGlassIcon
+                      onClick={handleSearch}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 text-white bg-[#FF9C00] p-1.5 rounded-md cursor-pointer hover:bg-[#164058] transition"
+                    />
+                  </div>
+
+                  {/* Search & Filter Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 lg:gap-0 w-full lg:w-auto">
+                    {/* Filters Button */}
+                    <div className="w-full sm:flex-1 lg:w-auto">
+                      <button
+                        onClick={() => setShowAdvancedFilters(true)}
+                        className="w-full lg:w-auto flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-xl text-gray-600 hover:border-[#144157] hover:text-white transition-colors focus:outline-none hover:bg-[#144157] focus:ring-2 focus:ring-white min-h-[44px] cursor-pointer"
+                      >
+                        <FunnelIcon className="w-5 h-5" />
+                        <span>Filters</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop Advanced Filters (Hidden on Mobile) */}
+                <AnimatePresence>
+                  {showAdvancedFilters && (
+                    <motion.div
+                      initial={reduceMotion ? false : { opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={reduceMotion ? false : { opacity: 0, height: 0 }}
+                      className="hidden md:block mt-4 pt-4 border-t border-gray-200"
+                    >
+                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        {/* BHK Filter */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            BHK Type
+                          </label>
+                          <select
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] cursor-pointer"
+                            value={searchData.bhk}
+                            onChange={(e) =>
+                              setSearchData({
+                                ...searchData,
+                                bhk: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Any BHK</option>
+                            <option value="1">1 BHK</option>
+                            <option value="2">2 BHK</option>
+                            <option value="3">3 BHK</option>
+                            <option value="4">4 BHK</option>
+                            <option value="4+">4+ BHK</option>
+                          </select>
+                        </div>
+
+                        {/* Area Filter */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Area (sq.ft)
+                          </label>
+                          <select
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] cursor-pointer"
+                            value={searchData.area}
+                            onChange={(e) =>
+                              setSearchData({
+                                ...searchData,
+                                area: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Any Area</option>
+                            <option value="0-500">0-500 sq.ft</option>
+                            <option value="500-1000">500-1000 sq.ft</option>
+                            <option value="1000-1500">1000-1500 sq.ft</option>
+                            <option value="1500-2000">1500-2000 sq.ft</option>
+                            <option value="2000+">2000+ sq.ft</option>
+                          </select>
+                        </div>
+
+                        {/* Possession Filter */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Possession
+                          </label>
+                          <select
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] cursor-pointer"
+                            value={searchData.possession}
+                            onChange={(e) =>
+                              setSearchData({
+                                ...searchData,
+                                possession: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Any</option>
+                            <option value="ready">Ready to Move</option>
+                            <option value="construction">
+                              Under Construction
+                            </option>
+                            <option value="upcoming">Upcoming</option>
+                          </select>
+                        </div>
+
+                        {/* Posted By Filter */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Posted By
+                          </label>
+                          <select
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] cursor-pointer"
+                            value={searchData.postedBy}
+                            onChange={(e) =>
+                              setSearchData({
+                                ...searchData,
+                                postedBy: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Anyone</option>
+                            <option value="owner">Owner</option>
+                            <option value="broker">Broker</option>
+                            <option value="user">User</option>
+                          </select>
+                        </div>
+
+                        {/* Property Age Filter */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Property Age
+                          </label>
+                          <select
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] cursor-pointer"
+                            value={searchData.propertyAge}
+                            onChange={(e) =>
+                              setSearchData({
+                                ...searchData,
+                                propertyAge: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Any Age</option>
+                            <option value="0-1">0-1 years</option>
+                            <option value="1-5">1-5 years</option>
+                            <option value="5-10">5-10 years</option>
+                            <option value="10+">10+ years</option>
+                          </select>
+                        </div>
+
+                        {/* Apply Filters Button */}
+                        <div className="flex items-end">
+                          <button
+                            onClick={() => {
+                              handleSearch();
+                              setShowAdvancedFilters(false);
+                            }}
+                            className="w-full px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] cursor-pointer"
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
-          ))}
-        </div>
-
-        {/* Tabs for Featured vs All */}
-        <div className="bg-white rounded-xl shadow-sm p-2 flex mb-6 md:mb-8 max-w-md mx-auto">
-          <button
-            onClick={() => setActiveTab("featured")}
-            className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors text-sm md:text-base cursor-pointer ${
-              activeTab === "featured"
-                ? "bg-indigo-600 text-white"
-                : "text-gray-600 hover:text-indigo-700"
-            }`}
-          >
-            Featured Properties
-          </button>
-          <button
-            onClick={() => setActiveTab("all")}
-            className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors text-sm md:text-base cursor-pointer ${
-              activeTab === "all"
-                ? "bg-indigo-600 text-white"
-                : "text-gray-600 hover:text-indigo-700"
-            }`}
-          >
-            All Properties
-          </button>
-        </div>
-
-        {/* Properties Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {(activeTab === "featured"
-            ? projects
-            : [...projects, ...freeListings]
-          ).map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      </section>
-      <StatsSection />
-      <HappyBrokersSection />
-      <StatsSection />
-      <TrustBadgesSection />
-      <SuccessStoriesSection />
-
-      {/* CTA Section */}
-      <section className="py-12 md:py-16 bg-indigo-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
-            Ready to Find Your Dream Property?
-          </h2>
-          <p className="text-lg md:text-xl mb-6 md:mb-8 max-w-3xl mx-auto">
-            Join thousands of satisfied customers who found their perfect home
-            through MMP Hybrid Portal
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
-            <button className="bg-white text-indigo-900 hover:bg-gray-100 font-bold py-2 md:py-3 px-6 md:px-8 rounded-full text-base md:text-lg transition-all flex items-center justify-center">
-              Browse Properties{" "}
-              <ArrowRightIcon className="ml-2 h-4 w-4 md:h-5 md:w-5" />
-            </button>
-            <button className="bg-transparent border border-white hover:bg-indigo-800 text-white font-bold py-2 md:py-3 px-6 md:px-8 rounded-full text-base md:text-lg transition-all">
-              Contact Our Team
-            </button>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Mobile Filter Bottom Sheet */}
+      <AnimatePresence>
+        {showAdvancedFilters && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              onClick={() => setShowAdvancedFilters(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            />
+
+            {/* Bottom Sheet */}
+            <motion.div
+              className="fixed bottom-0 inset-x-0 z-50 md:hidden bg-white rounded-t-2xl p-4 shadow-2xl max-h-[90vh] overflow-y-auto"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{
+                type: reduceMotion ? false : "spring",
+                stiffness: 260,
+                damping: 28,
+              }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
+                <button
+                  onClick={() => setShowAdvancedFilters(false)}
+                  className="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                >
+                  <XMarkIcon className="w-6 h-6 text-gray-600" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                {/* Date & Time Fields in Mobile */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px]"
+                    value={searchData.date}
+                    onChange={(e) =>
+                      setSearchData({ ...searchData, date: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Time
+                  </label>
+                  <input
+                    type="time"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px]"
+                    value={searchData.time}
+                    onChange={(e) =>
+                      setSearchData({ ...searchData, time: e.target.value })
+                    }
+                  />
+                </div>
+
+                {/* BHK Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    BHK Type
+                  </label>
+                  <select
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px]"
+                    value={searchData.bhk}
+                    onChange={(e) =>
+                      setSearchData({
+                        ...searchData,
+                        bhk: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Any BHK</option>
+                    <option value="1">1 BHK</option>
+                    <option value="2">2 BHK</option>
+                    <option value="3">3 BHK</option>
+                    <option value="4">4 BHK</option>
+                    <option value="4+">4+ BHK</option>
+                  </select>
+                </div>
+
+                {/* Area Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Area (sq.ft)
+                  </label>
+                  <select
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px]"
+                    value={searchData.area}
+                    onChange={(e) =>
+                      setSearchData({
+                        ...searchData,
+                        area: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Any Area</option>
+                    <option value="0-500">0-500 sq.ft</option>
+                    <option value="500-1000">500-1000 sq.ft</option>
+                    <option value="1000-1500">1000-1500 sq.ft</option>
+                    <option value="1500-2000">1500-2000 sq.ft</option>
+                    <option value="2000+">2000+ sq.ft</option>
+                  </select>
+                </div>
+
+                {/* Possession Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Possession
+                  </label>
+                  <select
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px]"
+                    value={searchData.possession}
+                    onChange={(e) =>
+                      setSearchData({
+                        ...searchData,
+                        possession: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Any</option>
+                    <option value="ready">Ready to Move</option>
+                    <option value="construction">Under Construction</option>
+                    <option value="upcoming">Upcoming</option>
+                  </select>
+                </div>
+
+                {/* Posted By Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Posted By
+                  </label>
+                  <select
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px]"
+                    value={searchData.postedBy}
+                    onChange={(e) =>
+                      setSearchData({
+                        ...searchData,
+                        postedBy: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Anyone</option>
+                    <option value="owner">Owner</option>
+                    <option value="broker">Broker</option>
+                    <option value="user">User</option>
+                  </select>
+                </div>
+
+                {/* Property Age Filter */}
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Property Age
+                  </label>
+                  <select
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px]"
+                    value={searchData.propertyAge}
+                    onChange={(e) =>
+                      setSearchData({
+                        ...searchData,
+                        propertyAge: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Any Age</option>
+                    <option value="0-1">0-1 years</option>
+                    <option value="1-5">1-5 years</option>
+                    <option value="5-10">5-10 years</option>
+                    <option value="10+">10+ years</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    clearSearch();
+                    setShowAdvancedFilters(false);
+                  }}
+                  className="flex-1 px-4 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] font-medium"
+                >
+                  Clear All
+                </button>
+                <button
+                  onClick={() => {
+                    handleSearch();
+                    setShowAdvancedFilters(false);
+                  }}
+                  className="flex-1 px-4 py-3 rounded-xl text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[44px] font-medium"
+                >
+                  Apply Filters
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Property Types Quick Access */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 sm:-mt-4 mb-6 sm:mb-8">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-800">
+              Browse by Property Type
+            </h3>
+            <div className="hidden sm:block">
+              <ActionButtons
+                primaryText="Get Started"
+                secondaryText="Book Demo"
+                onPrimaryClick={handleGetStarted}
+                onSecondaryClick={handleBookDemo}
+                size="small"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4">
+            {propertyTypes.map((type, index) => (
+              <motion.button
+                key={type.id}
+                whileHover={reduceMotion ? {} : { scale: 1.05 }}
+                whileTap={reduceMotion ? {} : { scale: 0.95 }}
+                className="p-3 sm:p-4 border border-gray-200 rounded-xl hover:border-orange-500 hover:shadow-md transition-all text-center group focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px] sm:min-h-[100px] cursor-pointer"
+                onClick={() =>
+                  navigate("/subscription-plans", {
+                    state: { propertyType: type.id },
+                  })
+                }
+              >
+                <div className="text-xl sm:text-2xl md:text-3xl mb-1 sm:mb-2">
+                  {type.icon}
+                </div>
+                <div className="font-medium text-gray-700 group-hover:text-orange-600 text-xs sm:text-sm">
+                  {type.name}
+                </div>
+                <div className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">
+                  {type.count}
+                </div>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Mobile CTA */}
+          <div className="mt-4 sm:hidden">
+            <ActionButtons
+              primaryText="Get Started"
+              secondaryText="Book Demo"
+              onPrimaryClick={handleGetStarted}
+              onSecondaryClick={handleBookDemo}
+              size="small"
+            />
+          </div>
+        </div>
+      </div>
+
+      <ExclusiveOwnerProperties
+        handleGetStarted={handleGetStarted}
+        handleBookDemo={handleBookDemo}
+        reduceMotion={reduceMotion}
+      />
+       {/* Main Content Section - Enhanced Cards + Sidebar */}
+      <MainContentSection
+        handleGetStarted={handleGetStarted}
+        handleBookDemo={handleBookDemo}
+      />
+
+      {/* Property Details Modal */}
+      <PropertyDetailsModal
+        isOpen={isPropertyModalOpen}
+        onClose={() => setIsPropertyModalOpen(false)}
+        property={selectedProperty}
+      />
     </div>
   );
-}
+};
+
+export default Home;
