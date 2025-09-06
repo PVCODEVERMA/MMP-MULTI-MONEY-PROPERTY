@@ -15,14 +15,16 @@ import {
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
 
-import image01 from "../../assets/PropertyDetails/photo_01.avif"
-import image02 from "../../assets/PropertyDetails/photo_02.avif"
-import image03 from "../../assets/PropertyDetails/photo_03.avif"
-import image04 from "../../assets/PropertyDetails/photo_04.avif"
+import image01 from "../../assets/phome_Image/PropertyDetails/photo_01.avif"
+import image02 from "../../assets/phome_Image/PropertyDetails/photo_02.avif"
+import image03 from "../../assets/phome_Image/PropertyDetails/photo_03.avif"
+import image04 from "../../assets/phome_Image/PropertyDetails/photo_04.avif"
 
 
-import image21 from "../../assets/PropertyDetails/photo_21.avif"
-import image22 from "../../assets/PropertyDetails/photo_22.avif"
+
+import image21 from "../../assets/phome_Image/PropertyDetails/photo_21.avif"
+import image22 from "../../assets/phome_Image/PropertyDetails/photo_22.avif"
+
 
 const PropertyDetails = () => {
   const { id } = useParams();

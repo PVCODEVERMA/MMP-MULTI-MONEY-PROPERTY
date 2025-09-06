@@ -89,7 +89,7 @@ const PropertyDetailsModal = ({ isOpen, onClose, property }) => {
 
                   {/* Location */}
                   <div className="flex items-center text-gray-600">
-                    <MapPinIcon className="w-5 h-5 mr-3 text-[#FD9E06" />
+                    <MapPinIcon className="w-5 h-5 mr-3 text-[#FD9E06]" />
                     <span>{property.location}</span>
                   </div>
 
@@ -104,22 +104,22 @@ const PropertyDetailsModal = ({ isOpen, onClose, property }) => {
                   {/* Property Details Grid */}
                   <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 rounded-xl">
                     <div className="text-center">
-                      <HomeIcon className="w-6 h-6 mx-auto mb-2 text-blue-600" />
+                      <HomeIcon className="w-6 h-6 mx-auto mb-2 text-[#FD9E06]" />
                       <div className="font-semibold text-gray-800">{property.bhk}</div>
                       <div className="text-sm text-gray-500">Bedrooms</div>
                     </div>
                     <div className="text-center">
-                      <BuildingOfficeIcon className="w-6 h-6 mx-auto mb-2 text-green-600" />
+                      <BuildingOfficeIcon className="w-6 h-6 mx-auto mb-2 text-[#FD9E06]" />
                       <div className="font-semibold text-gray-800">{property.area}</div>
                       <div className="text-sm text-gray-500">Built-up Area</div>
                     </div>
                     <div className="text-center">
-                      <CalendarIcon className="w-6 h-6 mx-auto mb-2 text-purple-600" />
+                      <CalendarIcon className="w-6 h-6 mx-auto mb-2 text-[#FD9E06]" />
                       <div className="font-semibold text-gray-800">{property.possession}</div>
                       <div className="text-sm text-gray-500">Possession</div>
                     </div>
                     <div className="text-center">
-                      <UserIcon className="w-6 h-6 mx-auto mb-2 text-orange-600" />
+                      <UserIcon className="w-6 h-6 mx-auto mb-2 text-[#FD9E06]" />
                       <div className="font-semibold text-gray-800">{property.posterName}</div>
                       <div className="text-sm text-gray-500">Posted by</div>
                     </div>
@@ -154,10 +154,10 @@ const PropertyDetailsModal = ({ isOpen, onClose, property }) => {
                   {/* Action Buttons */}
                   <div className="space-y-3">
                     <div className="grid grid-cols-2 gap-3">
-                      <button className="w-full py-3 px-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors">
+                      <button className="w-full py-3 px-4 bg-[#FD9E06] hover:bg-[#FD9E06] text-white font-semibold rounded-xl transition-colors">
                         Get Started
                       </button>
-                      <button className="w-full py-3 px-4 border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-semibold rounded-xl transition-colors">
+                      <button className="w-full py-3 px-4 border-2 border-[#FD9E06] text-[#FD9E06] hover:bg-orange-50 font-semibold rounded-xl transition-colors">
                         Book a Demo
                       </button>
                     </div>
@@ -166,8 +166,8 @@ const PropertyDetailsModal = ({ isOpen, onClose, property }) => {
                   {/* Verification Status */}
                   {property.isVerified && (
                     <div className="flex items-center justify-center p-3 bg-green-50 rounded-xl">
-                      <ShieldCheckIcon className="w-5 h-5 text-green-600 mr-2" />
-                      <span className="text-green-700 font-medium">✅ Verified Property</span>
+                      <ShieldCheckIcon className="w-5 h-5 text-[#FD9E06] mr-2" />
+                      <span className="text-[#FD9E06] font-medium">✅ Verified Property</span>
                     </div>
                   )}
                 </div>
