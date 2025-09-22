@@ -1,92 +1,118 @@
 import React, { useState } from "react";
 
-const faqs = [
+// Edit this array with exact company answers/policies.
+const faqData = [
   {
-    question: "Is there a free trial available for Kubaru?",
-    answer: "Yes, we offer a free trial so you can experience all features before committing."
-  },
-  {
-    question: "What happens when my trial expires?",
+    question: "Does MMP offer a free trial?",
     answer:
-      "Access to the Kubaru app will be suspended at the end of your trial. However, you’ll have the option to sign up for a free account without losing any of your data."
+      "Trial/preview availability can vary by plan and time period—contact Sales for current options.",
   },
   {
-    question: "How much does webside cost?",
-    answer: " costs 5000/month per user."
-  },
-  {
-    question: "Do I need to purchase a license for every user in my Salesforce org?",
+    question: "What happens when any trial or preview access ends?",
     answer:
-      "No, you only need to purchase a license for users who will be administering Kubaru or receiving assignments."
+      "Access may be limited until a plan is activated; all saved data remains associated with the account.",
   },
   {
-    question: "Is there any additional cost for support?",
-    answer: "No, support is included free for all customers."
-  },
-  {
-    question: "Do you offer discounts for non-profits?",
+    question: "How much do plans cost?",
     answer:
-      "Yes! We offer a 10% discount for non-profits. Contact us at support@pankaj for details."
+      "Pricing depends on selected plan and inclusions; see Plans or contact Sales for a custom quote.",
   },
   {
-    question: "Do you offer volume discounts?",
+    question: "Are leads exclusive or shared?",
     answer:
-      "Yes! We offer volume discounts for customers purchasing more than 50 licenses. Contact us at support@pankaj for details."
+      "Lead delivery can be shared or exclusive depending on plan and inventory; choose what fits the pipeline.",
   },
   {
-    question: "How do I purchase Kubaru?",
+    question: "How are leads delivered?",
     answer:
-      "You can follow these instructions to purchase Kubaru from the Salesforce Appexchange using a credit card (Visa, MasterCard, Discover, AMEX). Or, you can contact us at support@pankaj and we’ll send you an invoice that can be paid via check, ACH, or other payment method."
+      "Leads are delivered in real time to the dashboard and via configured channels like email or WhatsApp.",
   },
   {
-    question: "How do I purchase additional licenses?",
+    question: "Is support included?",
     answer:
-      "You can email us at support@pankaj to purchase additional licenses. Or, if you initially purchased through the Salesforce AppExchange, you can follow these instructions to purchase additional licenses."
+      "Standard support is available to all paid plans; response SLAs vary by plan and channel.",
   },
   {
-    question: "How do I cancel my subscription?",
+    question: "Do you provide refunds or lead replacements?",
     answer:
-      "You can cancel your subscription at any time by emailing us at support@kubaru.io. You’ll still be able to use Kubaru until your next renewal date."
+      "Refunds/replacements depend on plan terms and verification rules; check plan-specific T&Cs.",
   },
   {
-    question: "Which Salesforce editions are compatible with Kubaru?",
+    question: "Do you offer discounts?",
     answer:
-      "Kubaru is compatible with Salesforce Professional, Enterprise, and Unlimited."
+      "Periodic or volume discounts may be available; contact Sales for eligibility and terms.",
   },
   {
-    question: "Who can I contact about other questions?",
-    answer: "Contact support@pankaj and we’ll get back to you immediately."
-  }
+    question: "How do I purchase or upgrade?",
+    answer:
+      "Pick a plan from the pricing page or request a pro‑forma invoice; payments are processed securely.",
+  },
+  {
+    question: "How do I cancel?",
+    answer:
+      "Submit a cancellation request from the account or by contacting Support; service runs until the end of the current term.",
+  },
+  {
+    question: "Which locations are supported?",
+    answer:
+      "Major metros and surrounding regions are supported; see the locations list on the website for coverage.",
+  },
+  {
+    question: "Who can I contact for anything else?",
+    answer:
+      "Reach Support or Sales from the Contact page; share the account email and plan details for faster help.",
+  },
 ];
 
-
-function FAQSection() {
+export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section className="bg-gray-100 py-10 mt-10">
+    <section className="bg-[#F7F7F7] py-10">
       <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
-        <span className="text-blue-900">Frequently asked </span>
-        <span className="text-orange-500">questions</span>
+        <span className="text-[#164058]">Frequently asked </span>
+        <span className="text-[#F29400]">questions</span>
       </h2>
+
       <div className="max-w-6xl mx-auto space-y-4">
-        {faqs.map((faq, idx) => (
-          <div key={idx} className="bg-white rounded-lg border">
-            <button
-              className="flex justify-between w-full px-4 py-4 text-left font-medium text-blue-800 focus:outline-none"
-              onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+        {faqData.map((faq, idx) => {
+          const isOpen = openIndex === idx;
+          return (
+            <div
+              key={idx}
+              className="bg-white rounded-lg border-[#F29400] transition-shadow duration-300 hover:shadow-sm"
             >
-              <span>+ {faq.question}</span>
-            </button>
-            {openIndex === idx && (
-              <div className="px-6 pb-4 text-gray-700">{faq.answer}</div>
-            )}
-          </div>
-        ))}
+              <button
+                className="flex justify-between w-full  px-4 py-4 text-left font-medium  text-[#F29400] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-300"
+                onClick={() => setOpenIndex(isOpen ? null : idx)}
+                aria-expanded={isOpen}
+                aria-controls={`faq-panel-${idx}`}
+              >
+                <span className="pr-6">{faq.question}</span>
+                <span
+                  aria-hidden="true"
+                  className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-full border cursor-pointer text-sm transition-transform duration-300 ${
+                    isOpen
+                      ? "rotate-45 border-orange-300 text-orange-500"
+                      : "border-slate-300 text-slate-500"
+                  }`}
+                >
+                  +
+                </span>
+              </button>
+
+              <div
+                id={`faq-panel-${idx}`}
+                className={`px-6 overflow-hidden text-slate-700 transition-[max-height,opacity] duration-300 ease-out cursor-pointer ${
+                  isOpen ? "max-h-80 opacity-100 pb-4" : "max-h-0 opacity-0 pb-0"
+                }`}
+              >
+                <p className="text-[#164058]/80">{faq.answer}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
 }
-
-
-export default FAQSection;

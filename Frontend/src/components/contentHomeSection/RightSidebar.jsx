@@ -1,33 +1,20 @@
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ActionButtons from "../actionButtons/ActionButtons.jsx";
 
-import SlidebarImg01 from "../../assets/phome_Image/RightSidebar/SlidebarImg_01.avif"
-import SlidebarImg02 from "../../assets/phome_Image/RightSidebar/SlidebarImg_02.avif"
-import SlidebarImg03 from "../../assets/phome_Image/RightSidebar/SlidebarImg_03.avif"
-import SlidebarImg04 from "../../assets/phome_Image/RightSidebar/SlidebarImg_04.avif"
+
+import SlidebarImg01 from "../../assets/phome_Image/RightSidebar/SlidebarImg_01.avif";
+import SlidebarImg02 from "../../assets/phome_Image/RightSidebar/SlidebarImg_02.avif";
+import SlidebarImg03 from "../../assets/phome_Image/RightSidebar/SlidebarImg_03.avif";
+import SlidebarImg04 from "../../assets/phome_Image/RightSidebar/SlidebarImg_04.avif";
+import ImageSlider from "./ImageSlider.jsx";
 
 const RightSidebar = ({ handleGetStarted, handleBookDemo }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  
-  // Sample images (replace with your actual image URLs)
   const sliderImages = [
     SlidebarImg01,
     SlidebarImg02,
     SlidebarImg03,
     SlidebarImg04,
   ];
-
-  // Auto slide effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => 
-        prevSlide === sliderImages.length - 1 ? 0 : prevSlide + 1
-      );
-    }, 3000); // Change slide every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [sliderImages.length]);
 
   return (
     <div className="lg:w-80 space-y-4 sm:space-y-6">
@@ -44,50 +31,22 @@ const RightSidebar = ({ handleGetStarted, handleBookDemo }) => {
         >
           Save 40%
         </div>
+
         <div className="mb-4 mt-2 sm:mb-6" style={{ color: "#164058" }}>
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2">
-            Get Home Interiors from
+          <h3 className="text-white font-bold mb-1 sm:mb-2">
+            Fresh Leads. More Deals.
           </h3>
           <h3 className="text-lg sm:text-xl md:text-2xl font-bold">
             Top Brands
           </h3>
-          <p className="text-xs sm:text-sm mt-1 sm:mt-2 opacity-80">
-            Premium designs • Expert installation
-          </p>
+         
         </div>
-        
-        {/* Image Slider */}
-        <div className="mb-4 sm:mb-6 relative overflow-hidden rounded-xl">
-          <div 
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {sliderImages.map((image, index) => (
-              <div key={index} className="w-full flex-shrink-0">
-                <img
-                  src={image}
-                  alt={`Home Interior ${index + 1}`}
-                  className="w-full h-24 sm:h-32 md:h-40 object-cover rounded-xl shadow-lg"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-          
-          {/* Slide indicators */}
-          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
-            {sliderImages.map((_, index) => (
-              <button
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentSlide ? 'bg-white scale-125' : 'bg-white/50'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+
+        {/*  Image Slider Component */}
+        <div className="mb-4 sm:mb-6">
+          <ImageSlider images={sliderImages} interval={3000} />
         </div>
-        
+
         <div className="space-y-2 sm:space-y-3">
           <button
             className="relative flex items-center justify-center w-full py-1 sm:py-1 md:py-1 px-4 sm:px-6 rounded-full font-bold text-[#F7F7F7] min-h-[44px] cursor-pointer transition-all duration-500 ease-in-out shadow-lg hover:scale-105 hover:shadow-xl"
@@ -122,11 +81,10 @@ const RightSidebar = ({ handleGetStarted, handleBookDemo }) => {
           Ready to Get Started? 🚀
         </h3>
         <p className="text-gray-600 text-center mb-4 sm:mb-6 text-sm sm:text-base">
-          Join thousands of satisfied customers who found their dream
-          properties with us.
+          Join thousands of satisfied customers who found their dream properties
+          with us.
         </p>
         <ActionButtons
-        
           secondaryText="Schedule Demo"
           onSecondaryClick={handleBookDemo}
           variant="vertical"

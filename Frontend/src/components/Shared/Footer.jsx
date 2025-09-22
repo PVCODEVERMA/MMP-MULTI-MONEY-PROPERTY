@@ -20,6 +20,8 @@ import {
   StarIcon,
 } from "@heroicons/react/24/outline";
 
+import logo from "../../assets/componyLogos/logo.jpg";
+
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
@@ -111,7 +113,7 @@ export default function Footer() {
   return (
     <>
       {/* Stats Banner */}
-      <div className="bg-gradient-to-r from-orange-500 to-[#FD9E06] text-white py-12 text-center">
+      {/* <div className="bg-gradient-to-r from-[#FF9C00] to-[#FF9C00] text-white py-12 text-center">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold mb-2">
@@ -130,33 +132,20 @@ export default function Footer() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer */}
-      <footer className="bg-gray-900 text-white relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-blue-600/20"></div>
-        </div>
-
+      <footer className="bg-[#f7f7f7] text-[#164057] relative overflow-hidden">
+        {/* Top Section */}
         <div className="relative max-w-7xl mx-auto px-4 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
             {/* Company Info */}
             <div>
               <div className="flex items-center justify-center md:justify-start mb-6">
-                <div className="bg-gradient-to-r from-orange-500 to-blue-600 p-3 rounded-xl shadow-lg mr-4">
-                  <BuildingOfficeIcon className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">MMP</h3>
-                  <p className="text-gray-300 text-sm">Multi Money Property</p>
-                </div>
+                <img src={logo} alt="MMP Logo" className="h-20" />
               </div>
-
-              <p className="text-gray-300 mb-6 leading-relaxed">
-                India's leading property technology platform connecting verified
-                brokers with quality leads. Transform your real estate business
-                with us.
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                 upper ground, sarita vihar road, G-52/1, Kalindi Kunj Rd, Abul Fazal Enclave Part 2, Jamia Nagar, Okhla, New Delhi, Delhi 110025
               </p>
 
               {/* Social Links */}
@@ -165,11 +154,11 @@ export default function Footer() {
                   <a
                     key={index}
                     href={social.href}
-                    className={`w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center transition-all duration-300 ${social.color} hover:scale-110 hover:shadow-lg group`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${social.color} bg-white hover:bg-[#ff9c00]`}
                     aria-label={social.name}
                   >
                     <svg
-                      className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"
+                      className="w-5 h-5 text-[#164057] group-hover:text-white transition-colors"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -181,8 +170,8 @@ export default function Footer() {
 
               {/* Trust Badge */}
               <div className="mt-6 flex items-center justify-center md:justify-start">
-                <ShieldCheckIcon className="w-5 h-5 text-green-500 mr-2" />
-                <span className="text-sm text-gray-300">
+                <ShieldCheckIcon className="w-5 h-5 text-[#ff9c00] mr-2" />
+                <span className="text-sm text-gray-600">
                   Verified & Trusted Platform
                 </span>
               </div>
@@ -190,8 +179,8 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-bold text-white mb-6 flex justify-center md:justify-start items-center">
-                <HomeIcon className="w-5 h-5 mr-2 text-orange-500" />
+              <h4 className="text-lg font-bold mb-6 flex justify-center md:justify-start items-center text-[#164057]">
+                <HomeIcon className="w-5 h-5 mr-2 text-[#ff9c00]" />
                 Quick Links
               </h4>
               <ul className="space-y-3">
@@ -199,10 +188,9 @@ export default function Footer() {
                   <li key={index}>
                     <Link
                       to={link.href}
-                      className="group flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition-all duration-300"
+                      className="group flex items-center justify-center md:justify-start text-gray-600 hover:text-[#ff9c00] transition-colors"
                     >
-                      <link.icon className="w-4 h-4 mr-3 text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <ArrowRightIcon className="w-3 h-3 mr-3 text-orange-500 opacity-100 group-hover:opacity-0 transition-opacity" />
+                      <ArrowRightIcon className="w-3 h-3 mr-2 text-[#164057]" />
                       {link.name}
                     </Link>
                   </li>
@@ -210,133 +198,92 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Our Services */}
+            {/* Services */}
             <div>
-              <h4 className="text-lg font-bold text-white mb-6 flex justify-center md:justify-start items-center">
-                <StarIcon className="w-5 h-5 mr-2 text-blue-500" />
+              <h4 className="text-lg font-bold mb-6 flex justify-center md:justify-start items-center text-[#164057]">
+                <StarIcon className="w-5 h-5 mr-2 text-[#ff9c00]" />
                 Our Services
               </h4>
               <ul className="space-y-3">
                 {services.map((service, index) => (
                   <li
                     key={index}
-                    className="group flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition-all duration-300"
+                    className="flex items-center justify-center md:justify-start text-gray-600 hover:text-[#ff9c00]"
                   >
-                    <service.icon className="w-4 h-4 mr-3 text-blue-500 group-hover:scale-110 transition-transform" />
+                    <service.icon className="w-4 h-4 mr-3 text-[#164057]" />
                     {service.name}
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Contact & Newsletter */}
+            {/* Contact + Newsletter */}
             <div>
-              <h4 className="text-lg font-bold text-white mb-6 flex justify-center md:justify-start items-center">
-                <EnvelopeIcon className="w-5 h-5 mr-2 text-green-500" />
+              <h4 className="text-lg font-bold mb-6 flex justify-center md:justify-start items-center text-[#164057]">
+                <EnvelopeIcon className="w-5 h-5 mr-2 text-[#ff9c00]" />
                 Get In Touch
               </h4>
-
-              <div className="space-y-4 mb-8">
-                <div className="flex flex-col md:flex-row items-center md:items-start md:justify-start justify-center group">
-                  <MapPinIcon className="w-5 h-5 text-green-500 mr-3" />
-                  <div>
-                    <p className="text-gray-300 text-sm">
-                      MMP Tower, Business District
-                    </p>
-                    <p className="text-gray-300 text-sm">
-                      Mumbai - 400001, India
-                    </p>
-                  </div>
+              <div className="space-y-4 mb-6 text-gray-600">
+                <div className="flex items-center justify-center md:justify-start">
+                  <MapPinIcon className="w-5 h-5 text-[#164057] mr-2" />
+                  <p>Kalindi Kunj Delhi – 110025, India</p>
                 </div>
-
-                <div className="flex justify-center md:justify-start items-center group">
-                  <PhoneIcon className="w-5 h-5 text-green-500 mr-3" />
-                  <a
-                    href="tel:+918888888888"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    +91 88888 88888
+                <div className="flex items-center justify-center md:justify-start">
+                  <PhoneIcon className="w-5 h-5 text-[#164057] mr-2" />
+                  <a href="tel:+918888888888" className="hover:text-[#ff9c00]">
+                    +91-9990725864
                   </a>
                 </div>
-
-                <div className="flex justify-center md:justify-start items-center group">
-                  <EnvelopeIcon className="w-5 h-5 text-green-500 mr-3" />
+                <div className="flex items-center justify-center md:justify-start">
+                  <EnvelopeIcon className="w-5 h-5 text-[#164057] mr-2" />
                   <a
                     href="mailto:info@multimoneyproperty.com"
-                    className="text-gray-300 hover:text-white transition-colors"
+                    className="hover:text-[#ff9c00]"
                   >
-                    info@multimoneyproperty.com
+                    Business@Multimoneyproperty.com
                   </a>
-                </div>
-
-                <div className="flex justify-center md:justify-start items-center group">
-                  <ClockIcon className="w-5 h-5 text-green-500 mr-3" />
-                  <span className="text-gray-300 text-sm">
-                    Mon-Sat: 9AM-6PM IST
-                  </span>
                 </div>
               </div>
 
               {/* Newsletter */}
-              <div>
-                <h5 className="font-semibold text-white mb-3">Stay Updated</h5>
-                <form onSubmit={handleSubscribe} className="space-y-3">
-                  <div className="relative">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 transition-all"
-                    />
-                    <EnvelopeIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={isSubscribing}
-                    className="w-full bg-gradient-to-r from-orange-500 to-blue-600 hover:from-orange-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  >
-                    {isSubscribing ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Subscribing...
-                      </>
-                    ) : (
-                      <>
-                        Subscribe
-                        <PaperAirplaneIcon className="w-4 h-4 ml-2" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
+              <form onSubmit={handleSubscribe} className="space-y-3">
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff9c00] text-[#164057] placeholder-gray-400"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-[#ff9c00] hover:bg-[#164057] text-white font-semibold py-3 px-4 rounded-lg transition-all cursor-pointer"
+                >
+                  Subscribe
+                </button>
+              </form>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="relative border-t border-gray-800 bg-gray-900/80 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row justify-center md:justify-between items-center space-y-4 md:space-y-0 text-center">
-              <div className="flex items-center justify-center">
-                <HeartIcon className="w-4 h-4 text-red-500 mr-2 animate-pulse" />
-                <p className="text-gray-400 text-sm">
-                  © {new Date().getFullYear()} Multi Money Property. Made with
-                  love in India.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap justify-center md:justify-end items-center gap-6">
-                {legalLinks.map((link, index) => (
-                  <Link
-                    key={index}
-                    to={link.href}
-                    className="text-gray-400 hover:text-orange-500 text-sm transition-colors hover:underline"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
+        <div className="border-t border-gray-200 bg-white">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
+            <p>
+              © {new Date().getFullYear()} Multi Money Property. All rights
+              reserved.
+            </p>
+            <div className="flex gap-4 mt-2 md:mt-0">
+              {legalLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.href}
+                  className="hover:text-[#ff9c00]"
+                >
+                  {link.name}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

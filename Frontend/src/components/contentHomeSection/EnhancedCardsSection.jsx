@@ -1,5 +1,4 @@
-// EnhancedCardsSection.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -11,19 +10,26 @@ import {
 import CountUp from "../../shadcnComponent/CountUp";
 
 const EnhancedCardsSection = ({ handleGetStarted, handleBookDemo }) => {
+  const [currentCityIndex, setCurrentCityIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
+
+  const cities = ["New Delhi", "Noida", "Gurgaon", "Faridabad", "Mumbai"];
 
   const cards = [
     {
       title: 12974,
-      subtitle: "Owner Properties",
-      description: "Zero brokerage • Direct contact",
+      subtitle: "Top Properties",
+      description: "Zero brokerage  Direct contact",
       gradient: "linear-gradient(135deg, #FF9C00 0%, #e88a00 100%)",
       icon: HomeIcon,
-      route: "/owner-properties",
+      route: "/properties",
       details: {
-        heading: "Explore Owner Listed Properties",
+        heading: "Explore top Listed Properties",
         content:
           "Browse thousands of direct-owner listed properties with no brokerage fees.",
       },
@@ -31,7 +37,7 @@ const EnhancedCardsSection = ({ handleGetStarted, handleBookDemo }) => {
     {
       title: 204,
       subtitle: "New Projects",
-      description: "Pre-launch • Under construction",
+      description: "Pre-launch  Under construction",
       gradient: "linear-gradient(135deg, #164058 0%, #0d2a3a 100%)",
       icon: BuildingOfficeIcon,
       route: "/projects",
@@ -44,7 +50,7 @@ const EnhancedCardsSection = ({ handleGetStarted, handleBookDemo }) => {
     {
       title: 3638,
       subtitle: "Budget Homes",
-      description: "Affordable • First-time buyers",
+      description: "Affordable First-time buyers",
       gradient: "linear-gradient(135deg, #164058 0%, #FF9C00 100%)",
       icon: HomeModernIcon,
       route: "/budget-homes",
@@ -55,6 +61,31 @@ const EnhancedCardsSection = ({ handleGetStarted, handleBookDemo }) => {
       },
     },
   ];
+
+  // Typewriter effect
+  useEffect(() => {
+    const currentCity = cities[currentCityIndex];
+
+    const handleType = () => {
+      if (isDeleting) {
+        setDisplayText(currentCity.substring(0, displayText.length - 1));
+        setTypingSpeed(75);
+      } else {
+        setDisplayText(currentCity.substring(0, displayText.length + 1));
+        setTypingSpeed(150);
+      }
+
+      if (!isDeleting && displayText === currentCity) {
+        setTimeout(() => setIsDeleting(true), 1000);
+      } else if (isDeleting && displayText === "") {
+        setIsDeleting(false);
+        setCurrentCityIndex((prev) => (prev + 1) % cities.length);
+      }
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, currentCityIndex, typingSpeed]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -67,7 +98,11 @@ const EnhancedCardsSection = ({ handleGetStarted, handleBookDemo }) => {
               style={{ color: "#164058" }}
             >
               We've got properties in{" "}
-              <span style={{ color: "#FF9C00" }}>New Delhi</span> for everyone
+              <span className="text-[#FFA100] min-h-[2.5rem] inline-block">
+                {displayText}
+                <span className="animate-pulse">|</span>
+              </span>{" "}
+              for everyone
             </h2>
             <div
               className="w-12 sm:w-16 h-1 rounded"
@@ -77,96 +112,75 @@ const EnhancedCardsSection = ({ handleGetStarted, handleBookDemo }) => {
 
           {/* Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-            {cards.map((card, index) => (
-              <motion.div
-                key={index}
-                whileHover={reduceMotion ? {} : { scale: 1.0 }}
-                className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all cursor-pointer group min-h-[200px] sm:min-h-[240px]"
-                style={{ background: card.gradient }}
-              >
-                <div className="absolute inset-0 bg-[#164058] bg-opacity-10 group-hover:bg-opacity-20 transition-all" />
-                <div className="relative p-4 sm:p-6 md:p-8 text-white h-full flex flex-col justify-between">
-                  <div className="mb-4 sm:mb-6">
-                    <div className="text-3xl  text-center sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
-                      <CountUp
-                        from={0}
-                        to={card.title}
-                        separator=","
-                        direction="up"
-                        duration={1}
-                        className="count-up-text"
-                      />
+            {cards.map((card, index) => {
+              const CardIcon = card.icon;
+              return (
+                <motion.div
+                  key={index}
+                  whileHover={reduceMotion ? {} : { scale: 1.02 }}
+                  className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all cursor-pointer group min-h-[200px] sm:min-h-[240px]"
+                  style={{ background: card.gradient }}
+                >
+                  <div className="absolute inset-0 bg-[#164058] bg-opacity-10 group-hover:bg-opacity-20 transition-all" />
+                  <div className="relative p-4 sm:p-6 md:p-8 text-white h-full flex flex-col justify-between">
+                    <div className="mb-4 sm:mb-6">
+                      <div className="text-3xl text-center sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
+                        <CountUp
+                          from={0}
+                          to={card.title}
+                          separator=","
+                          direction="up"
+                          duration={1}
+                          className="count-up-text"
+                        />
+                      </div>
+                      <div className="text-base text-center sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">
+                        {card.subtitle}
+                      </div>
+                      <div className="text-xs text-center sm:text-sm opacity-90">
+                        {card.description}
+                      </div>
                     </div>
-                    <div className="text-base text-center sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">
-                      {card.subtitle}
-                    </div>
-                    <div className="text-xs text-center sm:text-sm opacity-90">
-                      {card.description}
-                    </div>
-                  </div>
 
-                  {/* Buttons */}
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="flex justify-center">
-                      <button
-                        onClick={() =>
-                          navigate(card.route, { state: card.details })
-                        }
-                        className="relative flex items-center gap-3 px-6 py-3 group overflow-hidden rounded-full border border-[#FAA111] shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
-                      >
-                        {/* expanding background */}
-                        <span className="absolute inset-0 rounded-full bg-[#FAA111] h-12 top-0.5 w-12 transition-all duration-300 group-hover:w-full group-hover:h-full"></span>
-
-                        {/* button text */}
-                        <span className="relative text-[#F7F7F7] font-ubuntu font-bold text-lg tracking-wide">
-                          Explore
-                        </span>
-
-                        {/* arrow svg */}
-                        <svg
-                          width="15"
-                          height="10"
-                          viewBox="0 0 13 10"
-                          className="relative ml-2 stroke-[#F7F7F7] mt-0.5 stroke-2 transition-transform duration-300 -translate-x-1 group-hover:translate-x-0"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                    {/* Buttons */}
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() =>
+                            navigate(card.route, { state: card.details })
+                          }
+                          className="relative flex items-center gap-3 px-10 py-4 group overflow-hidden rounded-full border border-[#FAA111] shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
                         >
-                          <path d="M1,5 L11,5"></path>
-                          <polyline points="8 1 12 5 8 9"></polyline>
-                        </svg>
-                      </button>
-                    </div>
+                          <span className="absolute inset-0 rounded-full bg-[#FAA111] h-12 top-1.5 w-12 transition-all duration-300 group-hover:w-full group-hover:h-full"></span>
+                          <span className="relative text-[#F7F7F7] font-bold text-lg tracking-wide">
+                            Explore
+                          </span>
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 13 10"
+                            className="relative ml-2 stroke-[#F7F7F7] mt-0.5 stroke-2 transition-transform duration-300 -translate-x-1 group-hover:translate-x-0"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M1,5 L11,5"></path>
+                            <polyline points="8 1 12 5 8 9"></polyline>
+                          </svg>
+                        </button>
+                      </div>
 
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleGetStarted();
-                        }}
-                        className="bg-[#FD9E06] bg-opacity-10 hover:bg-opacity-20 text-white px-2 sm:px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all min-h-[40px]"
-                      >
-                        Get Started
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleBookDemo();
-                        }}
-                        className="bg-[#FD9E06] bg-opacity-10 hover:bg-opacity-20 text-white px-2 sm:px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all min-h-[40px]"
-                      >
-                        Book Demo
-                      </button>
+                      
                     </div>
                   </div>
-                </div>
-                <div className="absolute bottom-0 right-0 opacity-20 group-hover:opacity-30 transition-opacity">
-                  <card.icon className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 text-white" />
-                </div>
-              </motion.div>
-            ))}
+                  <div className="absolute bottom-0 right-0 opacity-20 group-hover:opacity-30 transition-opacity">
+                    <CardIcon className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 text-white" />
+                  </div>
+                </motion.div>
+              );
+            })}
 
-            {/* Contest Card (unchanged) */}
+            {/* Contest Card */}
             <motion.div
               whileHover={reduceMotion ? {} : { scale: 1.02 }}
               className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all cursor-pointer group min-h-[200px] sm:min-h-[240px]"
@@ -199,19 +213,14 @@ const EnhancedCardsSection = ({ handleGetStarted, handleBookDemo }) => {
                   >
                     🎁 Participate Now
                   </button>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="flex justify-center ">
                     <button
                       onClick={handleGetStarted}
-                      className="bg-[#FD9E06] bg-opacity-10 hover:bg-opacity-20 text-white px-2 sm:px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all min-h-[40px]"
+                      className="bg-[#FD9E06] bg-opacity-10 hover:bg-opacity-20 text-white   sm:px-3 py-4 w-36 rounded-lg  hover:bg-white hover:text-[#ff9c00] sm:text-sm font-bold text-2xl transition-all min-h-[40px] cursor-pointer"
                     >
                       Get Started
                     </button>
-                    <button
-                      onClick={handleBookDemo}
-                      className="bg-[#FD9E06] bg-opacity-10 hover:bg-opacity-20 text-white px-2 sm:px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all min-h-[40px]"
-                    >
-                      Book Demo
-                    </button>
+                  
                   </div>
                 </div>
               </div>

@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap");
-
-
-
+/* ===== Google Fonts Import ===== */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Rammetto+One&family=Roboto+Slab:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* ===== Tailwind Directives ===== */
 @import "tailwindcss";
 
 * {
@@ -9,94 +8,136 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
   font-size: 16px;
   line-height: 1.6;
+  overflow-x: hidden; 
+  background: #f7f7f7;
 }
 
-
-
-/* Define your custom fonts using @theme directive */
-@theme {
-  /* Primary font for headings and important text */
-  --font-heading: "Montserrat", system-ui, sans-serif;
-  
-  /* Body text font for readability  */
-  --font-body: "Inter", system-ui, sans-serif;
-  
-  /* Luxury/accent font for premium properties */
-  --font-luxury: "Playfair Display", Georgia, serif;
-  
-  /* You can also override default fonts */
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
-}
-
-/* Font smoothing for better rendering */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Default font settings */
-body {
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
-  color: theme('colors.gray.700');
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', system-ui, sans-serif;
+/* ===== Typography ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", system-ui, sans-serif;
   font-weight: 600;
   line-height: 1.3;
 }
 
-/* Custom Typography Classes (optional) */
 .property-hero-title {
-  font-family: var(--font-heading);
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-family: var(--font-heading, "Montserrat", sans-serif);
+  font-size: 2rem;
+  font-weight: 800;
   line-height: 1.2;
 }
 
 .luxury-property-title {
-  font-family: var(--font-luxury);
+  font-family: var(--font-luxury, "Playfair Display", serif);
   font-size: 1.875rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
+.archivo-black-regular {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
 
 
+/* ===== Responsive Tweaks ===== */
 @media (max-width: 640px) {
-  .text-5xl { font-size: 2.5rem; }
-  .text-6xl { font-size: 3rem; }
-  .text-7xl { font-size: 3.5rem; }
+  .text-5xl {
+    font-size: 2.5rem;
+  }
+  .text-6xl {
+    font-size: 3rem;
+  }
+  .text-7xl {
+    font-size: 3.5rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .grid-cols-6 { grid-template-columns: repeat(3, 1fr); }
-  .md\:grid-cols-6 { grid-template-columns: repeat(2, 1fr); }
+  .grid-cols-6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .md\:grid-cols-6 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
-  .px-8 { padding-left: 1rem; padding-right: 1rem; }
-  .py-8 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .px-8 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .py-8 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
 }
 
-.line-clamp-1 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+/* ===== Utilities ===== */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Hide scrollbar (for Chrome/Safari/Edge) */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar (for Firefox + IE/Edge) */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  /* Mobile dropdown scroll only inside drawer */
+  .mobile-dropdown-scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
-.line-clamp-2 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+select {
+  color: #164057; /* navy text */
+  background-color: white; /* background */
+}
+
+select option {
+  color: #164057; /* text color inside dropdown */
+}
+
+.input {
+  @apply border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-orange-500/60;
+}
+.btn-primary {
+  @apply bg-gradient-to-r from-orange-500 to-[#FF9C00] text-white font-medium py-2 px-4 rounded-lg disabled:opacity-60;
+}
+.link {
+  @apply text-[#FF9C00] hover:underline;
+}
+
+
+/* Custom dropdown */
+.custom-select {
+  appearance: none;           /* default arrow remove */
+  -webkit-appearance: none;   /* Safari */
+  -moz-appearance: none;      /* Firefox */
+  background-image: none;     /* extra arrow remove */
+}
+
+/* Options highlight color */
+.custom-select option:checked,
+.custom-select option:hover {
+  background-color: #FF9C00 !important;  /* Orange background */
+  color: white;                          /* White text */
 }

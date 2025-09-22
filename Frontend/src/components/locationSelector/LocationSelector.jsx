@@ -1,165 +1,139 @@
 import React, { useState } from "react";
-import { ChevronDownIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronDownIcon,
+  MapPinIcon,
+  XMarkIcon,
+  ArrowTrendingUpIcon,
+} from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LocationSelector = ({
   selectedLocation,
   onLocationChange,
-  placeholder = "Select Location",
+  onClear,
+  placeholder = "Select Location..",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const locations = {
+    trending: [
+      { name: "Delhi NCR" },
+      { name: "Noida" },
+      { name: "Gurgaon" },
+      { name: "Mumbai" },
+      { name: "Dubai" },
+    ],
     popular: [
-      { name: "Mumbai", state: "Maharashtra", properties: "25,000+" },
       { name: "Delhi", state: "Delhi", properties: "20,000+" },
       { name: "Bangalore", state: "Karnataka", properties: "18,000+" },
       { name: "Hyderabad", state: "Telangana", properties: "12,500+" },
-      { name: "Chennai", state: "Tamil Nadu", properties: "10,000+" },
-      { name: "Pune", state: "Maharashtra", properties: "15,000+" },
-      { name: "Gurgaon", state: "Haryana", properties: "12,000+" },
-      { name: "Noida", state: "Uttar Pradesh", properties: "8,500+" },
-    ],
-    states: [
-      {
-        name: "Maharashtra",
-        cities: ["Mumbai", "Pune", "Nashik", "Nagpur", "Aurangabad"],
-      },
-      {
-        name: "Karnataka",
-        cities: ["Bangalore", "Mysore", "Hubli", "Mangalore"],
-      },
-      {
-        name: "Haryana",
-        cities: ["Gurgaon", "Faridabad", "Panipat", "Rohtak"],
-      },
-      {
-        name: "Uttar Pradesh",
-        cities: ["Noida", "Lucknow", "Kanpur", "Agra", "Varanasi"],
-      },
     ],
   };
 
-  const handleLocationSelect = (location) => {
-    onLocationChange(location.name || location);
+  const handleSelect = (loc) => {
+    onLocationChange(loc.name || loc);
     setIsOpen(false);
     setSearchQuery("");
   };
 
-  // Filter locations based on search
-  const filteredPopular = locations.popular.filter((loc) =>
-    loc.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTrending = locations.trending.filter((t) =>
+    t.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  const filteredStates = locations.states.map((state) => ({
-    ...state,
-    cities: state.cities.filter((city) =>
-      city.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
-  }));
+  const filteredPopular = locations.popular.filter((c) =>
+    c.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="relative">
-      {/* Button */}
+    <div className="relative w-full">
+      {/* Trigger */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-xl bg-white text-left text-gray-700 text-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer"
+        onClick={() => setIsOpen(true)}
+        className={`w-full pl-10 pr-10 py-2.5 rounded-full bg-white text-left text-gray-700 text-sm sm:text-base cursor-pointer border 
+          ${selectedLocation || isOpen ? "border-orange-500" : "border-gray-300"}`}
       >
-        <MapPinIcon className="absolute left-4 top-4 w-5 h-5 text-orange-500" />
+        <MapPinIcon className="absolute left-4 top-3.5 w-5 h-5 text-orange-500" />
         <span className={selectedLocation ? "text-gray-800" : "text-gray-500"}>
           {selectedLocation || placeholder}
         </span>
-        <ChevronDownIcon className="absolute right-4 top-4 w-5 h-5 text-gray-400" />
+        {selectedLocation && (
+          <XMarkIcon
+            onClick={(e) => {
+              e.stopPropagation();
+              onClear?.();
+            }}
+            className="absolute right-10 top-3.5 w-5 h-5 text-gray-400 hover:text-red-500 cursor-pointer"
+          />
+        )}
+        <ChevronDownIcon className="absolute right-4 top-3.5 w-5 h-5 text-gray-400" />
       </button>
 
       {/* Dropdown */}
       <AnimatePresence>
         {isOpen && (
           <>
+            {/* Overlay */}
             <div
-              className="fixed inset-0 z-30"
+              className="fixed inset-0 bg-transparent z-40"
               onClick={() => setIsOpen(false)}
             />
+            {/* Box */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute z-40 w-full bg-white border border-gray-200 rounded-xl mt-2 shadow-2xl max-h-96 overflow-y-auto"
+              className="absolute z-50 w-full bg-white border border-gray-200 rounded-xl mt-2 shadow-2xl max-h-96 overflow-y-auto no-scrollbar"
             >
               <div className="p-3">
-                {/* Search Input */}
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    placeholder="Search city..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  />
-                </div>
+                {/* Search Box */}
+                <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search city..."
+                  className="w-full mb-4 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 cursor-pointer"
+                />
 
-                {/* Popular Cities */}
-                {filteredPopular.length > 0 && (
+                {/* Trending */}
+                {filteredTrending.length > 0 && (
                   <div className="mb-4">
                     <p className="text-xs text-gray-500 mb-2 px-2 font-medium">
-                      Popular Cities
+                       Trending Locations
                     </p>
-                    {filteredPopular.map((location, idx) => (
+                    <div className="grid grid-cols-2 gap-2">
+                      {filteredTrending.map((t) => (
+                        <button
+                          key={t.name}
+                          onClick={() => handleSelect(t)}
+                          className="flex items-center justify-between text-sm px-3 py-2 rounded-lg bg-gray-50 hover:bg-orange-100 cursor-pointer"
+                        >
+                          <span>{t.name}</span>
+                          <ArrowTrendingUpIcon className="w-4 h-4 text-green-600" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Popular */}
+                {filteredPopular.length > 0 && (
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2 px-2 font-medium">
+                       Popular Cities
+                    </p>
+                    {filteredPopular.map((c) => (
                       <button
-                        key={idx}
-                        className="w-full text-left px-3 py-3 hover:bg-orange-50 rounded-lg transition-colors cursor-pointer"
-                        onClick={() => handleLocationSelect(location)}
+                        key={c.name}
+                        onClick={() => handleSelect(c)}
+                        className="w-full text-left px-3 py-3 rounded-lg hover:bg-orange-50 cursor-pointer"
                       >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="font-medium text-gray-800">
-                              {location.name}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {location.state} • {location.properties}
-                            </div>
-                          </div>
+                        <div className="font-medium text-gray-800">{c.name}</div>
+                        <div className="text-sm text-gray-500">
+                          {c.state} • {c.properties}
                         </div>
                       </button>
                     ))}
                   </div>
                 )}
-
-                {/* States & Cities */}
-                <div className="border-t border-gray-100 pt-3">
-                  <p className="text-xs text-gray-500 mb-2 px-2 font-medium">
-                    Browse by State
-                  </p>
-                  {filteredStates.map(
-                    (state, idx) =>
-                      state.cities.length > 0 && (
-                        <div key={idx} className="mb-3">
-                          <div className="font-medium text-gray-700 px-3 py-1 text-sm">
-                            {state.name}
-                          </div>
-                          <div className="grid grid-cols-2 gap-1 px-3">
-                            {state.cities.map((city, cityIdx) => (
-                              <button
-                                key={cityIdx}
-                                onClick={() => handleLocationSelect(city)}
-                                className="text-xs bg-gray-50 hover:bg-orange-100 text-gray-600 hover:text-orange-600 px-2 py-1 rounded transition-colors text-left cursor-pointer"
-                              >
-                                {city}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                  )}
-                </div>
-
-                {/* If nothing matches */}
-                {filteredPopular.length === 0 &&
-                  filteredStates.every((s) => s.cities.length === 0) && (
-                    <p className="text-center text-gray-400 text-sm py-4">
-                      No results found
-                    </p>
-                  )}
               </div>
             </motion.div>
           </>

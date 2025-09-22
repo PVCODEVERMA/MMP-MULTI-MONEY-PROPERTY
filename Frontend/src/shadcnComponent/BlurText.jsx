@@ -73,7 +73,7 @@ const BlurText = ({
   return (
     <p 
       ref={ref} 
-      className={`blur-text ${className} flex flex-wrap`}
+      className={`orange-text ${className} `}
       style={{ color: "#FF9C00", ...style }}
     >
       {elements.map((segment, index) => {

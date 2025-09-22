@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <!-- House base -->
+  <path d="M8 28L32 8L56 28V56C56 57.1 55.1 58 54 58H10C8.9 58 8 57.1 8 56V28Z" fill="#164057"></path>
+  <path d="M24 58V36H40V58" fill="#ff9c00"></path>
+  
+  <!-- Door -->
+  <rect x="28" y="42" width="8" height="16" fill="#fff"></rect>
+  
+  <!-- Add circle -->
+  <circle cx="50" cy="14" r="10" fill="#ff9c00"></circle>
+  
+  <!-- Plus sign -->
+  <path d="M50 9V19M45 14H55" stroke="white" stroke-width="2" stroke-linecap="round"></path>
+</svg>

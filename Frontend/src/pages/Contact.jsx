@@ -46,33 +46,7 @@ const Contact = () => {
     { value: 'feedback', label: 'Feedback/Complaints' }
   ];
 
-  const officeLocations = [
-    {
-      city: 'Mumbai',
-      address: 'MMP Tower, Business District, Mumbai - 400001',
-      phone: '+91 88888 88888',
-      manager: 'Rajesh Kumar'
-    },
-    {
-      city: 'Delhi',
-      address: 'Connaught Place, New Delhi - 110001',
-      phone: '+91 88888 88889',
-      manager: 'Priya Sharma'
-    },
-    {
-      city: 'Bangalore',
-      address: 'MG Road, Bangalore - 560001',
-      phone: '+91 88888 88890',
-      manager: 'Amit Patel'
-    },
-    {
-      city: 'Pune',
-      address: 'FC Road, Pune - 411004',
-      phone: '+91 88888 88891',
-      manager: 'Sneha Gupta'
-    }
-  ];
-
+ 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
@@ -438,40 +412,7 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Office Locations */}
-        <div className="mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Office Locations</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Visit us at any of our offices across India. Our local teams are ready to assist you.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {officeLocations.map((office, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                <div className="text-center">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">{office.city}</h3>
-                  
-                  <div className="space-y-2 text-sm text-gray-600 mb-4">
-                    <p>{office.address}</p>
-                    <a 
-                      href={`tel:${office.phone}`}
-                      className="block text-orange-500 hover:text-orange-600 transition-colors"
-                    >
-                      {office.phone}
-                    </a>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-xs text-gray-500">Office Manager</p>
-                    <p className="font-medium text-gray-900">{office.manager}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+       
       </div>
     </div>
   );

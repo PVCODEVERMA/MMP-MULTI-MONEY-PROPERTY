@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import logo from "../../assets/componyLogos/logo.jpg";
 import toast from "react-hot-toast";
+import ProButton from "../button/ProButton.jsx";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,16 +18,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Close profile dropdown when clicking outside
+  // Close profile dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -37,23 +29,17 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Cleanup timers on unmount
   useEffect(() => {
-    return () => {
-      if (hoverTimer) clearTimeout(hoverTimer);
-      if (hideTimer) clearTimeout(hideTimer);
-    };
-  }, [hoverTimer, hideTimer]);
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+  }, [isMenuOpen]);
 
-  // Handle logout
+  // Logout
   const handleLogout = async () => {
     try {
       await logout();
       setIsProfileOpen(false);
       setIsMenuOpen(false);
-      toast.success("Logout successful 👋", {
-        position: "top-center",
-      });
+      toast.success("Logout successful 👋", { position: "top-center" });
       navigate("/login");
     } catch (error) {
       toast.error("Logout failed. Please try again.", {
@@ -63,118 +49,107 @@ const Header = () => {
     }
   };
 
-  // Generate avatar URL if user doesn't have one
+  // Avatar
   const getAvatarUrl = () => {
-    if (user?.profile?.avatar?.url) {
-      return user.profile.avatar.url;
-    }
+    if (user?.profile?.avatar?.url) return user.profile.avatar.url;
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(
       user?.name || "User"
     )}&background=FF9C00&color=ffffff&size=40`;
   };
 
-  // Handle dropdown hover with delay
+  // Dropdown hover delays
   const handleDropdownHover = (menuName) => {
-    // Clear any existing timers
     if (hoverTimer) clearTimeout(hoverTimer);
     if (hideTimer) clearTimeout(hideTimer);
-
-    // Set timer to show dropdown after 400ms
-    const timer = setTimeout(() => {
-      setOpenDropdown(menuName);
-    }, 400);
+    const timer = setTimeout(() => setOpenDropdown(menuName), 400);
     setHoverTimer(timer);
   };
-
-  // Handle dropdown mouse leave with delay
   const handleDropdownLeave = () => {
-    // Clear hover timer
     if (hoverTimer) clearTimeout(hoverTimer);
-
-    // Set timer to hide dropdown after 500ms
-    const timer = setTimeout(() => {
-      setOpenDropdown(null);
-    }, 500);
+    const timer = setTimeout(() => setOpenDropdown(null), 500);
     setHideTimer(timer);
   };
-
-  // Keep dropdown open when hovering over dropdown content
   const handleDropdownContentHover = () => {
     if (hideTimer) clearTimeout(hideTimer);
   };
 
-  // Solutions dropdown data organized in grid (2 columns)
+  // Solutions dropdown data
   const solutionsDropdownGrid = [
     [
       {
-        icon: "👥",
-        title: "US Consumer Leads",
-        description: "More than 20 Million Leads",
-        href: "/solutions/consumer-leads",
-      },
-      {
-        icon: "💬",
-        title: "Social Media Leads",
-        description: "Millions of leads",
-        href: "/solutions/social-media-leads",
-      },
-    ],
-    [
-      {
-        icon: "🏢",
-        title: "US Business Leads",
-        description: "More than 14 million leads",
-        href: "/solutions/business-leads",
-      },
-      {
-        icon: "📱",
-        title: "Bulk Phone Number Lookup",
-        description: "Validate Phone Numbers in real time",
-        href: "/solutions/phone-lookup",
-      },
-    ],
-    [
-      {
-        icon: "🎯",
-        title: "US Targeted Sales Lead List",
-        description: "More than 5 million leads",
-        href: "/solutions/targeted-leads",
-      },
-      {
-        icon: "✉️",
-        title: "Email List Verification",
-        description: "Verify Emails and enrich your campaign",
-        href: "/solutions/email-verification",
-      },
-    ],
-    [
-      {
-        icon: "🔒",
-        title: "US Exclusive Leads",
-        description: "You are the only one receiving your leads",
-        href: "/solutions/exclusive-leads",
-      },
-      {
-        icon: "📝",
-        title: "Sales Script Generator",
-        description: "Create Email and Calling Scripts in a minute",
-        href: "/solutions/script-generator",
-      },
-    ],
-    [
-      {
-        icon: "🌍",
-        title: "Global Lead Generation Services",
+        icon: "",
+        title: "Real Estate Buyer Leads (India)",
         description:
-          "More than 5 million B2B and B2C leads from Canada, Australia, UK, Europe, and India",
-        href: "/solutions/global-leads",
+          "Delhi, Noida, Gurgaon, Faridabad & Mumbai location‑based inquiries",
+        href: "/solutions/real-estate-leads",
       },
       {
-        icon: "📄",
-        title: "Guest Posts Services",
+        icon: "",
+        title: "City/Area Targeting",
+        description: "Exclusive or shared leads by city, area, or project",
+        href: "/solutions/location-leads",
+      },
+    ],
+    [
+      {
+        icon: "",
+        title: "Lead Distribution Engine",
         description:
-          "Unleash the true potential of your website through the power of guest posts",
-        href: "/solutions/guest-posts",
+          "Shared (up to 3) or Exclusive delivery with smart routing",
+        href: "/solutions/lead-distribution",
+      },
+      {
+        icon: "",
+        title: "WhatsApp/Email Delivery",
+        description:
+          "Instant delivery via Interakt/Gupshup + Email + Broker Dashboard",
+        href: "/solutions/lead-delivery",
+      },
+    ],
+    [
+      {
+        icon: "",
+        title: "Broker CRM Dashboard",
+        description: "My Leads, status, downloads, analytics & performance",
+        href: "/solutions/broker/dashboard/home",
+      },
+      {
+        icon: "",
+        title: "Packages & Wallet Billing",
+        description:
+          "Razorpay checkout, per‑lead wallet, GST invoices & reports",
+        href: "/solutions/billing",
+      },
+    ],
+    [
+      {
+        icon: "",
+        title: "Lead Verification",
+        description:
+          "Duplicate checks, basic tele‑verification & quality scoring",
+        href: "/solutions/lead-verification",
+      },
+      {
+        icon: "",
+        title: "Webhooks & Automation",
+        description:
+          "CRM webhooks, inactivity auto‑pause, SMS/alerts workflows",
+        href: "/solutions/integrations",
+      },
+    ],
+    [
+      {
+        icon: "",
+        title: "Listings & SEO Pages",
+        description:
+          "Project, city & area pages, featured tags and blog traffic",
+        href: "/solutions/listings-seo",
+      },
+      {
+        icon: "",
+        title: "Sales Scripts & Content",
+        description: "Email/call scripts, landing pages and content support",
+        href: "/solutions/content",
       },
     ],
   ];
@@ -182,38 +157,38 @@ const Header = () => {
   // Resources dropdown data
   const resourcesDropdownData = [
     {
-      icon: "💡",
+      icon: "",
       title: "Help Center",
-      description: "View leadscampus tutorials",
+      description: "Guides and setup",
       href: "/resources/help-center",
     },
     {
-      icon: "⭐",
+      icon: "",
       title: "Testimonials",
-      description: "What our client's think",
+      description: "Client stories",
       href: "/resources/testimonials",
     },
     {
-      icon: "❓",
+      icon: "",
       title: "FAQ",
-      description: "A list of common Q&As",
+      description: "Common questions",
       href: "/resources/faq",
     },
     {
-      icon: "📚",
+      icon: "",
       title: "Blog",
-      description: "Latest articles from Leadscampus",
+      description: "Latest articles",
       href: "/resources/blog",
     },
     {
-      icon: "🎥",
+      icon: "",
       title: "Demo",
-      description: "View demo tutorial videos",
+      description: "Product videos",
       href: "/resources/demo",
     },
   ];
 
-  // Dynamic navigation items based on user role
+  // Dynamic navigation based on role
   const getNavItems = () => {
     if (!isAuthenticated || !user) {
       return [
@@ -223,23 +198,19 @@ const Header = () => {
           active: location.pathname === "/plans",
         },
         {
-          name: "Our Customers",
-          href: "/our-customers",
-          active: location.pathname === "/about",
+          name: "All Properties",
+          href: "/all-properties",
+          active: location.pathname === "/all-properties",
         },
         {
           name: "Solutions",
-          href: "/solutions",
+          href: "/",
           active: location.pathname === "/solutions",
           hasDropdown: true,
           dropdownType: "grid",
           dropdownData: solutionsDropdownGrid,
         },
-        {
-          name: "CRM Features",
-          href: "/crm-features",
-          active: location.pathname === "/crm-features",
-        },
+
         {
           name: "Contact",
           href: "/contact",
@@ -247,7 +218,7 @@ const Header = () => {
         },
         {
           name: "Resources",
-          href: "/resources",
+          href: "/",
           active: location.pathname === "/resources",
           hasDropdown: true,
           dropdownType: "list",
@@ -255,8 +226,6 @@ const Header = () => {
         },
       ];
     }
-
-    const baseItems = [];
 
     switch (user.role) {
       case "superadmin":
@@ -271,7 +240,6 @@ const Header = () => {
           { name: "Reports", href: "/super-admin/reports", active: false },
           { name: "Settings", href: "/super-admin/settings", active: false },
         ];
-
       case "subadmin":
         return [
           {
@@ -288,12 +256,11 @@ const Header = () => {
             active: false,
           },
         ];
-
       case "broker":
         return [
           {
             name: "Dashboard",
-            href: "/broker/dashboard",
+            href: "/broker/dashboards",
             active: location.pathname.includes("/broker"),
           },
           { name: "Leads", href: "/broker/leads", active: false },
@@ -305,7 +272,6 @@ const Header = () => {
           { name: "Packages", href: "/broker/packages", active: false },
           { name: "Reports", href: "/broker/reports", active: false },
         ];
-
       default:
         return [
           {
@@ -327,16 +293,15 @@ const Header = () => {
 
   const navItems = getNavItems();
 
-  // Show loading state
   if (loading) {
     return (
       <>
-        {/* Top Offer Bar - Loading State */}
+        {/* Top Offer Bar - Loading */}
         <div className="bg-[#FF9C00] text-white text-sm sm:text-base">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between py-2">
-              <div className="animate-pulse h-4 bg-[#FF9C00] rounded w-48"></div>
-              <div className="animate-pulse h-6 bg-[#FF9C00] rounded w-20"></div>
+              <div className="animate-pulse h-4 bg-[#FF9C00] rounded w-48" />
+              <div className="animate-pulse h-6 bg-[#FF9C00] rounded w-20" />
             </div>
           </div>
         </div>
@@ -348,8 +313,8 @@ const Header = () => {
                 <img src={logo} className="h-16 w-35" alt="MMP Logo" />
               </div>
               <div className="animate-pulse flex space-x-4">
-                <div className="h-8 w-20 bg-gray-200 rounded"></div>
-                <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
+                <div className="h-8 w-20 bg-gray-200 rounded" />
+                <div className="h-8 w-8 bg-gray-200 rounded-full" />
               </div>
             </div>
           </div>
@@ -360,81 +325,19 @@ const Header = () => {
 
   return (
     <>
-      {/* Custom Styles for animations */}
-      <style jsx>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
+     
 
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(100%);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .animate-slide-down {
-          animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .animate-slide-in-right {
-          animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-      `}</style>
-
-      {/* Top Offer Bar */}
-      <div className="bg-[#FF9C00] text-white text-sm sm:text-base fixed top-0 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-1 sm:px-2 lg:px-4">
-          <div className="flex items-center justify-center sm:justify-center gap-4 py-2">
-            <p className="font-medium">
-              🏡 Leads Discount <span className="font-bold">20% OFF</span>
-            </p>
-            <div className="flex items-center gap-2">
-              <span className="bg-white text-[#164058] font-semibold px-2 py-1 rounded-md text-xs sm:text-sm">
-                LEADS20
-              </span>
-              <button
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText("LEADS20");
-                   toast.success("Coupon code copied: LEADS20", {
-                   position: "top-center",
-                   });
-
-                  } catch {
-                    toast.error("Failed to copy", { position: "top-center" });
-                  }
-                }}
-                className="underline text-xs sm:text-sm hover:opacity-90 cursor-pointer"
-              >
-                Copy
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      {/* Main Nav */}
       <nav
-        className={`fixed top-8 left-0 right-0 z-40 transition-all duration-300 ${
+        className={`fixed left-0 right-0 z-40 ${
           isScrolled
-            ? "bg-[#F7F7F7] backdrop-blur-md shadow-lg shadow-orange-500/5"
+            ? "bg-[#F7F7F7] shadow-lg shadow-orange-500/5"
             : "bg-gradient-to-r from-[#F7F7F7] to-[#F7F7F7]"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
           <div className="flex items-center justify-between h-24 lg:h-20.5">
-            {/* Logo Section */}
+            {/* Logo */}
             <div className="flex items-center space-x-3 cursor-pointer group">
               <Link
                 to={
@@ -467,7 +370,7 @@ const Header = () => {
                 >
                   <Link
                     to={item.href}
-                    className={`relative px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 group flex items-center gap-1 ${
+                    className={`relative px-4 py-2 rounded-lg font-medium text-[17px] group flex items-center gap-2 ${
                       item.active
                         ? "bg-gradient-to-r to-[#FE9C02] text-white shadow-lg shadow-orange-500/25"
                         : "text-slate-600 hover:text-orange-500 hover:bg-orange-50"
@@ -476,7 +379,7 @@ const Header = () => {
                     {item.name}
                     {item.hasDropdown && (
                       <svg
-                        className={`w-4 h-4 transition-transform duration-200 ${
+                        className={`w-4 h-4 ${
                           openDropdown === item.name ? "rotate-180" : ""
                         }`}
                         fill="none"
@@ -492,26 +395,29 @@ const Header = () => {
                       </svg>
                     )}
                     {!item.active && !item.hasDropdown && (
-                      <span className="absolute inset-x-0 bottom-0 h-0.5 bg-[#FE9C02] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                      <span className="absolute inset-x-0 bottom-0 h-0.5 bg-[#FE9C02] scale-x-0 group-hover:scale-x-100 origin-left" />
                     )}
                   </Link>
 
-                  {/* Dropdown Menu */}
-
+                  {/* Dropdown */}
                   {item.hasDropdown && openDropdown === item.name && (
                     <div
-                      className={`absolute top-full mt-2 bg-white rounded-xl shadow-xl border border-gray-100 py-6 animate-slide-down z-50 ${
+                      className={`absolute top-full mt-2 bg-white rounded-xl shadow-xl border border-gray-100 py-6 z-50 ${
                         item.dropdownType === "grid"
-                          ? "w-[800px] left-1/2 transform -translate-x-1/2" 
-                          : "w-80 left-0" 
+                          ? "w-[800px] left-1/2 transform -translate-x-1/2"
+                          : "w-80 left-0"
                       }`}
                       onMouseEnter={handleDropdownContentHover}
                       onMouseLeave={handleDropdownLeave}
                     >
                       {item.dropdownType === "grid" ? (
-                        // Grid Layout for Solutions (Already centered)
-                        <div className="px-6">
-                          <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">
+                        <div className="px-6 flex flex-col items-center">
+                          <h3
+                            className="text-xl md:text-2xl font-bold text-[#164058] mb-4 relative inline-block pb-2 
+    after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1 
+    after:bg-gradient-to-r after:from-amber-400 after:to-orange-500 
+    after:w-3/4 after:mx-auto text-center"
+                          >
                             Our Solutions
                           </h3>
                           <div className="space-y-4">
@@ -524,14 +430,14 @@ const Header = () => {
                                   <Link
                                     key={`${rowIndex}-${colIndex}`}
                                     to={dropdownItem.href}
-                                    className="flex items-start space-x-4 p-4 hover:bg-orange-50 rounded-lg transition-all duration-200 group border border-transparent hover:border-orange-200"
+                                    className="flex items-start space-x-4 p-4 hover:bg-orange-50 rounded-lg group border border-transparent hover:border-[#FF9C00]"
                                     onClick={() => setOpenDropdown(null)}
                                   >
-                                    <span className="text-2xl mt-1 group-hover:scale-110 transition-transform duration-200">
+                                    <span className="text-2xl mt-1">
                                       {dropdownItem.icon}
                                     </span>
                                     <div className="flex-1">
-                                      <h4 className="font-semibold text-slate-800 group-hover:text-orange-600 transition-colors duration-200 text-sm">
+                                      <h4 className="font-semibold text-slate-800 group-hover:text-[#ff9c00] text-sm">
                                         {dropdownItem.title}
                                       </h4>
                                       <p className="text-xs text-slate-500 mt-1 leading-relaxed">
@@ -545,21 +451,20 @@ const Header = () => {
                           </div>
                         </div>
                       ) : (
-                        // List Layout for Resources (remains left-aligned)
                         <div className="space-y-2 px-4">
                           {item.dropdownData.map(
                             (dropdownItem, dropdownIndex) => (
                               <Link
                                 key={dropdownIndex}
                                 to={dropdownItem.href}
-                                className="flex items-start space-x-3 px-4 py-3 hover:bg-orange-50 rounded-lg transition-colors duration-200 group"
+                                className="flex items-start space-x-3 px-4 py-3 hover:bg-orange-50 rounded-lg group"
                                 onClick={() => setOpenDropdown(null)}
                               >
-                                <span className="text-lg mt-0.5 group-hover:scale-110 transition-transform duration-200">
+                                <span className="text-lg mt-0.5">
                                   {dropdownItem.icon}
                                 </span>
                                 <div>
-                                  <h4 className="font-medium text-slate-800 group-hover:text-orange-600 transition-colors duration-200">
+                                  <h4 className="font-medium text-slate-800 group-hover:text-orange-600">
                                     {dropdownItem.title}
                                   </h4>
                                   <p className="text-sm text-slate-500 mt-1">
@@ -579,34 +484,26 @@ const Header = () => {
 
             {/* Right Section */}
             <div className="flex items-center space-x-3">
-              {/* Authentication Section */}
               {!isAuthenticated ? (
-                // Guest Navigation
                 <div className="hidden md:flex items-center space-x-3">
                   <Link
                     to="/login"
-                    className="text-slate-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                    className="text-slate-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Sign In
                   </Link>
-                  <Link
-                    to="/register"
-                    className="bg-gradient-to-r from-[#FE9C02] to-[#FE9C02] text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-[#164058] hover:to-[#164058] transition-all duration-300 shadow-lg shadow-orange-500/25"
-                  >
-                    Get Started
-                  </Link>
+                  <ProButton />
                 </div>
               ) : (
-                // Authenticated User Profile
                 <div className="relative hidden md:block" ref={profileRef}>
                   <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-all duration-300 group cursor-pointer "
+                    className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 group cursor-pointer "
                   >
                     <img
                       src={getAvatarUrl()}
                       alt={user?.name || "User"}
-                      className="w-8 h-8 rounded-full ring-2 ring-orange-500/20 group-hover:ring-orange-500/40 transition-all duration-300"
+                      className="w-8 h-8 rounded-full ring-2 ring-orange-500/20 group-hover:ring-orange-500/40"
                     />
                     <div className="hidden md:block text-left">
                       <p className="text-sm font-medium text-slate-700">
@@ -617,7 +514,7 @@ const Header = () => {
                       </p>
                     </div>
                     <svg
-                      className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${
+                      className={`w-4 h-4 text-slate-400 ${
                         isProfileOpen ? "rotate-180" : ""
                       }`}
                       fill="none"
@@ -633,15 +530,14 @@ const Header = () => {
                     </svg>
                   </button>
 
-                  {/* Profile Dropdown Menu */}
+                  {/* Profile Dropdown */}
                   <div
-                    className={`absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 transition-all duration-300  ${
+                    className={`absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 ${
                       isProfileOpen
-                        ? "opacity-100 visible translate-y-0 animate-slide-down"
-                        : "opacity-0 invisible translate-y-2"
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible"
                     }`}
                   >
-                    {/* User Info */}
                     <div className="px-4 py-3 border-b text-center border-gray-100 ">
                       <p className="font-medium text-slate-800 ">
                         {user?.name}
@@ -652,26 +548,25 @@ const Header = () => {
                       </span>
                     </div>
 
-                    {/* Menu Items */}
                     <div className="py-2 ">
                       {[
                         {
-                          icon: "👤",
+                          icon: "",
                           label: "My Profile",
                           href: `/${user?.role}/profile`,
                         },
                         {
-                          icon: "⚙️",
+                          icon: "",
                           label: "Settings",
                           href: `/${user?.role}/settings`,
                         },
                         {
-                          icon: "📊",
+                          icon: "",
                           label: "Analytics",
                           href: `/${user?.role}/analytics`,
                         },
                         {
-                          icon: "💳",
+                          icon: "",
                           label: "Billing",
                           href: `/${user?.role}/billing`,
                         },
@@ -680,7 +575,7 @@ const Header = () => {
                           key={index}
                           to={item.href}
                           onClick={() => setIsProfileOpen(false)}
-                          className="flex items-center space-x-3 px-4 py-2 text-sm text-slate-600 hover:text-orange-500 hover:bg-orange-50 transition-all duration-200"
+                          className="flex items-center space-x-3 px-4 py-2 text-sm text-slate-600 hover:text-orange-500 hover:bg-orange-50"
                         >
                           <span className="text-base">{item.icon}</span>
                           <span>{item.label}</span>
@@ -691,7 +586,7 @@ const Header = () => {
                     <div className="border-t border-gray-100 py-2 ">
                       <button
                         onClick={handleLogout}
-                        className="flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full transition-all duration-200 cursor-pointer"
+                        className="flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full cursor-pointer"
                       >
                         <span className="text-base">🚪</span>
                         <span>Sign Out</span>
@@ -704,35 +599,40 @@ const Header = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden p-2 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all duration-300"
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-drawer"
+                className="lg:hidden p-4 text-[#164057] hover:text-[#FF9C00] hover:bg-[#F7F7F7] rounded-lg"
               >
                 <div className="w-5 h-5 relative">
                   <span
-                    className={`absolute block w-full h-0.5 bg-current rounded-sm transition-all duration-300 ${
+                    className={`absolute block w-full h-0.5 bg-current rounded-sm ${
                       isMenuOpen ? "top-2 rotate-45" : "top-0"
                     }`}
-                  ></span>
+                  />
                   <span
-                    className={`absolute block w-full h-0.5 bg-current rounded-sm transition-all duration-300 top-2 ${
+                    className={`absolute block w-full h-0.5 bg-current rounded-sm top-2 ${
                       isMenuOpen ? "opacity-0" : "opacity-100"
                     }`}
-                  ></span>
+                  />
                   <span
-                    className={`absolute block w-full h-0.5 bg-current rounded-sm transition-all duration-300 ${
+                    className={`absolute block w-full h-0.5 bg-current rounded-sm ${
                       isMenuOpen ? "top-2 -rotate-45" : "top-4"
                     }`}
-                  ></span>
+                  />
                 </div>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Navigation Drawer (fixed) */}
         <div
-          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transition-transform duration-300 ease-in-out ${
+          id="mobile-drawer"
+          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 overflow-y-auto overscroll-contain ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
+          role="dialog"
+          aria-modal="true"
         >
           {/* Header with close button */}
           <div className="flex items-center justify-between p-5 border-b border-gray-100 mt-8">
@@ -745,14 +645,14 @@ const Header = () => {
                 />
                 <div>
                   <p className="font-medium text-slate-800">{user?.name}</p>
-                  <p className="text-xs text-orange-500 capitalize">
+                  <p className="text-xs text-[#FF9C00] capitalize">
                     {user?.role}
                   </p>
                 </div>
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-r from-orange-400 to-[#FF9C00] rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">MMP</span>
                 </div>
                 <div>
@@ -763,7 +663,8 @@ const Header = () => {
             )}
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="p-2 text-slate-400 hover:text-orange-500 rounded-full hover:bg-orange-50 transition-colors duration-200"
+              className="p-2 text-slate-400 hover:text-[#FF9C00] rounded-full hover:bg-orange-50"
+              aria-label="Close menu"
             >
               <svg
                 className="w-6 h-6"
@@ -781,16 +682,16 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Navigation Items */}
-          <div className="p-5 overflow-y-auto h-full pb-24">
+          {/* Drawer content: internal scroll only */}
+          <div className="p-5 overflow-y-auto overscroll-contain h-full pb-24">
             <div className="space-y-2">
               {navItems.map((item, index) => (
                 <div key={index}>
                   <div
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl font-medium transition-all duration-300 cursor-pointer ${
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl font-medium cursor-pointer ${
                       item.active
-                        ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                        : "text-slate-600 hover:text-orange-500 hover:bg-orange-50"
+                        ? "bg-gradient-to-r from-orange-500 to-[#FF9C00] text-white shadow-lg"
+                        : "text-slate-600 hover:text-[#FF9C00] hover:bg-orange-50"
                     }`}
                     onClick={() => {
                       if (item.hasDropdown) {
@@ -812,7 +713,7 @@ const Header = () => {
 
                     {item.hasDropdown ? (
                       <svg
-                        className={`w-5 h-5 transition-transform duration-200 ${
+                        className={`w-5 h-5 ${
                           openDropdown === item.name ? "rotate-180" : ""
                         }`}
                         fill="none"
@@ -848,58 +749,32 @@ const Header = () => {
                   {/* Mobile Dropdown */}
                   {item.hasDropdown && openDropdown === item.name && (
                     <div className="ml-4 mt-2 space-y-1">
-                      {item.dropdownType === "grid"
-                        ? // Flatten grid for mobile
-                          item.dropdownData
-                            .flat()
-                            .map((dropdownItem, dropdownIndex) => (
-                              <Link
-                                key={dropdownIndex}
-                                to={dropdownItem.href}
-                                onClick={() => {
-                                  setIsMenuOpen(false);
-                                  setOpenDropdown(null);
-                                }}
-                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-orange-50 transition-colors duration-200"
-                              >
-                                <span className="text-sm">
-                                  {dropdownItem.icon}
-                                </span>
-                                <div>
-                                  <p className="text-sm font-medium text-slate-700">
-                                    {dropdownItem.title}
-                                  </p>
-                                  <p className="text-xs text-slate-500 truncate">
-                                    {dropdownItem.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            ))
-                        : item.dropdownData.map(
-                            (dropdownItem, dropdownIndex) => (
-                              <Link
-                                key={dropdownIndex}
-                                to={dropdownItem.href}
-                                onClick={() => {
-                                  setIsMenuOpen(false);
-                                  setOpenDropdown(null);
-                                }}
-                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-orange-50 transition-colors duration-200"
-                              >
-                                <span className="text-sm">
-                                  {dropdownItem.icon}
-                                </span>
-                                <div>
-                                  <p className="text-sm font-medium text-slate-700">
-                                    {dropdownItem.title}
-                                  </p>
-                                  <p className="text-xs text-slate-500">
-                                    {dropdownItem.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            )
-                          )}
+                      {(item.dropdownType === "grid"
+                        ? item.dropdownData.flat()
+                        : item.dropdownData
+                      ).map((dropdownItem, dropdownIndex) => (
+                        <Link
+                          key={dropdownIndex}
+                          to={dropdownItem.href}
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setOpenDropdown(null);
+                          }}
+                          className="flex items-start px-3 py-2.5 rounded-lg hover:bg-orange-50 group"
+                        >
+                          <span className="text-sm mt-0.5 mr-3 flex-shrink-0 text-orange-500 group-hover:text-orange-600">
+                            {dropdownItem.icon}
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-slate-800 truncate">
+                              {dropdownItem.title}
+                            </p>
+                            <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">
+                              {dropdownItem.description}
+                            </p>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -913,7 +788,7 @@ const Header = () => {
                   <Link
                     to="/login"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center px-4 py-3 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all duration-200"
+                    className="flex items-center px-4 py-3 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-xl"
                   >
                     <svg
                       className="w-5 h-5 mr-3"
@@ -930,26 +805,7 @@ const Header = () => {
                     </svg>
                     Sign In
                   </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-medium shadow-lg"
-                  >
-                    <svg
-                      className="w-5 h-5 mr-3"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                      />
-                    </svg>
-                    Get Started
-                  </Link>
+                  {/* If needed, add Register button here */}
                 </div>
               </div>
             ) : (
@@ -961,7 +817,7 @@ const Header = () => {
                   <Link
                     to={`/${user?.role}/profile`}
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center px-4 py-3 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all duration-200"
+                    className="flex items-center px-4 py-3 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-xl"
                   >
                     <svg
                       className="w-5 h-5 mr-3"
@@ -981,7 +837,7 @@ const Header = () => {
                   <Link
                     to={`/${user?.role}/settings`}
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center px-4 py-3 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all duration-200"
+                    className="flex items-center px-4 py-3 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-xl"
                   >
                     <svg
                       className="w-5 h-5 mr-3"
@@ -1009,7 +865,7 @@ const Header = () => {
                 <div className="mt-6">
                   <button
                     onClick={handleLogout}
-                    className="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200"
+                    className="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl"
                   >
                     <svg
                       className="w-5 h-5 mr-3"
@@ -1032,12 +888,13 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Overlay */}
+        {/* Mobile Overlay (dim background) */}
         {isMenuOpen && (
           <div
             className="lg:hidden fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
             onClick={() => setIsMenuOpen(false)}
-          ></div>
+            aria-hidden="true"
+          />
         )}
       </nav>
     </>
