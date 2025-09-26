@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   BuildingOfficeIcon,
@@ -16,12 +15,19 @@ import {
 } from '@heroicons/react/24/outline';
 
 const About = () => {
+  // Color constants
+  const colors = {
+    background: '#f7f7f7',
+    primary: '#F99c00',
+    secondary: '#154056'
+  };
+
   // Company Statistics
   const stats = [
-    { icon: HomeIcon, label: 'Properties Listed', value: '50,000+', color: 'bg-blue-500' },
-    { icon: UsersIcon, label: 'Happy Customers', value: '25,000+', color: 'bg-green-500' },
-    { icon: UserGroupIcon, label: 'Verified Brokers', value: '500+', color: 'bg-orange-500' },
-    { icon: GlobeAltIcon, label: 'Cities Covered', value: '50+', color: 'bg-purple-500' }
+    { icon: HomeIcon, label: 'Properties Listed', value: '50,000+', color: 'bg-[#F99c00]' },
+    { icon: UsersIcon, label: 'Happy Customers', value: '25,000+', color: 'bg-[#154056]' },
+    { icon: UserGroupIcon, label: 'Verified Brokers', value: '500+', color: 'bg-[#F99c00]' },
+    { icon: GlobeAltIcon, label: 'Cities Covered', value: '50+', color: 'bg-[#154056]' }
   ];
 
   // Core Values
@@ -30,25 +36,25 @@ const About = () => {
       icon: HeartIcon,
       title: 'Customer First',
       description: 'We prioritize our customers\' needs and satisfaction above everything else.',
-      color: 'bg-red-500'
+      color: 'bg-[#F99c00]'
     },
     {
       icon: ShieldCheckIcon,
       title: 'Trust & Transparency',
       description: 'We maintain complete transparency in all our dealings and build trust through honesty.',
-      color: 'bg-blue-500'
+      color: 'bg-[#154056]'
     },
     {
       icon: TrophyIcon,
       title: 'Excellence',
       description: 'We strive for excellence in every service we provide and continuously improve.',
-      color: 'bg-yellow-500'
+      color: 'bg-[#F99c00]'
     },
     {
       icon: ChartBarIcon,
       title: 'Innovation',
       description: 'We embrace technology and innovation to provide cutting-edge solutions.',
-      color: 'bg-green-500'
+      color: 'bg-[#154056]'
     }
   ];
 
@@ -57,7 +63,7 @@ const About = () => {
     {
       name: 'Rajesh Sharma',
       position: 'Founder & CEO',
-      image: 'https://ui-avatars.com/api/?name=Rajesh+Sharma&background=f97316&color=fff&size=150',
+      image: 'https://ui-avatars.com/api/?name=Rajesh+Sharma&background=F99c00&color=fff&size=150',
       bio: '15+ years experience in real estate and technology. Previously led PropTech initiatives at leading firms.',
       linkedin: '#',
       email: 'rajesh@multimoneyproperty.com'
@@ -65,7 +71,7 @@ const About = () => {
     {
       name: 'Priya Gupta',
       position: 'Chief Technology Officer',
-      image: 'https://ui-avatars.com/api/?name=Priya+Gupta&background=3b82f6&color=fff&size=150',
+      image: 'https://ui-avatars.com/api/?name=Priya+Gupta&background=154056&color=fff&size=150',
       bio: 'Expert in scalable technology solutions with 12+ years in fintech and proptech industries.',
       linkedin: '#',
       email: 'priya@multimoneyproperty.com'
@@ -73,7 +79,7 @@ const About = () => {
     {
       name: 'Amit Patel',
       position: 'Head of Operations',
-      image: 'https://ui-avatars.com/api/?name=Amit+Patel&background=10b981&color=fff&size=150',
+      image: 'https://ui-avatars.com/api/?name=Amit+Patel&background=F99c00&color=fff&size=150',
       bio: 'Specializes in business operations and process optimization. 10+ years in real estate operations.',
       linkedin: '#',
       email: 'amit@multimoneyproperty.com'
@@ -81,7 +87,7 @@ const About = () => {
     {
       name: 'Sneha Kumar',
       position: 'Head of Customer Success',
-      image: 'https://ui-avatars.com/api/?name=Sneha+Kumar&background=8b5cf6&color=fff&size=150',
+      image: 'https://ui-avatars.com/api/?name=Sneha+Kumar&background=154056&color=fff&size=150',
       bio: 'Customer experience expert with proven track record in building customer-centric organizations.',
       linkedin: '#',
       email: 'sneha@multimoneyproperty.com'
@@ -147,20 +153,21 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-orange-500 via-red-500 to-blue-600 text-white py-20">
+      <section 
+        className="text-white py-20 bg-[#ff9c00]"
+        
+      >
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center mb-6">
-            <div className="bg-white p-4 rounded-xl shadow-lg mr-4">
-              <span className="text-orange-500 font-black text-3xl">MMP</span>
-            </div>
+            
             <div className="text-left">
               <h1 className="text-5xl font-bold mb-2">Multi Money Property</h1>
-              <p className="text-xl text-blue-100">Transforming Real Estate with Technology</p>
+              <p className="text-xl opacity-90">Transforming Real Estate with Technology</p>
             </div>
           </div>
-          <p className="text-xl max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl max-w-4xl mx-auto leading-relaxed opacity-95">
             We're revolutionizing the real estate industry through innovative technology, 
             connecting property seekers with verified brokers and creating seamless 
             experiences for all stakeholders in the property ecosystem.
@@ -172,7 +179,9 @@ const About = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact in Numbers</h2>
+            <h2 className="text-3xl font-bold mb-4" style={{ color: colors.secondary }}>
+              Our Impact in Numbers
+            </h2>
             <p className="text-gray-600 text-lg">Trusted by thousands across India</p>
           </div>
           
@@ -182,7 +191,12 @@ const About = () => {
                 <div className={`w-16 h-16 ${stat.color} rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg`}>
                   <stat.icon className="w-8 h-8 text-white" />
                 </div>
-                <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
+                <div 
+                  className="text-3xl font-bold mb-2"
+                  style={{ color: colors.secondary }}
+                >
+                  {stat.value}
+                </div>
                 <div className="text-gray-600 font-medium">{stat.label}</div>
               </div>
             ))}
@@ -191,19 +205,26 @@ const About = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{ backgroundColor: colors.background }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Our Mission & Vision</h2>
+              <h2 className="text-3xl font-bold mb-8" style={{ color: colors.secondary }}>
+                Our Mission & Vision
+              </h2>
               
               <div className="space-y-8">
                 <div className="bg-white p-6 rounded-xl shadow-lg">
                   <div className="flex items-center mb-4">
-                    <div className="bg-orange-500 p-3 rounded-lg mr-4">
+                    <div 
+                      className="p-3 rounded-lg mr-4"
+                      style={{ backgroundColor: colors.primary }}
+                    >
                       <TrophyIcon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900">Our Mission</h3>
+                    <h3 className="text-xl font-bold" style={{ color: colors.secondary }}>
+                      Our Mission
+                    </h3>
                   </div>
                   <p className="text-gray-600 leading-relaxed">
                     To democratize access to real estate opportunities by creating a transparent, 
@@ -214,10 +235,15 @@ const About = () => {
 
                 <div className="bg-white p-6 rounded-xl shadow-lg">
                   <div className="flex items-center mb-4">
-                    <div className="bg-blue-500 p-3 rounded-lg mr-4">
+                    <div 
+                      className="p-3 rounded-lg mr-4"
+                      style={{ backgroundColor: colors.secondary }}
+                    >
                       <StarIcon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900">Our Vision</h3>
+                    <h3 className="text-xl font-bold" style={{ color: colors.secondary }}>
+                      Our Vision
+                    </h3>
                   </div>
                   <p className="text-gray-600 leading-relaxed">
                     To become India's most trusted and comprehensive real estate platform, 
@@ -228,8 +254,15 @@ const About = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-orange-100 to-blue-100 p-8 rounded-2xl">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose MMP?</h3>
+            <div 
+              className="p-8 rounded-2xl"
+              style={{ 
+                background: `linear-gradient(135deg, ${colors.primary}20 0%, ${colors.secondary}20 100%)`
+              }}
+            >
+              <h3 className="text-2xl font-bold mb-6" style={{ color: colors.secondary }}>
+                Why Choose MMP?
+              </h3>
               <div className="space-y-4">
                 {[
                   'AI-powered property matching algorithm',
@@ -241,7 +274,10 @@ const About = () => {
                   'Mobile-first platform for on-the-go access'
                 ].map((feature, index) => (
                   <div key={index} className="flex items-center">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <CheckCircleIcon 
+                      className="w-5 h-5 mr-3 flex-shrink-0" 
+                      style={{ color: colors.primary }}
+                    />
                     <span className="text-gray-700">{feature}</span>
                   </div>
                 ))}
@@ -255,7 +291,9 @@ const About = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Core Values</h2>
+            <h2 className="text-3xl font-bold mb-4" style={{ color: colors.secondary }}>
+              Our Core Values
+            </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               The principles that guide everything we do at Multi Money Property
             </p>
@@ -267,7 +305,9 @@ const About = () => {
                 <div className={`w-16 h-16 ${value.color} rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl`}>
                   <value.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                <h3 className="text-xl font-bold mb-3" style={{ color: colors.secondary }}>
+                  {value.title}
+                </h3>
                 <p className="text-gray-600 leading-relaxed">{value.description}</p>
               </div>
             ))}
@@ -276,10 +316,12 @@ const About = () => {
       </section>
 
       {/* Leadership Team */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{ backgroundColor: colors.background }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet Our Leadership Team</h2>
+            <h2 className="text-3xl font-bold mb-4" style={{ color: colors.secondary }}>
+              Meet Our Leadership Team
+            </h2>
             <p className="text-gray-600 text-lg">
               Experienced professionals driving innovation in real estate technology
             </p>
@@ -293,14 +335,22 @@ const About = () => {
                   alt={member.name}
                   className="w-24 h-24 rounded-full mx-auto mb-4 shadow-md"
                 />
-                <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                <p className="text-orange-500 font-medium mb-3">{member.position}</p>
+                <h3 className="text-xl font-bold mb-1" style={{ color: colors.secondary }}>
+                  {member.name}
+                </h3>
+                <p 
+                  className="font-medium mb-3"
+                  style={{ color: colors.primary }}
+                >
+                  {member.position}
+                </p>
                 <p className="text-gray-600 text-sm leading-relaxed mb-4">{member.bio}</p>
                 
                 <div className="flex justify-center space-x-3">
                   <a
                     href={`mailto:${member.email}`}
-                    className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors"
+                    className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    style={{ backgroundColor: colors.secondary, color: 'white' }}
                     title="Email"
                   >
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -310,7 +360,8 @@ const About = () => {
                   </a>
                   <a
                     href={member.linkedin}
-                    className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    style={{ backgroundColor: colors.secondary, color: 'white' }}
                     title="LinkedIn"
                   >
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -328,26 +379,41 @@ const About = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Journey</h2>
+            <h2 className="text-3xl font-bold mb-4" style={{ color: colors.secondary }}>
+              Our Journey
+            </h2>
             <p className="text-gray-600 text-lg">Key milestones in our growth story</p>
           </div>
 
           <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-orange-200"></div>
+            <div 
+              className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full"
+              style={{ backgroundColor: `${colors.primary}40` }}
+            ></div>
             
             <div className="space-y-12">
               {milestones.map((milestone, index) => (
                 <div key={index} className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                   <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
                     <div className="bg-white p-6 rounded-xl shadow-lg">
-                      <div className="text-orange-500 font-bold text-lg mb-2">{milestone.year}</div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{milestone.title}</h3>
+                      <div 
+                        className="font-bold text-lg mb-2"
+                        style={{ color: colors.primary }}
+                      >
+                        {milestone.year}
+                      </div>
+                      <h3 className="text-xl font-bold mb-2" style={{ color: colors.secondary }}>
+                        {milestone.title}
+                      </h3>
                       <p className="text-gray-600">{milestone.description}</p>
                     </div>
                   </div>
                   
                   <div className="relative z-10">
-                    <div className="w-4 h-4 bg-orange-500 rounded-full border-4 border-white shadow-lg"></div>
+                    <div 
+                      className="w-4 h-4 rounded-full border-4 border-white shadow-lg"
+                      style={{ backgroundColor: colors.primary }}
+                    ></div>
                   </div>
                   
                   <div className="w-1/2"></div>
@@ -359,23 +425,30 @@ const About = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{ backgroundColor: colors.background }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Services</h2>
+            <h2 className="text-3xl font-bold mb-4" style={{ color: colors.secondary }}>
+              Our Services
+            </h2>
             <p className="text-gray-600 text-lg">Comprehensive solutions for all your real estate needs</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((service, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">{service.title}</h3>
+                <h3 className="text-2xl font-bold mb-3" style={{ color: colors.secondary }}>
+                  {service.title}
+                </h3>
                 <p className="text-gray-600 mb-6">{service.description}</p>
                 
                 <div className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center">
-                      <CheckCircleIcon className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                      <CheckCircleIcon 
+                        className="w-5 h-5 mr-3 flex-shrink-0"
+                        style={{ color: colors.primary }}
+                      />
                       <span className="text-gray-700">{feature}</span>
                     </div>
                   ))}
@@ -387,23 +460,29 @@ const About = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-orange-500 to-blue-600 text-white">
+      <section 
+        className="py-16 text-white"
+        style={{ 
+          background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Your Property Journey?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-95">
             Join thousands of satisfied customers who have found their perfect properties through MMP
           </p>
           
           <div className="space-x-4">
             <a
               href="/requirement-form"
-              className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
+              className="bg-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
+              style={{ color: colors.primary }}
             >
               Submit Your Requirements
             </a>
             <a
               href="/contact"
-              className="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors inline-block"
+              className="border border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors inline-block"
             >
               Contact Our Team
             </a>

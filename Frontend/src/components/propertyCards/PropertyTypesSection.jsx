@@ -73,7 +73,7 @@ const PropertyTypesSection = ({ handleGetStarted, handleBookDemo }) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-8">
-      <div className="bg-[#f7f7f7] rounded-2xl shadow-lg p-4 sm:p-6 relative">
+      <div className="bg-[#f7f7f7] rounded-2xl  p-4 sm:p-6 relative">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
           <h3 className="text-lg sm:text-2xl font-bold text-[#164057]">

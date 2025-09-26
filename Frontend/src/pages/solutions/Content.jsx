@@ -1,104 +1,187 @@
-import React from "react";
-import {
-  EnvelopeIcon,
-  PhoneIcon,
-  CursorArrowRaysIcon,
-  SparklesIcon,
-  ClipboardDocumentCheckIcon,
-} from "@heroicons/react/24/outline";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { PhoneInput, isValidPhoneNumber } from "react-international-phone";
+import "react-international-phone/style.css";
 
-export default function Content() {
+export default function Content({ onClose }) {
+  const [role, setRole] = useState("broker");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [city, setCity] = useState("");
+  const [contactOk, setContactOk] = useState(true);
+  const [devMode, setDevMode] = useState(false);
+  const [touched, setTouched] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  /* ---------- validation ---------- */
+  const errors = {
+    name:
+      touched.name && name.trim().length < 2
+        ? "Please enter a valid name"
+        : "",
+    phone:
+      touched.phone && !isValidPhoneNumber(phone)
+        ? "Please enter a valid phone number"
+        : "",
+    city: touched.city && city.trim() === "" ? "City is required" : "",
+    consent: !contactOk ? "Consent is required" : "",
+  };
+
+  const isValid =
+    !errors.name && !errors.phone && !errors.city && !errors.consent;
+
+  /* ---------- handle submit ---------- */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isValid) return;
+
+    setLoading(true);
+
+    const payload = { role, name, email, phone, city, contactOk, devMode };
+
+    // fake API call promise (replace with axios/fetch later)
+    const fakeApi = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (Math.random() > 0.2) {
+          resolve("Success");
+        } else {
+          reject("Something went wrong");
+        }
+      }, 1500);
+    });
+
+    toast.promise(fakeApi, {
+      loading: "Submitting your details...",
+      success: "Thanks for reaching out! We will get back to you soon.",
+      error: "Failed to submit. Please try again!",
+    });
+
+    fakeApi.finally(() => {
+      setLoading(false);
+      onClose?.();
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-[#F7F7F7]">
-      {/* Header */}
-      <header className="relative ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center md:text-left">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold bg-orange-100 text-orange-700 px-3 py-1 rounded-full shadow-sm">
-            Enablement
-          </span>
-          <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
-            Sales Scripts &amp; Content
-          </h1>
-          <p className="mt-4 text-lg text-slate-600 max-w-3xl">
-            Ready-to-use call/email scripts, landing pages, and creatives to
-            improve conversions.
-          </p>
-        </div>
-      </header>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full bg-white p-6 rounded-2xl space-y-5"
+    >
+      <h1 className="text-2xl font-bold text-center text-[#154056]">
+        Please provide your details
+      </h1>
 
-      {/* Main Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-white rounded-2xl shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">
-            Enablement Features
-          </h2>
+      {/* Role toggle */}
+      <label className="block text-xs font-semibold text-gray-500">I am</label>
+      <div className="flex gap-3">
+        {["broker", "developer"].map((r) => (
+          <button
+            type="button"
+            key={r}
+            onClick={() => setRole(r)}
+            className={`flex-1 py-2 rounded-full transition cursor-pointer
+              ${
+                role === r
+                  ? "bg-[#ff9c00] text-white"
+                  : "border hover:bg-gray-50"
+              }`}
+          >
+            {r[0].toUpperCase() + r.slice(1)}
+          </button>
+        ))}
+      </div>
 
-          {/* Feature Cards */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Email & Call Scripts",
-                desc: "Generate personalized outreach templates that boost engagement.",
-                icon: <EnvelopeIcon className="h-10 w-10 text-[#FF9C00]" />,
-              },
-              {
-                title: "Landing Pages & Creatives",
-                desc: "Quick-launch landing pages and ad designs for campaigns.",
-                icon: <CursorArrowRaysIcon className="h-10 w-10 text-[#FF9C00]" />,
-              },
-              {
-                title: "Follow-up Playbooks",
-                desc: "Step-by-step call and email sequences for faster conversions.",
-                icon: <ClipboardDocumentCheckIcon className="h-10 w-10 text-[#FF9C00]" />,
-              },
-            ].map((feature, idx) => (
-              <div
-                key={idx}
-                className="flex flex-col items-center text-center bg-orange-50/50 p-6 rounded-xl hover:shadow-md transition"
-              >
-                <div className="mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-semibold text-slate-800">{feature.title}</h3>
-                <p className="mt-2 text-slate-600 text-sm">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
+      {/* Name */}
+      <div>
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, name: true }))}
+          placeholder="Name"
+          className={`w-full border-b p-2 outline-none ${
+            errors.name && "border-[#ff9c00]"
+          }`}
+        />
+        {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
+      </div>
 
-          {/* Example Preview */}
-          <div className="mt-16">
-            <h2 className="text-xl font-bold text-slate-900 mb-6 text-center">
-              Example Preview
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Sample Email Script */}
-              <div className="bg-slate-50 rounded-xl p-6 shadow-sm">
-                <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-3">
-                  <EnvelopeIcon className="h-5 w-5 text-[#FF9C00]" />
-                  Sample Email Script
-                </h3>
-                <p className="text-sm text-slate-600">
-                  Hi [Name], <br />
-                  I noticed your interest in [Project/Service]. We can help you
-                  save time and get the best deal. Let’s schedule a quick call
-                  this week.  
-                  <br />
-                  – Your Sales Team
-                </p>
-              </div>
+      {/* Email (optional) */}
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email ID (optional)"
+        className="w-full border-b p-2 outline-none"
+      />
 
-              {/* Sample Landing Page */}
-              <div className="bg-slate-50 rounded-xl p-6 shadow-sm">
-                <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-3">
-                  <SparklesIcon className="h-5 w-5 text-[#FF9C00]" />
-                  Landing Page Snapshot
-                </h3>
-                <div className="border rounded-lg h-40 flex items-center justify-center text-slate-500 italic">
-                  [ Landing Page Preview ]
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+      {/* Phone */}
+      <div>
+        <PhoneInput
+          defaultCountry="in"
+          value={phone}
+          onChange={setPhone}
+          onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+          inputClassName={`!border-b !w-full !py-2 !outline-none ${
+            errors.phone ? "!border-red-500" : ""
+          }`}
+        />
+        {errors.phone && (
+          <p className="text-red-500 text-xs">{errors.phone}</p>
+        )}
+      </div>
+
+      {/* City */}
+      <div>
+        <input
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, city: true }))}
+          placeholder="City"
+          className={`w-full border-b p-2 outline-none ${
+            errors.city && "border-red-500"
+          }`}
+        />
+        {errors.city && <p className="text-red-500 text-xs">{errors.city}</p>}
+      </div>
+
+      {/* Checkboxes */}
+      <label className="flex items-start gap-3 text-sm">
+        <input
+          type="checkbox"
+          checked={contactOk}
+          onChange={(e) => setContactOk(e.target.checked)}
+          className="mt-1 accent-[#ff9c00] text-white cursor-pointer"
+        />
+        I agree to be contacted by MULTI MONEY PROPERTY and agents via
+        WhatsApp, SMS, phone, email etc.
+      </label>
+      {errors.consent && (
+        <p className="text-red-500 text-xs">{errors.consent}</p>
+      )}
+
+      <label className="flex items-start gap-3 text-sm">
+        <input
+          type="checkbox"
+          checked={devMode}
+          onChange={(e) => setDevMode(e.target.checked)}
+          className="mt-1 accent-[#ff9c00]  text-white cursor-pointer"
+        />
+        Do you wish to proceed as a Developer?
+      </label>
+
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={!isValid || loading}
+        className={`w-full py-3 rounded-lg text-white font-medium transition cursor-pointer
+          ${
+            isValid
+              ? "bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] hover:brightness-110"
+              : "bg-gray-300 cursor-not-allowed"
+          }`}
+      >
+        {loading ? "Submitting…" : "Submit"}
+      </button>
+    </form>
   );
 }

@@ -30,11 +30,25 @@ h6 {
 
 .property-hero-title {
   font-family: var(--font-heading, "Montserrat", sans-serif);
-  font-size: 2rem;
+  font-size: 1.5rem; /* Default for mobile */
   font-weight: 800;
   line-height: 1.2;
+  text-align: center;
 }
 
+/* Tablet */
+@media (min-width: 768px) {
+  .property-hero-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .property-hero-title {
+    font-size: 2rem;
+  }
+}
 .luxury-property-title {
   font-family: var(--font-luxury, "Playfair Display", serif);
   font-size: 1.875rem;
@@ -138,6 +152,18 @@ select option {
 /* Options highlight color */
 .custom-select option:checked,
 .custom-select option:hover {
-  background-color: #FF9C00 !important;  /* Orange background */
-  color: white;                          /* White text */
+  background-color: #FF9C00 !important; 
+  color: white;                      
 }
+
+/* react-split-pane tweaks */
+.SplitPane {
+  height: calc(100vh - 4rem);    
+}
+.SplitPane .Resizer {
+  width: 4px;
+  background: #e8e8e8;
+  cursor: col-resize;
+  transition: background .2s;
+}
+.SplitPane .Resizer:hover { background:#ff9c00; }

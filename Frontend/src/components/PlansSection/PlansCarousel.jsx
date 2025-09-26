@@ -50,7 +50,8 @@ export default function PlansCarousel() {
           {/* Header */}
           <div className="text-center mb-4 mt-8">
             <h1 className="text-3xl md:text-4xl font-extrabold mb-3 property-hero-title text-[#164058]">
-              MMP Pricing Plans Real Estate Buyer <span className="text-[#ff9c00]">Leads</span>
+              MMP Pricing Plans Real Estate Buyer{" "}
+              <span className="text-[#ff9c00]">Leads</span>
             </h1>
             <p className="text-lg md:text-xl leading-tight text-[#164058]">
               Builder/Broker/Channel Partner inquiries delivered in real time
@@ -115,15 +116,40 @@ export default function PlansCarousel() {
               onClick={() => instanceRef.current?.prev()}
               className="bg-white shadow-md hover:bg-[#ff9c00] hover:text-white rounded-full px-4 py-2 cursor-pointer"
             >
-         
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" > <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" /> </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5"
+                />
+              </svg>
             </button>
             <button
               onClick={() => instanceRef.current?.next()}
               className="bg-white shadow-md rounded-full px-4 py-2 hover:bg-[#ff9c00] hover:text-white cursor-pointer"
             >
-            
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6" > <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" /> </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                {" "}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+                />{" "}
+              </svg>
             </button>
           </div>
         </div>

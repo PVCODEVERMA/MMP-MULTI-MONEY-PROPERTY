@@ -1,389 +1,182 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, User, LogOut, Menu, X, Settings, HelpCircle } from "lucide-react";
+import { ChevronDown, Menu, X, Star, ExternalLink } from "lucide-react";
 import logo from "../../assets/componyLogos/logo.jpg";
+import ProfileMenu from "./ProfileMenu";
 
+/* ------------- dropdown data ------------- */
+const solutionsDropdownGrid = [
+  [
+    { icon: "", title: "Real Estate Buyer Leads (India)",
+      description: "Delhi, Noida, Gurgaon, Faridabad & Mumbai location-based inquiries",
+      href: "/home/leads/solutions/real-estate-leads", featured: true },
+    { icon: "", title: "City/Area Targeting",
+      description: "Exclusive or shared leads by city, area, or project",
+      href: "/home/leads/solutions/location-leads" },
+  ],
+  [
+    { icon: "", title: "Lead Distribution Engine",
+      description: "Shared (up to 3) or Exclusive delivery with smart routing",
+      href: "/home/leads/solutions/lead-distribution" },
+    { icon: "", title: "WhatsApp/Email Delivery",
+      description: "Instant delivery via Interakt/Gupshup + Email + Broker Dashboard",
+      href: "/home/leads/solutions/lead-delivery" },
+  ],
+  [
+    { icon: "", title: "Broker CRM Dashboard",
+      description: "My Leads, status, downloads, analytics & performance",
+      href: "/home/leads/solutions/broker/dashboard/home", featured: true },
+    { icon: "", title: "Packages & Wallet Billing",
+      description: "Razorpay checkout, per-lead wallet, GST invoices & reports",
+      href: "/home/leads/solutions/billing" },
+  ],
+  [
+    { icon: "", title: "Lead Verification",
+      description: "Duplicate checks, basic tele-verification & scoring",
+      href: "/home/leads/solutions/lead-verification" },
+    { icon: "", title: "Webhooks & Automation",
+      description: "CRM webhooks, inactivity auto-pause, SMS/alerts workflows",
+      href: "/home/leads/solutions/integrations" },
+  ],
+  [
+    { icon: "", title: "Listings & SEO Pages",
+      description: "Project, city & area pages, featured tags and blog traffic",
+      href: "/home/leads/solutions/listings-seo" },
+  ],
+];
+
+
+/* ------------- header component ------------- */
 const FindByLeadsHeader = () => {
-  const [desktopProductOpen, setDesktopProductOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
-  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
+  /* desktop dropdown toggles */
+  const [solOpen, setSolOpen] = useState(false);
+  const [resOpen, setResOpen] = useState(false);
 
-  const profileRef = useRef(null);
+  /* mobile toggles */
+  const [mobMenu, setMobMenu] = useState(false);
+  const [mobSol, setMobSol] = useState(false);
+  const [mobRes, setMobRes] = useState(false);
 
-  // Close profile dropdown on outside click
+  /* refs for outside-click close */
+  const solRef = useRef(null);
+  const resRef = useRef(null);
+
+  /* timeout refs for delayed close */
+  const solTimeout = useRef(null);
+
+  /* outside-click for desktop */
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setProfileOpen(false);
-      }
+    const close = e => {
+      if (solRef.current && !solRef.current.contains(e.target)) setSolOpen(false);
+      if (resRef.current && !resRef.current.contains(e.target)) setResOpen(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
   }, []);
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-    // Add logout logic here
-  };
+  /* helpers */
+  const closeMobile = () => { setMobMenu(false); setMobSol(false); setMobRes(false); };
 
   return (
-    <header className="bg-[#f7f7f7] fixed top-0 left-0 w-full z-50 transition-colors duration-300">
-      <div className="container mx-auto flex justify-between sm:justify-around items-center px-4 py-3">
-        {/* Logo and Mobile Menu Button */}
-        <div className="flex items-center">
-          <button
-            className="md:hidden mr-4 text-[#ff9c00] cursor-pointer transition-transform hover:scale-110"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={30} /> : <Menu size={30} />}
-          </button>
+    <header className="bg-[#f7f7f7] fixed top-0 left-0 w-full z-50 ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
 
-          <Link to="/findByLeads" className="flex items-center gap-2">
-            <img
-              src={logo}
-              className="h-16 w-auto transition-transform hover:scale-105"
-              alt="MMP Logo"
-            />
-          </Link>
-        </div>
-
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex gap-8 font-medium items-center">
-          {/* Products Dropdown */}
-          <div
-            className="relative group"
-            onMouseEnter={() => setDesktopProductOpen(true)}
-            onMouseLeave={() => setDesktopProductOpen(false)}
-          >
-            <button className="flex items-center gap-1 hover:text-[#FF9C00] transition-colors duration-200 py-2 cursor-pointer">
-              Products{" "}
-              <ChevronDown
-                size={16}
-                className={`transition-transform duration-200 ${
-                  desktopProductOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            <div
-              className={`absolute left-0 top-full bg-white shadow-lg rounded-md w-56 border border-gray-100 z-50 transition-all duration-300 origin-top ${
-                desktopProductOpen
-                  ? "scale-y-100 opacity-100"
-                  : "scale-y-0 opacity-0"
-              }`}
-            >
-              <Link
-                to="/leads"
-                className="block px-4 py-3 hover:bg-[#f7f7f7] transition-colors duration-200"
-              >
-                Real Estate Leads
-              </Link>
-              <Link
-                to="/agents"
-                className="block px-4 py-3 hover:bg-[#f7f7f7] transition-colors duration-200"
-              >
-                Professional for Agents
-              </Link>
-              <Link
-                to="/teams"
-                className="block px-4 py-3 hover:bg-[#f7f7f7] transition-colors duration-200"
-              >
-                Market Leader Teams
-              </Link>
-            </div>
-          </div>
-
-          <Link to="/plans" className="hover:text-[#FF9C00] py-2">
-            Pricing
-          </Link>
-
-          {/* Solutions */}
-          <div className="relative group">
-            <button className="flex items-center gap-1 hover:text-[#FF9C00] py-2 cursor-pointer">
-              Solutions{" "}
-              <ChevronDown
-                size={16}
-                className="transition-transform duration-200 group-hover:rotate-180"
-              />
-            </button>
-            <div className="absolute left-0 top-full bg-white shadow-lg rounded-md w-64 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-50">
-              <Link
-                to="/solutions/lead-distribution"
-                className="block px-4 py-3 hover:bg-[#f7f7f7]"
-              >
-                Lead Distribution Engine
-              </Link>
-              <Link
-                to="/solutions/lead-delivery"
-                className="block px-4 py-3 hover:bg-[#f7f7f7]"
-              >
-                WhatsApp/Email Delivery
-              </Link>
-              <Link
-                to="/solutions/broker/dashboard/home"
-                className="block px-4 py-3 hover:bg-[#f7f7f7]"
-              >
-                Broker CRM Dashboard
-              </Link>
-              <Link
-                to="/solutions/billing"
-                className="block px-4 py-3 hover:bg-[#f7f7f7]"
-              >
-                Packages & Billing
-              </Link>
-            </div>
-          </div>
-
-          <Link to="/contact" className="hover:text-[#FF9C00] py-2">
-            Customer Center
-          </Link>
-          <Link to="/about" className="hover:text-[#FF9C00] py-2">
-            About
-          </Link>
-        </nav>
-
-        {/* Right Side */}
-        <div className="flex items-center gap-4">
-          {/* Profile Dropdown */}
-          <div className="relative" ref={profileRef}>
+          {/* ║ Logo + mobile hamburger ║ */}
+          <div className="flex items-center">
             <button
-              className="flex items-center gap-2 hover:opacity-80 cursor-pointer"
-              onClick={() => setProfileOpen(!profileOpen)}
+              className="md:hidden mr-3 p-2 rounded-lg hover:bg-gray-100"
+              onClick={() => setMobMenu(!mobMenu)} aria-label="Toggle menu"
             >
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-[#FF9C00] to-[#ff6b00] flex items-center justify-center text-white font-semibold">
-                <User className="h-6 w-6" />
-              </div>
-              <span className="hidden md:block text-gray-700">
-                Broker Name
-              </span>
-              <ChevronDown
-                size={16}
-                className={`transition-transform duration-200 ${
-                  profileOpen ? "rotate-180" : ""
-                }`}
-              />
+              {mobMenu ? <X size={24}/> : <Menu size={24}/>}
             </button>
-
-            {profileOpen && (
-              <div className="absolute -right-5 mt-5 bg-white shadow-xl rounded-xl w-56 border border-gray-200 z-50 overflow-hidden">
-                <div className="p-4 bg-gradient-to-r from-[#FF9C00] to-[#ff6b00] text-white">
-                  <p className="font-semibold">Broker Name</p>
-                  <p className="text-xs opacity-80">Premium Account</p>
-                </div>
-
-                <div className="p-2">
-                  <Link
-                    to="/broker/profile"
-                    className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100"
-                  >
-                    <User size={18} /> My Profile
-                  </Link>
-                  <Link
-                    to="/broker/settings"
-                    className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100"
-                  >
-                    <Settings size={18} /> Settings
-                  </Link>
-                  <Link
-                    to="/help"
-                    className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100"
-                  >
-                    <HelpCircle size={18} /> Help & Support
-                  </Link>
-                  <hr className="my-2 border-gray-200" />
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-3 w-full px-3 py-2 text-red-500 hover:bg-gray-100 cursor-pointer"
-                  >
-                    <LogOut size={18} /> Logout
-                  </button>
-                </div>
-              </div>
-            )}
+            <Link to="/findByLeads"><img src={logo} alt="MMP" className="h-20  w-auto"/></Link>
           </div>
+
+          {/* ║ Desktop navigation ║ */}
+          <nav className="hidden md:flex items-center space-x-3 lg:space-x-4 text-gray-700">
+            <Link to="/home/leads" className="hover:text-[#FF9C00] px-3 py-2">Home</Link>
+
+            {/* Solutions dropdown */}
+            <div ref={solRef} className="relative">
+              <button
+                onClick={() => setSolOpen(!solOpen)}
+                onMouseEnter={() => { clearTimeout(solTimeout.current); setSolOpen(true); }}
+                onMouseLeave={() => { solTimeout.current = setTimeout(() => setSolOpen(false), 500); }}
+                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-[#FF9C00] hover:bg-gray-100 cursor-pointer"
+              >
+                Solutions
+                <ChevronDown size={16} className={`duration-200 ${solOpen ? "rotate-180" : ""}`} />
+              </button>
+              {solOpen && (
+                <div
+                  onMouseEnter={() => { clearTimeout(solTimeout.current); setSolOpen(true); }}
+                  onMouseLeave={() => { solTimeout.current = setTimeout(() => setSolOpen(false), 500); }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 bg-white w-[95vw] max-w-4xl mt-2 p-6 rounded-2xl shadow-2xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in-0 zoom-in-95"
+                >
+                  {solutionsDropdownGrid.flat().map((it,i)=>(
+                    <Link key={i} to={it.href}
+                      className={`flex gap-3 p-4 rounded-xl group transition-all ${it.featured?
+                        "bg-orange-50 border border-orange-200":"hover:bg-gray-50"}`}>
+                      <span className="text-2xl">{it.icon}</span>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-semibold group-hover:text-[#FF9C00]">{it.title}</h4>
+                          {it.featured && <Star size={14} className="text-yellow-500 fill-current"/>}
+                        </div>
+                        <p className="text-sm text-gray-600 mt-1">{it.description}</p>
+                      </div>
+                      <ExternalLink size={16} className="text-gray-400 group-hover:text-[#FF9C00]"/>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            
+
+            {/* Simple links */}
+            <Link to="/home/leads/plans"  className="px-3 py-2 hover:text-[#FF9C00] hover:bg-gray-100 rounded-lg">Pricing</Link>
+            <Link to="/home/leads/about"  className="px-3 py-2 hover:text-[#FF9C00] hover:bg-gray-100 rounded-lg">About</Link>
+          </nav>
+
+          {/* ║ Profile ║ */}
+          <ProfileMenu/>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 bg-white z-50 overflow-y-auto transition-all duration-300">
-          <div className="p-4">
-            <div className="flex justify-between items-center mb-6">
-              <Link to="/broker/dashboard/home" className="flex items-center gap-2">
-                <img src={logo} className="h-12 w-auto" alt="MMP Logo" />
-              </Link>
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-1 rounded-full hover:bg-gray-100 transition-colors duration-200"
-              >
-                <X size={24} />
+      {/* ║ Mobile overlay ║ */}
+      {mobMenu && (
+        <div className="md:hidden fixed inset-0 bg-[#f7f7f7] z-50 overflow-y-auto">
+          <div className="sticky top-0 flex justify-between items-center p-4">
+            <Link to="/findByLeads" onClick={closeMobile}><img className='text-[#f7f7f7] h-16 w-auto ' src={logo} alt="MMP" /></Link>
+            <button onClick={closeMobile} className="p-2 rounded-lg hover:bg-gray-100 cursor-pointer"><X size={24}/></button>
+          </div>
+          <div className="p-4 space-y-1">
+            <div className=" pb-2">
+              <button onClick={()=>setMobSol(!mobSol)} className="flex w-full justify-between py-4 font-medium">
+                <span>Solutions</span><ChevronDown size={18} className={`duration-200 cursor-pointer ${mobSol?"rotate-180":""}`}/>
               </button>
+              {mobSol && (
+                <div className="pl-4 space-y-1">
+                  {solutionsDropdownGrid.flat().map((it,i)=>(
+                    <Link key={i} to={it.href} onClick={closeMobile}
+                      className="block py-3 px-4 hover:bg-orange-50 rounded-lg text-gray-700 border-l-2 border-orange-200">
+                      <div className="font-medium">{it.title}</div>
+                      <div className="text-sm text-gray-600">{it.description}</div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
-
-            {/* User Profile Section in Mobile Menu */}
-            <div className="flex items-center gap-3 p-4 mb-4 bg-gray-50 rounded-lg">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-r from-[#FF9C00] to-[#ff6b00] flex items-center justify-center text-white font-semibold">
-                <User className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="font-semibold text-gray-800">Broker Name</p>
-                <p className="text-xs text-gray-500">Premium Account</p>
-              </div>
-            </div>
-
-            {/* Mobile Navigation Links */}
-            <div className="space-y-1">
-              {/* Products Dropdown */}
-              <div>
-                <button
-                  className="flex items-center justify-between w-full py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-                  onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                >
-                  <span>Products</span>
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform duration-200 ${
-                      mobileProductsOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {mobileProductsOpen && (
-                  <div className="pl-6 mt-1 space-y-1">
-                    <Link
-                      to="/leads"
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Real Estate Leads
-                    </Link>
-                    <Link
-                      to="/agents"
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Professional for Agents
-                    </Link>
-                    <Link
-                      to="/teams"
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Market Leader Teams
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              <Link
-                to="/plans"
-                className="block py-3 px-4 rounded-lg hover:bg-gray-100"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Pricing
-              </Link>
-
-              {/* Solutions Dropdown */}
-              <div>
-                <button
-                  className="flex items-center justify-between w-full py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-                  onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
-                >
-                  <span>Solutions</span>
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform duration-200 ${
-                      mobileSolutionsOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {mobileSolutionsOpen && (
-                  <div className="pl-6 mt-1 space-y-1">
-                    <Link
-                      to="/solutions/lead-distribution"
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Lead Distribution Engine
-                    </Link>
-                    <Link
-                      to="/solutions/lead-delivery"
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      WhatsApp/Email Delivery
-                    </Link>
-                    <Link
-                      to="/solutions/broker/dashboard/home"
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Broker CRM Dashboard
-                    </Link>
-                    <Link
-                      to="/solutions/billing"
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-100"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Packages & Billing
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              <Link
-                to="/contact"
-                className="block py-3 px-4 rounded-lg hover:bg-gray-100"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Customer Center
-              </Link>
-
-              <Link
-                to="/about"
-                className="block py-3 px-4 rounded-lg hover:bg-gray-100"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              
-              {/* Profile Links in Mobile Menu */}
-              <div className="pt-4 mt-4 border-t border-gray-200">
-                <Link
-                  to="/broker/profile"
-                  className="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-gray-100"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <User size={18} /> My Profile
-                </Link>
-                <Link
-                  to="/broker/settings"
-                  className="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-gray-100"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Settings size={18} /> Settings
-                </Link>
-                <Link
-                  to="/help"
-                  className="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-gray-100"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <HelpCircle size={18} /> Help & Support
-                </Link>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-3 w-full py-3 px-4 text-red-500 hover:bg-gray-100 rounded-lg cursor-pointer"
-                >
-                  <LogOut size={18} /> Logout
-                </button>
-              </div>
-            </div>
+            
+            <Link to="/home/leads/plans" onClick={closeMobile} className="block py-4 font-medium">Pricing</Link>
+            <Link to="/home/leads/about" onClick={closeMobile} className="block py-4 font-medium">About</Link>
           </div>
         </div>
       )}
+
+      
     </header>
   );
 };

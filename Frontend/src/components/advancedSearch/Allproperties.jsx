@@ -248,9 +248,9 @@ export default function AllProperties() {
   const propertyType = searchParams.get("propertyType");
   const itemsPerPage = 20;
   const buttons = [];
-  const maxPages = 65; // total pages
-  const maxVisible = 3; // how many pages to show before ellipsis
-
+  const maxPages = 65;
+  const maxVisible = 3; 
+  
   for (let i = 1; i <= Math.min(maxVisible, maxPages); i++) {
     buttons.push(i);
   }
@@ -485,12 +485,12 @@ export default function AllProperties() {
   return (
     <>
          
-    <section className="py-16 bg-gray-50">
+    <section className=" bg-[#f7f7f7] mt-4">
       
       {/* search bar */}
       <div className="">
-        <div className=" px-2 py-2 flex items-center ml-48 ">
-          <Link to="/" className="text-[#FF9C00]" onClick={() => navigate(-1)}>Home</Link>
+        <div className="text-sm flex items-center ml-48 ">
+          <Link to="/" className="text-[#FF9C00] text-sm" onClick={() => navigate(-1)}>Home</Link>
           <button
             onClick={() => navigate(-1)}
             className=" transition-colors duration-200 cursor-pointer"
@@ -498,7 +498,7 @@ export default function AllProperties() {
           >
             
            <div className="text-[#FF9C00]">
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-3">
             <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
            </div>
@@ -799,9 +799,9 @@ export default function AllProperties() {
       </div>
 
       {/* main content */}
-      <div className="max-w-7xl mx-auto px-4 mt-8">
+      <div className="max-w-7xl mx-auto px-4">
         {/* header */}
-        <header className="mb-6">
+        <header className="">
           <h2 className="text-3xl font-semibold text-gray-800">
             Property listing
           </h2>

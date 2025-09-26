@@ -4,19 +4,18 @@ import {
   ArrowPathIcon,
   PauseCircleIcon,
   ChatBubbleBottomCenterTextIcon,
-  BoltIcon,
 } from "@heroicons/react/24/outline";
 
 export default function Integrations() {
   return (
-    <div className="min-h-screen bg-[#F7F7F7]">
+    <div className="min-h-screen bg-[#F7F7F7] mb-10">
       {/* Hero Header */}
-      <header className="relative ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center md:text-left">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold bg-orange-100 text-orange-700 px-3 py-1 rounded-full shadow-sm">
-             Automation
+      <header className="relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 text-center md:text-left">
+          <span className="inline-flex items-center gap-2 text-xs font-semibold bg-[#FF9C00] bg-opacity-20 text-white px-3 py-1 rounded-full shadow-sm">
+            Automation
           </span>
-          <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+          <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-[#154956] leading-tight">
             Webhooks &amp; Automation
           </h1>
           <p className="mt-4 text-lg text-slate-600 max-w-3xl">
@@ -27,10 +26,10 @@ export default function Integrations() {
       </header>
 
       {/* Features Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 ">
         <div className="bg-white rounded-2xl shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Automation Features</h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <h2 className="text-2xl font-bold text-[#ff9c00] mb-8 text-center">Automation Features</h2>
+          <div className="grid md:grid-cols-3 gap-6 text-white">
             {[
               {
                 title: "Outbound Webhooks",
@@ -50,11 +49,11 @@ export default function Integrations() {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="flex flex-col items-center text-center bg-orange-50/50 p-6 rounded-xl hover:shadow-md transition"
+                className="flex flex-col items-center text-center bg-[#154956] bg-opacity-5 p-6 rounded-xl hover:shadow-md transition"
               >
                 <div className="mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-semibold text-slate-800">{feature.title}</h3>
-                <p className="mt-2 text-slate-600 text-sm">{feature.desc}</p>
+                <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
+                <p className="mt-2 text-white text-sm">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -76,8 +75,8 @@ export default function Integrations() {
 
         {/* Automation Flow */}
         <div className="mt-16">
-          <h2 className="text-xl font-bold text-slate-900 mb-6 text-center">Automation Flow</h2>
-          <div className="relative border-l-2 border-orange-200 max-w-2xl mx-auto">
+          <h2 className="text-xl font-bold text-[#ff9c00] mb-6 text-center">Automation Flow</h2>
+          <div className="relative border-l-2 border-[#FF9C00] border-opacity-40 max-w-2xl mx-auto">
             {[
               "Lead Assigned",
               "Webhook Push to CRM",
@@ -89,7 +88,7 @@ export default function Integrations() {
                 <div className="absolute -left-3 flex items-center justify-center w-6 h-6 rounded-full bg-[#FF9C00] text-white text-xs font-bold">
                   {idx + 1}
                 </div>
-                <p className="text-slate-700 font-medium">{step}</p>
+                <p className="text-[#154956] font-medium">{step}</p>
               </div>
             ))}
           </div>
