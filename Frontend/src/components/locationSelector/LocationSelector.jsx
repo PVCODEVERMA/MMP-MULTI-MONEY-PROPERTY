@@ -52,7 +52,7 @@ const LocationSelector = ({
         className={`w-full pl-10 pr-10 py-2.5 rounded-full bg-white text-left text-gray-700 text-sm sm:text-base cursor-pointer border 
           ${selectedLocation || isOpen ? "border-orange-500" : "border-gray-300"}`}
       >
-        <MapPinIcon className="absolute left-4 top-3.5 w-5 h-5 text-orange-500" />
+        <MapPinIcon className="absolute left-4 top-2.5 w-5 h-5 text-orange-500" />
         <span className={selectedLocation ? "text-gray-800" : "text-gray-500"}>
           {selectedLocation || placeholder}
         </span>

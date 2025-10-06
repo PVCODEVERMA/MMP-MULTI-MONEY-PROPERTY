@@ -5,10 +5,10 @@ import { BuildingOffice2Icon, BoltIcon, UserGroupIcon } from "@heroicons/react/2
 
 export default function RealEstateLeads() {
   return (
-    <div className="min-h-screen bg-[#F7F7F7]">
+    <div className=" bg-[#F7F7F7]">
       {/* Hero Section */}
       <section className="relative ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center md:text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 text-center md:text-left">
           <span className="inline-flex items-center gap-2 text-xs font-semibold bg-orange-100 text-orange-700 px-3 py-1 rounded-full shadow-sm">
              MMP Solutions
           </span>
@@ -46,8 +46,8 @@ export default function RealEstateLeads() {
               Talk to Sales <ArrowRightIcon className="h-5 w-5" />
             </Link>
             <Link
-              to="/plans"
-              className="inline-flex items-center justify-center gap-2 border border-orange-300 text-orange-600 font-semibold px-6 py-3 rounded-xl bg-white transition duration-300 hover:bg-orange-50"
+              to="/home/leads/plans"
+              className="inline-flex items-center justify-center gap-2 border border-orange-300 text-[#ff9c00] font-semibold px-6 py-3 rounded-xl bg-white transition duration-300 hover:bg-orange-50"
             >
               View Pricing
             </Link>
@@ -58,7 +58,7 @@ export default function RealEstateLeads() {
       {/* How it Works */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="bg-white rounded-2xl shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">How It Works</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">How It <span className="text-[#ff9c00]">Works</span></h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {

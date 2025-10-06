@@ -385,7 +385,7 @@ export default function KeyFeaturesSection() {
           className="text-center mt-16"
         >
           <motion.a
-            href="#signup"
+            href="/home/leads/plans"
             whileHover={buttonHover}
             whileTap={buttonTap}
             className="inline-flex items-center px-8 py-4  border border-transparent text-base font-bold rounded-full shadow-md text-white bg-[#ff9c00]  hover:bg-[#144058] transition-all duration-300 hover:shadow-lg"

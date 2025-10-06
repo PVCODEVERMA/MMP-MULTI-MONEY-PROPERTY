@@ -11,7 +11,6 @@ export default function CustomSlideCard({
   benefits = [],
   buttonText,
 }) {
- 
   const renderList = (items = []) => (
     <ul className="space-y-1 mb-4">
       {items.map((item, i) => (
@@ -39,7 +38,9 @@ export default function CustomSlideCard({
       </div>
 
       {/* Title */}
-      <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-900">{name}</h3>
+      <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-900">
+        {name}
+      </h3>
       <p className="mt-1 text-xs sm:text-sm text-slate-600">{tagline}</p>
 
       {/* Icons */}
@@ -53,11 +54,27 @@ export default function CustomSlideCard({
           <span className="text-xs text-gray-700">Multi-city targeting</span>
         </div>
       </div>
+      {/* Button */}
+      <div className=" mt-4">
+        <Link
+          to="/home/leads/checkout" 
+          className="block text-center rounded-full px-4 py-4 text-[#ff9c00] text-lg font-semibold border-2 hover:bg-amber-100 transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-300"
+         
+        >
+          {buttonText}
+        </Link>
+
+        <p className="mt-2 text-[10px] text-slate-500 text-center">
+          18% GST applicable
+        </p>
+      </div>
 
       {/* Features */}
       {features.length > 0 && (
         <>
-          <h4 className="mt-4 font-semibold text-xs text-[#164058]">Features</h4>
+          <h4 className="mt-4 font-semibold text-xs text-[#164058]">
+            Features
+          </h4>
           {renderList(features)}
         </>
       )}
@@ -81,24 +98,14 @@ export default function CustomSlideCard({
       {/* Benefits */}
       {benefits.length > 0 && (
         <>
-          <h4 className="font-semibold text-xs text-[#164058]">Other Benefits</h4>
+          <h4 className="font-semibold text-xs text-[#164058]">
+            Other Benefits
+          </h4>
           {renderList(benefits)}
         </>
       )}
 
-      {/* Button */}
-      <div className="pt-4 mt-auto">
-         <Link
-          to={`/payment?plan=${encodeURIComponent(name)}`} 
-          className="block text-center rounded-full px-4 py-4 text-white text-lg font-semibold shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-300"
-          style={{ backgroundColor: "#164058" }}
-        >
-          {buttonText}
-        </Link>
-        <p className="mt-2 text-[10px] text-slate-500 text-center">
-          18% GST applicable
-        </p>
-      </div>
+      
     </div>
   );
 }

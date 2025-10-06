@@ -153,7 +153,7 @@ const Dashboard = () => {
       case 'approved':
         return 'bg-green-100 text-green-800';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-[#ff9c00]/20 text-[#ff9c00]';
       case 'rejected':
         return 'bg-red-100 text-red-800';
       default:
@@ -166,11 +166,11 @@ const Dashboard = () => {
       case 'success':
         return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
       case 'warning':
-        return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />;
+        return <ExclamationTriangleIcon className="h-5 w-5 text-[#ff9c00]" />;
       case 'error':
         return <ExclamationTriangleIcon className="h-5 w-5 text-red-500" />;
       default:
-        return <BellIcon className="h-5 w-5 text-blue-500" />;
+        return <BellIcon className="h-5 w-5 text-[#154056]" />;
     }
   };
 
@@ -186,9 +186,9 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#f7f7f7]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#154056] mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -196,11 +196,11 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#f7f7f7] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Welcome Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white mb-8">
+        <div className="bg-gradient-to-r from-[#154056] to-[#1e5a7a] rounded-xl p-6 text-white mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold mb-2">
@@ -221,41 +221,41 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <button
             onClick={() => setShowPropertyForm(true)}
-            className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all text-left group"
+            className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all text-left group hover:border-[#ff9c00]"
           >
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <PlusIcon className="h-6 w-6 text-green-600" />
+            <div className="w-12 h-12 bg-[#ff9c00]/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <PlusIcon className="h-6 w-6 text-[#ff9c00]" />
             </div>
             <h3 className="font-semibold text-gray-900 mb-1">Submit Property</h3>
             <p className="text-sm text-gray-600">List your property for sale or rent</p>
           </button>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-              <BuildingOfficeIcon className="h-6 w-6 text-blue-600" />
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all">
+            <div className="w-12 h-12 bg-[#154056]/10 rounded-xl flex items-center justify-center mb-4">
+              <BuildingOfficeIcon className="h-6 w-6 text-[#154056]" />
             </div>
             <h3 className="font-semibold text-gray-900 mb-1">My Properties</h3>
-            <p className="text-2xl font-bold text-blue-600">{userProperties.length}</p>
+            <p className="text-2xl font-bold text-[#154056]">{userProperties.length}</p>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-              <EyeIcon className="h-6 w-6 text-purple-600" />
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all">
+            <div className="w-12 h-12 bg-[#ff9c00]/10 rounded-xl flex items-center justify-center mb-4">
+              <EyeIcon className="h-6 w-6 text-[#ff9c00]" />
             </div>
             <h3 className="font-semibold text-gray-900 mb-1">Total Views</h3>
-            <p className="text-2xl font-bold text-purple-600">
+            <p className="text-2xl font-bold text-[#ff9c00]">
               {userProperties.reduce((sum, prop) => sum + prop.views, 0)}
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 relative">
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-              <BellIcon className="h-6 w-6 text-orange-600" />
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all relative">
+            <div className="w-12 h-12 bg-[#154056]/10 rounded-xl flex items-center justify-center mb-4">
+              <BellIcon className="h-6 w-6 text-[#154056]" />
             </div>
             <h3 className="font-semibold text-gray-900 mb-1">Notifications</h3>
-            <p className="text-2xl font-bold text-orange-600">{unreadNotifications}</p>
+            <p className="text-2xl font-bold text-[#154056]">{unreadNotifications}</p>
             {unreadNotifications > 0 && (
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#ff9c00] text-white text-xs rounded-full flex items-center justify-center font-bold">
                 {unreadNotifications}
               </div>
             )}
@@ -271,7 +271,7 @@ const Dashboard = () => {
               <h2 className="text-xl font-semibold text-gray-900">Your Properties</h2>
               <button
                 onClick={() => setShowPropertyForm(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors"
+                className="bg-[#154056] hover:bg-[#1e5a7a] text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors"
               >
                 <PlusIcon className="h-5 w-5 mr-2" />
                 Add Property
@@ -285,7 +285,7 @@ const Dashboard = () => {
                 <p className="text-gray-600 mb-4">Start by submitting your first property</p>
                 <button
                   onClick={() => setShowPropertyForm(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
+                  className="bg-[#154056] hover:bg-[#1e5a7a] text-white px-6 py-2 rounded-lg font-medium"
                 >
                   Submit Property
                 </button>
@@ -293,7 +293,7 @@ const Dashboard = () => {
             ) : (
               <div className="space-y-4">
                 {userProperties.map((property) => (
-                  <div key={property.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                  <div key={property.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow hover:border-[#ff9c00]/30">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-2">
@@ -319,7 +319,7 @@ const Dashboard = () => {
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <div className="text-2xl font-bold text-green-600">
+                          <div className="text-2xl font-bold text-[#154056]">
                             {formatCurrency(property.price)}
                           </div>
                           <div className="text-sm text-gray-500">
@@ -348,7 +348,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold text-gray-900">Recent Notifications</h2>
                 {unreadNotifications > 0 && (
-                  <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                  <span className="bg-[#ff9c00] text-white text-xs px-2 py-1 rounded-full font-medium">
                     {unreadNotifications} new
                   </span>
                 )}
@@ -360,7 +360,7 @@ const Dashboard = () => {
                     key={notification.id}
                     className={`p-3 rounded-lg border-l-4 transition-colors ${
                       !notification.read 
-                        ? 'bg-blue-50 border-l-blue-500' 
+                        ? 'bg-[#154056]/5 border-l-[#154056]' 
                         : 'bg-gray-50 border-l-gray-300'
                     }`}
                   >
@@ -380,7 +380,7 @@ const Dashboard = () => {
                         </p>
                       </div>
                       {!notification.read && (
-                        <div className="w-2 h-2 bg-blue-500 rounded-full ml-2 mt-2"></div>
+                        <div className="w-2 h-2 bg-[#154056] rounded-full ml-2 mt-2"></div>
                       )}
                     </div>
                   </div>
@@ -407,13 +407,13 @@ const Dashboard = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">Pending Review</span>
-                  <span className="font-semibold text-yellow-600">
+                  <span className="font-semibold text-[#ff9c00]">
                     {userProperties.filter(p => p.status === 'pending').length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">Total Value</span>
-                  <span className="font-semibold text-blue-600">
+                  <span className="font-semibold text-[#154056]">
                     {formatCurrency(userProperties.reduce((sum, p) => sum + p.price, 0))}
                   </span>
                 </div>

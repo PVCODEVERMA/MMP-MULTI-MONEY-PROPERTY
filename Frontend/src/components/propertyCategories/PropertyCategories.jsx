@@ -64,7 +64,7 @@ const FreshProperties = () => {
     
     // Auto slide for mobile view
     const interval = setInterval(() => {
-      if (window.innerWidth < 768) { // Only auto-slide on mobile
+      if (window.innerWidth < 768) {
         setCurrentSlide(prev => (prev + 1) % locations.length);
       }
     }, 4000); // Change slide every 4 seconds
@@ -141,12 +141,7 @@ const FreshProperties = () => {
                 </span>
               </div>
               
-              {/* Property Count */} hidden
-              {/* <div className="absolute top-4 right-4">
-                <span className="bg-white/95 backdrop-blur-sm text-slate-800 text-sm font-semibold px-3 py-1.5 rounded-full shadow-md group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
-                  {loc.count}
-                </span>
-              </div> */}
+              
               
               {/* Text Content */}
               <div className="absolute bottom-4 left-4 right-4">

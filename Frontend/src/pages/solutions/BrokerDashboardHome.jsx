@@ -7,7 +7,7 @@ export default function BrokerDashboardHome() {
     <div className="min-h-screen bg-[#F7F7F7]">
       {/* Header */}
       <header className="">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
           <span className="inline-block text-xs font-semibold bg-orange-100 text-orange-700 px-3 py-1 rounded-full">
              CRM
           </span>

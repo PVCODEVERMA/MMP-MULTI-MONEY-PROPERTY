@@ -1,62 +1,63 @@
+// App.jsx
 import React, { Suspense, lazy } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { toast } from "react-hot-toast";
 
-/* shared UI */
+/* Shared UI */
 import Header from "./components/Shared/Header.jsx";
 import Footer from "./components/Shared/Footer.jsx";
-import ChatBot from "./chatBot/ChatBot.jsx";
-import LoadingSpinner from "./common/LoadingSpinner.jsx";
 import Unauthorized from "./common/Unauthorized.jsx";
 import NotFound from "./common/NotFound.jsx";
+import LoadingSpinner from "./common/LoadingSpinner.jsx";
 
-/* auth */
-import { useAuth } from "./context/AuthContext.jsx";
+/* Context Providers */
+import { AuthProviderSubAdmin } from "./context/AuthContextSubAdmin.jsx";
+import { AuthProviderSuperAdmin } from "./context/AuthContextSuperAdmin.jsx";
 
-/* layouts */
-import FindByLeadsLayout from "./layout/FindByLeadsLayout/FindByLeadsLayout.jsx";
-import LeadsLayout from "./layout/LeadsPageLayout/LeadsLayout.jsx";
+/* Protected Wrappers */
+import ProtectedUser from "./Protected/ProtectedUser.jsx";
+import ProtectedBroker from "./Protected/ProtectedBroker.jsx";
+import ProtectedSubAdmin from "./Protected/ProtectedSubAdmin.jsx";
+import ProtectedSuperAdmin from "./Protected/ProtectedSuperAdmin.jsx";
 
-/* leads */
-import FindByPropertyLeads from "./components/findByPropertyleads/FindByPropertyLeads.jsx";
-import RightPane from "./components/findByPropertyleads/leadsExplorer/RightPane.jsx";
-
-/* public pages */
-import About from "./pages/About.jsx";
-import Contact from "./pages/Contact.jsx";
+/* Pages & Components */
 import Home from "./pages/Home.jsx";
 import MobileSearch from "./pages/MobileSearch.jsx";
-import PostPropertyFree from "./components/postProperty/PostPropertyFree.jsx";
 import AllProperties from "./components/advancedSearch/Allproperties.jsx";
-import PropertyDetail from "./components/advancedSearch/PropertyDetailsModal.jsx";
-import AdvancedSearch from "./components/advancedSearch/AdvancedSearch.jsx";
+import ContactSection from "./pages/ContactSection.jsx";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import PeSuccess from "./pages/PeSuccess.jsx";
 import PlansCarousel from "./components/PlansSection/PlansCarousel.jsx";
 import PaymentPage from "./components/PlansSection/PaymentPage.jsx";
-import PeSuccess from "./pages/PeSuccess.jsx";
-
-/* solutions */
-import Billing from "./pages/solutions/Billing.jsx";
-
-import Integrations from "./pages/solutions/Integrations.jsx";
-import LeadDelivery from "./pages/solutions/LeadDelivery.jsx";
-import LeadDistribution from "./pages/solutions/LeadDistribution.jsx";
-import LeadVerification from "./pages/solutions/LeadVerification.jsx";
-import ListingsSEO from "./pages/solutions/ListingsSEO.jsx";
-import LocationLeads from "./pages/solutions/LocationLeads.jsx";
-import RealEstateLeads from "./pages/solutions/RealEstateLeads.jsx";
-import BrokerDashHome from "./pages/solutions/BrokerDashboardHome.jsx";
-
-/* resources */
-import HelpCenter from "./pages/resources/HelpCenter.jsx";
-
 import BrokerProfile from "./pages/broker/BrokerProfile.jsx";
+import FindByPropertyLeads from "./components/findByPropertyleads/FindByPropertyLeads.jsx";
+import RightPane from "./components/findByPropertyleads/leadsExplorer/RightPane.jsx";
+import PostPropertyFree from "./components/postProperty/PostPropertyFree.jsx";
+import PropertyDetailsModal from "./components/propertyCards/PropertyDetailsModal.jsx";
+import LoginBroker from "./Auth/LoginBroker.jsx";
+import Welcome from "./pages/broker/Welcome.jsx";
+import PostSuccess from "./components/postProperty/PostSuccess.jsx";
 
-/* property details */
-import PropertyDetails from "./components/propertyCardDetails/topPropertyCardDetails.jsx";
-import ContactSection from "./pages/ContactSection.jsx";
+/* SuperAdmin Pages */
+import RegisterSuperAdmin from "./Auth/superAdmin/RegisterSuperAdmin.jsx";
+import LoginSuperAdmin from "./Auth/superAdmin/LoginSuperAdmin.jsx";
+import ForgotPasswordSuperAdmin from "./Auth/superAdmin/ForgotPasswordSuperAdmin.jsx";
 
-/*──── lazy imports ─────────────────────────────────────*/
+import FindByLeadsLayout from "./layout/FindByLeadsLayout/FindByLeadsLayout.jsx";
+import AgentsDirectory from "./pages/AgentsDirectory.jsx";
+import Billing from "./pages/solutions/Billing.jsx";
+import LocationLeads from "./pages/solutions/LocationLeads.jsx";
+import LeadDelivery from "./pages/solutions/LeadDelivery.jsx";
+import Integrations from "./pages/solutions/Integrations.jsx";
+import ListingsSEO from "./pages/solutions/ListingsSEO.jsx";
+import LeadDistribution from "./pages/solutions/LeadDistribution.jsx";
+import BrokerDashboardHome from "./pages/solutions/BrokerDashboardHome.jsx";
+import RealEstateLeads from "./pages/solutions/RealEstateLeads.jsx";
+import LeadVerification from "./pages/solutions/LeadVerification.jsx";
+import NewLeads from "./components/Broker/NewLeads.jsx";
+import LeadsLayout from "./layout/LeadsPageLayout/LeadsLayout.jsx";
+/* Lazy Imports */
 const Login = lazy(() => import("./Auth/Login.jsx"));
 const Register = lazy(() => import("./Auth/Register.jsx"));
 const RegisterB = lazy(() => import("./Auth/RegisterBroker.jsx"));
@@ -64,7 +65,7 @@ const ForgotPwd = lazy(() => import("./Auth/ForgotPassword.jsx"));
 const ResetPwd = lazy(() => import("./Auth/ResetPassword.jsx"));
 const Dashboard = lazy(() => import("./components/User/Dashboard.jsx"));
 
-/* Sub-admin */
+/* Sub-Admin */
 const SubAdminLayout = lazy(() =>
   import("./layout/subAdminLayOut/SubAdmin.jsx")
 );
@@ -81,8 +82,18 @@ const LeadMgmt = lazy(() => import("./components/SubAdmin/LeadManagement.jsx"));
 const PropertyMgmt = lazy(() =>
   import("./components/SubAdmin/PropertyManagement.jsx")
 );
+const LoginSubAdmin = lazy(() => import("./Auth/subAdmin/LoginSubAdmin.jsx"));
+const RegisterSubAdmin = lazy(() =>
+  import("./Auth/subAdmin/RegisterSubAdmin.jsx")
+);
+const ForgotPasswordSubAdmin = lazy(() =>
+  import("./Auth/subAdmin/ForgotPasswordSubAdmin.jsx")
+);
+const ResetPasswordSubAdmin = lazy(() =>
+  import("./Auth/subAdmin/ResetPasswordSubAdmin.jsx")
+);
 
-/* Super-admin */
+/* Super-Admin */
 const SuperLayout = lazy(() =>
   import("./layout/superAdminLayOut/SuperAdminLayout.jsx")
 );
@@ -112,8 +123,8 @@ const BrokerLayout = lazy(() =>
 const BrokerDash = lazy(() =>
   import("./layout/brokerLayOut/BrokerDashboard.jsx")
 );
-const BrokerLeads = lazy(() =>
-  import("./components/Broker/LeadManagement.jsx")
+const AllLeadsPage = lazy(() =>
+  import("./components/Broker/AllLeadsPage.jsx")
 );
 const BrokerProps = lazy(() =>
   import("./components/Broker/PropertySubmission.jsx")
@@ -121,38 +132,11 @@ const BrokerProps = lazy(() =>
 const BrokerPackages = lazy(() =>
   import("./components/Broker/PackagePurchase.jsx")
 );
-// const BrokerProfile = lazy(() =>
-//   import("./components/Broker/BrokerProfile.jsx")
-// );
 const BrokerReports = lazy(() =>
   import("./components/Broker/BrokerReports.jsx")
 );
 
-/*──── helpers ─────────────────────────────────────*/
-const PageLoader = ({ message = "Loading..." }) => (
-  <LoadingSpinner message={message} />
-);
-
-const Lazy = (Cmp, msg) => (
-  <Suspense fallback={<PageLoader message={msg} />}>
-    <Cmp />
-  </Suspense>
-);
-
-const Protected = ({ roles, children }) => {
-  const { user, loading, isAuthenticated } = useAuth();
-  const loc = useLocation();
-
-  if (loading) return <PageLoader message="Checking authentication..." />;
-  if (!isAuthenticated)
-    return <Navigate to="/login" state={{ from: loc }} replace />;
-  if (roles?.length && !roles.includes(user.role)) {
-    toast.error("You don’t have permission for this page");
-    return <Navigate to="/unauthorized" replace />;
-  }
-  return children;
-};
-
+/* Layout Wrappers */
 const PublicLayout = ({ children }) => (
   <>
     <Header />
@@ -179,8 +163,7 @@ const AuthLayout = ({ children }) => {
   );
 };
 
-/*─────────────────────────────── routes ───────────────────────────────*/
-function app() {
+function App() {
   const location = useLocation();
 
   return (
@@ -193,7 +176,7 @@ function app() {
         transition={{ duration: 0.25 }}
       >
         <Routes>
-          {/* PUBLIC ROUTES */}
+          {/* ------------------- PUBLIC ROUTES ------------------- */}
           <Route
             path="/"
             element={
@@ -218,9 +201,16 @@ function app() {
               </PublicLayout>
             }
           />
-          /* routes.jsx (or App.jsx) */
           <Route
-            path=":location?"
+            path="/post-success"
+            element={
+              <PublicLayout>
+                <PostSuccess />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/:location?"
             element={
               <PublicLayout>
                 <AllProperties />
@@ -231,7 +221,7 @@ function app() {
             path="/property/:id"
             element={
               <PublicLayout>
-                <PropertyDetail />
+                <PropertyDetailsModal />
               </PublicLayout>
             }
           />
@@ -244,14 +234,13 @@ function app() {
             }
           />
           <Route
-            path="/advanced-search"
+            path="/all-agents"
             element={
               <PublicLayout>
-                {Lazy(AdvancedSearch, "Loading search")}
+                <AgentsDirectory />
               </PublicLayout>
             }
           />
-          {/* LEADS */}
           <Route
             path="/home/leads"
             element={
@@ -264,7 +253,7 @@ function app() {
             path="/home/leads/help"
             element={
               <FindByLeadsLayout>
-                <HelpCenter />
+                <PlansCarousel />
               </FindByLeadsLayout>
             }
           />
@@ -276,7 +265,32 @@ function app() {
               </FindByLeadsLayout>
             }
           />
-          <Route path="/home/leads/lock/*" element={<LeadsLayout />}>
+          <Route
+            path="/home/leads/about"
+            element={
+              <FindByLeadsLayout>
+                <About />
+              </FindByLeadsLayout>
+            }
+          />
+          {/* solution */}
+          <Route
+            path="/home/leads/real-estate-leads"
+            element={
+              <FindByLeadsLayout>
+                <RealEstateLeads />
+              </FindByLeadsLayout>
+            }
+          />
+          <Route
+            path="/home/leads/location-leads"
+            element={
+              <FindByLeadsLayout>
+                <LocationLeads />
+              </FindByLeadsLayout>
+            }
+          />
+           <Route path="/home/leads/lock/*" element={<LeadsLayout />}>
             <Route index element={<RightPane />} /> {/* default */}
             <Route
               path="trendingLeads"
@@ -288,6 +302,67 @@ function app() {
             />
             <Route path="allLeads" element={<RightPane source="all" />} />
           </Route>
+         
+          <Route
+            path="/home/leads/lead-distribution"
+            element={
+              <FindByLeadsLayout>
+                <LeadDistribution />
+              </FindByLeadsLayout>
+            }
+          />
+          
+          <Route
+            path="/home/leads/lead-delivery"
+            element={
+              <FindByLeadsLayout>
+                <LeadDelivery />
+              </FindByLeadsLayout>
+            }
+          />
+          <Route
+            path="/home/leads/dashboard/home"
+            element={
+              <FindByLeadsLayout>
+                <BrokerDashboardHome />
+              </FindByLeadsLayout>
+            }
+          />
+           <Route
+            path="/home/leads/billing"
+            element={
+              <FindByLeadsLayout>
+                <Billing />
+              </FindByLeadsLayout>
+            }
+          />
+          <Route
+            path="/home/leads/lead-verification"
+            element={
+              <FindByLeadsLayout>
+                <LeadVerification />
+              </FindByLeadsLayout>
+            }
+          />
+          <Route
+            path="/home/leads/integrations"
+            element={
+              <FindByLeadsLayout>
+                <Integrations />
+              </FindByLeadsLayout>
+            }
+          />
+          <Route
+            path="/home/leads/listings-seo"
+            element={
+              <FindByLeadsLayout>
+                <ListingsSEO />
+              </FindByLeadsLayout>
+            }
+          />
+          
+          {/* payement route */}
+          
           <Route
             path="/home/leads/plans"
             element={
@@ -297,121 +372,77 @@ function app() {
             }
           />
           <Route
-            path="/payment"
+            path="/home/leads/checkout"
             element={
               <FindByLeadsLayout>
                 <PaymentPage />
               </FindByLeadsLayout>
             }
           />
-          {/* SOLUTIONS */}
-          <Route
-            path="/home/leads/solutions/billing"
-            element={
-              <FindByLeadsLayout>
-                <Billing />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/broker/dashboard/home"
-            element={
-              <FindByLeadsLayout>
-                <BrokerDashHome />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/integrations"
-            element={
-              <FindByLeadsLayout>
-                <Integrations />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/lead-delivery"
-            element={
-              <FindByLeadsLayout>
-                <LeadDelivery />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/lead-distribution"
-            element={
-              <FindByLeadsLayout>
-                <LeadDistribution />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/lead-verification"
-            element={
-              <FindByLeadsLayout>
-                <LeadVerification />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/listings-seo"
-            element={
-              <FindByLeadsLayout>
-                <ListingsSEO />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/location-leads"
-            element={
-              <FindByLeadsLayout>
-                <LocationLeads />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/solutions/real-estate-leads"
-            element={
-              <FindByLeadsLayout>
-                <RealEstateLeads />
-              </FindByLeadsLayout>
-            }
-          />
-          {/* RESOURCES */}
-          {/* STATIC */}
-          <Route
-            path="/home/leads/about"
-            element={
-              <FindByLeadsLayout>
-                <About />
-              </FindByLeadsLayout>
-            }
-          />
-          <Route
-            path="/home/leads/contact"
-            element={
-              <FindByLeadsLayout>
-                <Contact />
-              </FindByLeadsLayout>
-            }
-          />
-          {/* AUTH */}
-          <Route path="/pe/success" element={<PeSuccess />} />
+          {/* ------------------- AUTH ROUTES ------------------- */}
           <Route
             path="/login"
-            element={<AuthLayout>{Lazy(Login, "Loading login")}</AuthLayout>}
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={<LoadingSpinner message="Loading login..." />}
+                >
+                  <Login />
+                </Suspense>
+              </AuthLayout>
+            }
           />
           <Route
             path="/register"
             element={
-              <AuthLayout>{Lazy(Register, "Loading register")}</AuthLayout>
+              <AuthLayout>
+                <Suspense
+                  fallback={<LoadingSpinner message="Loading register..." />}
+                >
+                  <Register />
+                </Suspense>
+              </AuthLayout>
             }
           />
           <Route
             path="/register-broker"
             element={
               <AuthLayout>
-                {Lazy(RegisterB, "Loading broker register")}
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading broker register..." />
+                  }
+                >
+                  <RegisterB />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/login-broker"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading broker login..." />
+                  }
+                >
+                  <LoginBroker />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/welcome"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading broker welcome..." />
+                  }
+                >
+                  <Welcome />
+                </Suspense>
               </AuthLayout>
             }
           />
@@ -419,132 +450,224 @@ function app() {
             path="/forgot-password"
             element={
               <AuthLayout>
-                {Lazy(ForgotPwd, "Loading forgot password")}
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading forgot password..." />
+                  }
+                >
+                  <ForgotPwd />
+                </Suspense>
               </AuthLayout>
             }
           />
           <Route
             path="/reset-password/:token"
-            element={<AuthLayout>{Lazy(ResetPwd, "Loading reset")}</AuthLayout>}
-          />
-          <Route
-            path="/property-details/:id"
             element={
               <AuthLayout>
-                {Lazy(PropertyDetails, "Loading details")}
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading reset password..." />
+                  }
+                >
+                  <ResetPwd />
+                </Suspense>
               </AuthLayout>
             }
           />
-          {/* USER DASHBOARD */}
+          /* ------------------- SUB-ADMIN AUTH PAGES ------------------- */
+          <Route
+            path="/registerSubAdmin"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading register subadmin..." />
+                  }
+                >
+                  <RegisterSubAdmin />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/loginSubAdmin"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading login subadmin..." />
+                  }
+                >
+                  <LoginSubAdmin />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/forgotPasswordSubAdmin"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading forgot password subadmin..." />
+                  }
+                >
+                  <ForgotPasswordSubAdmin />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/resetPasswordSubAdmin"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading reset password subadmin..." />
+                  }
+                >
+                  <ResetPasswordSubAdmin />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          {/* ------------------- SUPER-ADMIN AUTH PAGES ------------------- */}
+          <Route
+            path="/register-superAdmin"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading superadmin register..." />
+                  }
+                >
+                  <RegisterSuperAdmin />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/login-SuperAdmin"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading superadmin login..." />
+                  }
+                >
+                  <LoginSuperAdmin />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/forgot-password-superadmin"
+            element={
+              <AuthLayout>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading forgot password superadmin..." />
+                  }
+                >
+                  <ForgotPasswordSuperAdmin />
+                </Suspense>
+              </AuthLayout>
+            }
+          />
+          {/* ------------------- USER DASHBOARD ------------------- */}
           <Route
             path="/dashboard"
             element={
-              <Protected roles={["user"]}>
+              <ProtectedUser>
                 <PublicLayout>
-                  {Lazy(Dashboard, "Loading dashboard")}
+                  <Suspense
+                    fallback={<LoadingSpinner message="Loading dashboard..." />}
+                  >
+                    <Dashboard />
+                  </Suspense>
                 </PublicLayout>
-              </Protected>
+              </ProtectedUser>
             }
           />
-          {/* SUPER ADMIN */}
+          {/* ------------------- SUB-ADMIN DASHBOARD ------------------- */}
           <Route
-            path="/super-admin/*"
+            path="/subadmin-dashboard/*"
             element={
-              <Protected roles={["superadmin"]}>
-                <SuperLayout />
-              </Protected>
+              <AuthProviderSubAdmin>
+                <ProtectedSubAdmin>
+                  <Suspense
+                    fallback={
+                      <LoadingSpinner message="Loading subadmin layout..." />
+                    }
+                  >
+                    <SubAdminLayout />
+                  </Suspense>
+                </ProtectedSubAdmin>
+              </AuthProviderSubAdmin>
             }
           >
-            <Route
-              index
-              element={<Navigate to="/super-admin/dashboard" replace />}
-            />
-            <Route path="dashboard" element={Lazy(SuperDash, "Loading dash")} />
-            <Route path="users" element={Lazy(UserMgmt, "Loading users")} />
-            <Route
-              path="companies"
-              element={Lazy(CompanyMgmt, "Loading companies")}
-            />
-            <Route
-              path="settings"
-              element={Lazy(SystemSettings, "Loading settings")}
-            />
-            <Route
-              path="reports"
-              element={Lazy(GlobalReports, "Loading reports")}
-            />
-            <Route
-              path="packages"
-              element={Lazy(PackageMgmt, "Loading packages")}
-            />
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<SubAdminDash />} />
+            <Route path="brokers" element={<BrokerMgmt />} />
+            <Route path="performance" element={<BrokerPerf />} />
+            <Route path="leads" element={<LeadMgmt />} />
+            <Route path="properties" element={<PropertyMgmt />} />
           </Route>
-          {/* SUB-ADMIN */}
-          <Route
-            path="/sub-admin/*"
-            element={
-              <Protected roles={["subadmin"]}>
-                <SubAdminLayout />
-              </Protected>
-            }
-          >
+          {/* ------------------- SUPER-ADMIN DASHBOARD ------------------- */}
+          <Route element={<AuthProviderSuperAdmin />}>
             <Route
-              index
-              element={<Navigate to="/sub-admin/dashboard" replace />}
-            />
-            <Route
-              path="dashboard"
-              element={Lazy(SubAdminDash, "Loading dash")}
-            />
-            <Route
-              path="brokers"
-              element={Lazy(BrokerMgmt, "Loading brokers")}
-            />
-            <Route
-              path="performance"
-              element={Lazy(BrokerPerf, "Loading performance")}
-            />
-            <Route path="leads" element={Lazy(LeadMgmt, "Loading leads")} />
-            <Route
-              path="properties"
-              element={Lazy(PropertyMgmt, "Loading properties")}
-            />
+              path="/super-admin/*"
+              element={
+                <ProtectedSuperAdmin>
+                  <Suspense
+                    fallback={
+                      <LoadingSpinner message="Loading superadmin layout..." />
+                    }
+                  >
+                    <SuperLayout />
+                  </Suspense>
+                </ProtectedSuperAdmin>
+              }
+            >
+              <Route
+                index
+                element={<Navigate to="/super-admin/dashboard" replace />}
+              />
+              <Route path="dashboard" element={<SuperDash />} />
+              <Route path="users" element={<UserMgmt />} />
+              <Route path="companies" element={<CompanyMgmt />} />
+              <Route path="settings" element={<SystemSettings />} />
+              <Route path="reports" element={<GlobalReports />} />
+              <Route path="packages" element={<PackageMgmt />} />
+            </Route>
           </Route>
-          {/* BROKER */}
+          {/* ------------------- BROKER DASHBOARD ------------------- */}
           <Route
             path="/broker/*"
             element={
-              <Protected roles={["broker"]}>
-                <BrokerLayout />
-              </Protected>
+              <ProtectedUser>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner message="Loading broker layout..." />
+                  }
+                >
+                  <BrokerLayout />
+                </Suspense>
+              </ProtectedUser>
             }
           >
             <Route
               index
               element={<Navigate to="/broker/dashboard" replace />}
             />
-            <Route
-              path="dashboard"
-              element={Lazy(BrokerDash, "Loading dash")}
-            />
-            <Route path="leads" element={Lazy(BrokerLeads, "Loading leads")} />
-            <Route
-              path="properties"
-              element={Lazy(BrokerProps, "Loading properties")}
-            />
-            <Route
-              path="packages"
-              element={Lazy(BrokerPackages, "Loading packages")}
-            />
-            {/* <Route
-              path="profile"
-              element={Lazy(BrokerProfile, "Loading profile")}
-            /> */}
-            <Route
-              path="reports"
-              element={Lazy(BrokerReports, "Loading reports")}
-            />
+            <Route path="dashboard" element={<BrokerDash />} />
+            <Route path="leads/all" element={<AllLeadsPage />} />
+            <Route path="leads/new" element={<NewLeads />} />
+            <Route path="properties" element={<BrokerProps />} />
+            <Route path="packages" element={<BrokerPackages />} />
+            <Route path="reports" element={<BrokerReports />} />
           </Route>
-          {/* MISC */}
+          {/* ------------------- MISC ------------------- */}
           <Route
             path="/unauthorized"
             element={
@@ -567,5 +690,4 @@ function app() {
   );
 }
 
-/*────────────────────────── exported root ─────────────────────────*/
-export default app;
+export default App;

@@ -48,15 +48,28 @@ export default function PlanCard({
       <h3 className="text-xl font-bold text-[#164058] mb-2">{name}</h3>
       {tagline && <p className="text-sm text-gray-600 mb-2">{tagline}</p>}
 
+
       {/* Price + Duration */}
       {price && (
-        <div className="text-2xl font-extrabold text-[#FF9C00] mb-2">
+        <div className="text-2xl font-extrabold text-[#154056] mb-2">
           {price}
         </div>
       )}
-      {duration && (
-        <p className="text-xs text-gray-500 mb-4">{duration}</p>
-      )}
+
+      
+    {/* CTA with Link */}
+      <Link
+        to="/home/leads/checkout"
+        className="block text-center rounded-full px-4 py-4 text-[#ff9c00] text-lg font-semibold border-2 hover:bg-orange-100  transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-300"
+        // style={{ backgroundColor: "#164058" }}
+      >
+        {buttonText}
+      </Link>
+
+      <p className="mt-2 text-[10px] text-slate-500 text-center">
+        18% GST applicable
+      </p>
+      {duration && <p className="text-xs text-gray-500 mb-4">{duration}</p>}
 
       {/* Features */}
       {features.length > 0 && (
@@ -78,6 +91,8 @@ export default function PlanCard({
         </>
       )}
 
+      
+
       {/* Limitations */}
       {limitations.length > 0 && (
         <>
@@ -98,21 +113,7 @@ export default function PlanCard({
         </>
       )}
 
-       {/* CTA with Link */}
-      <Link
-        to={`/payment?plan=${encodeURIComponent(name)}`} 
-        className={`mt-auto w-full text-center rounded-full font-semibold py-4 transition-transform duration-300
-        ${highlight
-          ? "bg-[#FF9C00] text-white hover:bg-[#e68800] hover:scale-105"
-          : "bg-[#164058] text-white hover:bg-[#0f2c3a] hover:scale-105"
-        }`}
-      >
-        {buttonText}
-      </Link>
-
-      <p className="mt-2 text-[10px] text-slate-500 text-center">
-        18% GST applicable
-      </p>
+    
     </div>
   );
 }

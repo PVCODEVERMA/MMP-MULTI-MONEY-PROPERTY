@@ -5,7 +5,7 @@ import BrokerSidebar from '../../layout/brokerLayOut/BrokerSidebar.jsx';
 import BrokerFooter from '../../layout/brokerLayOut/BrokerFooter.jsx';
 
 const BrokerLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Can still control mobile overlay
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
@@ -16,17 +16,12 @@ const BrokerLayout = () => {
       />
 
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${
-        sidebarOpen ? 'lg:ml-64' : 'ml-0'
-      }`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : 'ml-62'}`}>
         {/* Header */}
-        <BrokerHeader 
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-        />
+        <BrokerHeader />
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+        <main className="flex-1  bg-gray-50 p-6">
           <Outlet />
         </main>
 

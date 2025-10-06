@@ -23,7 +23,7 @@ const Home = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
 
-  const handleGetStarted = () => navigate("/get-started");
+  
   const handleBookDemo = () => navigate("/book-demo");
 
   return (

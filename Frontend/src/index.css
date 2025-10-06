@@ -1,8 +1,10 @@
 /* ===== Google Fonts Import ===== */
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Rammetto+One&family=Roboto+Slab:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 /* ===== Tailwind Directives ===== */
 @import "tailwindcss";
 
+/* ===== Global Styles ===== */
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -12,17 +14,12 @@ body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  overflow-x: hidden; 
+  overflow-x: hidden;
   background: #f7f7f7;
 }
 
 /* ===== Typography ===== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1,h2,h3,h4,h5,h6 {
   font-family: "Montserrat", system-ui, sans-serif;
   font-weight: 600;
   line-height: 1.3;
@@ -30,25 +27,20 @@ h6 {
 
 .property-hero-title {
   font-family: var(--font-heading, "Montserrat", sans-serif);
-  font-size: 1.5rem; /* Default for mobile */
+  font-size: 1.5rem;
   font-weight: 800;
   line-height: 1.2;
   text-align: center;
 }
 
-/* Tablet */
 @media (min-width: 768px) {
-  .property-hero-title {
-    font-size: 1.75rem;
-  }
+  .property-hero-title { font-size: 1.75rem; }
 }
 
-/* Desktop */
 @media (min-width: 1024px) {
-  .property-hero-title {
-    font-size: 2rem;
-  }
+  .property-hero-title { font-size: 2rem; }
 }
+
 .luxury-property-title {
   font-family: var(--font-luxury, "Playfair Display", serif);
   font-size: 1.875rem;
@@ -62,58 +54,30 @@ h6 {
   font-style: normal;
 }
 
-
 /* ===== Responsive Tweaks ===== */
 @media (max-width: 640px) {
-  .text-5xl {
-    font-size: 2.5rem;
-  }
-  .text-6xl {
-    font-size: 3rem;
-  }
-  .text-7xl {
-    font-size: 3.5rem;
-  }
+  .text-5xl { font-size: 2.5rem; }
+  .text-6xl { font-size: 3rem; }
+  .text-7xl { font-size: 3.5rem; }
 }
 
 @media (max-width: 768px) {
-  .grid-cols-6 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .md\:grid-cols-6 {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .grid-cols-6 { grid-template-columns: repeat(3, 1fr); }
+  .md\:grid-cols-6 { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 480px) {
-  .px-8 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  .py-8 {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
+  .px-8 { padding-left: 1rem; padding-right: 1rem; }
+  .py-8 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
 }
 
 /* ===== Utilities ===== */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
 
-  /* Hide scrollbar (for Chrome/Safari/Edge) */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 
-  /* Hide scrollbar (for Firefox + IE/Edge) */
-  .no-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  /* Mobile dropdown scroll only inside drawer */
   .mobile-dropdown-scroll {
     max-height: 60vh;
     overflow-y: auto;
@@ -122,44 +86,40 @@ h6 {
 }
 
 select {
-  color: #164057; /* navy text */
-  background-color: white; /* background */
+  color: #164057;
+  background-color: white;
 }
 
-select option {
-  color: #164057; /* text color inside dropdown */
-}
+select option { color: #164057; }
 
 .input {
   @apply border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-orange-500/60;
 }
+
 .btn-primary {
   @apply bg-gradient-to-r from-orange-500 to-[#FF9C00] text-white font-medium py-2 px-4 rounded-lg disabled:opacity-60;
 }
+
 .link {
   @apply text-[#FF9C00] hover:underline;
 }
 
-
-/* Custom dropdown */
+/* ===== Custom Dropdown ===== */
 .custom-select {
-  appearance: none;           /* default arrow remove */
-  -webkit-appearance: none;   /* Safari */
-  -moz-appearance: none;      /* Firefox */
-  background-image: none;     /* extra arrow remove */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
 }
 
-/* Options highlight color */
 .custom-select option:checked,
 .custom-select option:hover {
-  background-color: #FF9C00 !important; 
-  color: white;                      
+  background-color: #FF9C00 !important;
+  color: white;
 }
 
-/* react-split-pane tweaks */
-.SplitPane {
-  height: calc(100vh - 4rem);    
-}
+/* ===== react-split-pane tweaks ===== */
+.SplitPane { height: calc(100vh - 4rem); }
 .SplitPane .Resizer {
   width: 4px;
   background: #e8e8e8;
@@ -167,3 +127,63 @@ select option {
   transition: background .2s;
 }
 .SplitPane .Resizer:hover { background:#ff9c00; }
+
+/* ===== Subscribe Button Animation ===== */
+
+@layer components {
+  .btn-17 {
+    @apply relative inline-block font-bold uppercase rounded-full px-6 py-2 cursor-pointer text-sm text-white;
+    background-color: #ff9c00;
+    border: 2px solid #144056;
+    overflow: hidden;
+    transition: color 0.3s ease; /* smooth text color transition */
+  }
+
+  .btn-17 .text-container {
+    @apply relative block;
+  }
+
+  .btn-17 .text {
+    @apply relative block text-white;
+    transition: transform 0.3s, color 0.3s; /* animate text transform and color */
+  }
+
+  .btn-17:hover .text {
+    color: #154056; /* text turns navy on hover */
+    animation: move-up-alternate 0.3s forwards;
+  }
+
+  .btn-17:after,
+  .btn-17:before {
+    --skew: 0.2;
+    content: "";
+    display: block;
+    position: absolute;
+    height: 102%;
+    width: 100%;
+    background: #f7f7f7;
+    pointer-events: none;
+    top: -104%;
+    left: calc(-50% - 50% * var(--skew));
+    transform: skew(calc(150deg * var(--skew))) translateY(var(--progress, 0));
+    transition: transform 0.2s ease;
+    z-index: 0;
+  }
+
+  .btn-17:after {
+    --progress: 0%;
+    left: calc(50% + 50% * var(--skew));
+    top: 102%;
+    z-index: -1;
+  }
+
+  .btn-17:hover:before { --progress: 100%; }
+  .btn-17:hover:after { --progress: -102%; }
+
+  @keyframes move-up-alternate {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(80%); }
+    51% { transform: translateY(-80%); }
+    100% { transform: translateY(0); }
+  }
+}

@@ -77,14 +77,14 @@ export default function PropertyDetail() {
 
   return (
     <>
-    <div className="max-w-6xl mx-auto py-20 px-4">
+    <div className="max-w-6xl mx-auto mt-10 px-4">
       {/* Breadcrumbs */}
-      <nav className="text-sm text-gray-500 mb-6">
-        <a href="/" className="hover:text-orange-500">
+      <nav className="text-sm text-gray-500 ">
+        <a href="/" className="hover:text-[#ff9c00]">
           Home
         </a>{" "}
         &gt;
-        <a href="/properties" className="hover:text-orange-500 mx-1">
+        <a href="/properties" className="hover:text-[#ff9c00] mx-1">
           Properties
         </a>{" "}
         &gt;
@@ -94,7 +94,7 @@ export default function PropertyDetail() {
       {/* Title & Price */}
       <div className=" pb-6">
         <h1 className="text-3xl md:text-4xl font-bold">{property.title}</h1>
-        <p className="text-xl text-orange-600 mt-2 font-semibold">
+        <p className="text-xl text-[#ff9c00] mt-2 font-semibold">
           {property.price}
         </p>
         <p className="mt-1 text-gray-500 flex items-center">
@@ -192,7 +192,7 @@ export default function PropertyDetail() {
                 alt={`thumb-${idx}`}
                 className={`w-20 h-16 object-cover rounded-lg cursor-pointer transition-all duration-200 ${
                   idx === currentImg
-                    ? "ring-2 ring-orange-500 scale-105"
+                    ? "ring-2 ring-[#ff9c00] scale-105"
                     : "opacity-70 hover:opacity-100"
                 }`}
                 onClick={() => setCurrentImg(idx)}
@@ -201,7 +201,7 @@ export default function PropertyDetail() {
           </div>
 
           {/* Property Details */}
-          <div className="mt-8 bg-white rounded-xl p-6 shadow-md">
+          <div className="mt-8 bg-[#f7f7f7] rounded-xl p-6 shadow-md">
             <h2 className="text-2xl font-semibold mb-4 text-gray-800">
               Property Details
             </h2>
@@ -209,7 +209,7 @@ export default function PropertyDetail() {
               <div className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-orange-500 mr-2"
+                  className="h-5 w-5 text-[#ff9c00] mr-2"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -227,7 +227,7 @@ export default function PropertyDetail() {
               <div className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-orange-500 mr-2"
+                  className="h-5 w-5 text-[#ff9c00] mr-2"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -247,7 +247,7 @@ export default function PropertyDetail() {
               <div className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-orange-500 mr-2"
+                  className="h-5 w-5 text-[#ff9c00] mr-2"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -321,41 +321,41 @@ export default function PropertyDetail() {
                     href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-[#1877F2]"
+                    className="hover:text-[#ff9c00]"
                   >
-                    📘 Facebook
+                     Facebook
                   </a>
                   <a
                     href={`https://twitter.com/intent/tweet?url=${url}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-[#1DA1F2]"
+                    className="hover:text-[#ff9c00]"
                   >
-                    🐦 Twitter
+                     Twitter
                   </a>
                   <a
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-[#0077B5]"
+                    className="hover:text-[#ff9c00]"
                   >
-                    💼 Linkedin
+                    Linkedin
                   </a>
                   <a
                     href={`https://t.me/share/url?url=${url}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-[#0088cc]"
+                    className="hover:text-[#ff9c00]"
                   >
-                    📩 Telegram
+                    Telegram
                   </a>
                   <a
                     href={`https://api.whatsapp.com/send?text=${url}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-[#25D366]"
+                    className="hover:text-[#ff9c00]"
                   >
-                    💬 WhatsApp
+                     WhatsApp
                   </a>
                 </div>
               </div>
@@ -384,7 +384,7 @@ export default function PropertyDetail() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff9c00] focus:border-[#f2a01c] transition"
                     placeholder="Enter your name"
                   />
                 </div>
@@ -402,7 +402,7 @@ export default function PropertyDetail() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff9c00] focus:border-[#ff9c00] transition"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -420,7 +420,7 @@ export default function PropertyDetail() {
                     value={formData.phone}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff9c00] focus:border-[#ff9c00] transition"
                     placeholder="Enter your phone number"
                   />
                 </div>
@@ -438,13 +438,13 @@ export default function PropertyDetail() {
                     onChange={handleInputChange}
                     rows={4}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff9c00] focus:border-[#ff9c00] transition"
                     placeholder="Enter your message to the seller"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full px-4 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors shadow-md cursor-pointer"
+                  className="w-full px-4 py-3 bg-[#ff9c00] text-white font-semibold rounded-lg hover:bg-[#ff9c00] transition-colors shadow-md cursor-pointer"
                 >
                   Send Message
                 </button>
@@ -477,7 +477,7 @@ export default function PropertyDetail() {
 
               <button
                 onClick={() => setShowModal(false)}
-                className="absolute top-4 right-4 bg-black/70 text-white p-2 rounded-full hover:bg-black transition-colors"
+                className="absolute top-0 right-16  cursor-pointer text-white p-2 rounded-full hover:bg-black transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -500,7 +500,7 @@ export default function PropertyDetail() {
                   e.stopPropagation();
                   handlePrev();
                 }}
-                className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/80 text-black p-2 rounded-full hover:bg-white transition-colors"
+                className="absolute top-1/2 left-4 -translate-y-1/2  p-2 rounded-full bg-[#ff9c00] text-white hover:bg-[#154056] cursor-pointer transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -523,7 +523,7 @@ export default function PropertyDetail() {
                   e.stopPropagation();
                   handleNext();
                 }}
-                className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/80 text-black p-2 rounded-full hover:bg-white transition-colors"
+                className="absolute top-1/2 right-4 -translate-y-1/2   p-2 rounded-full bg-[#ff9c00] text-white hover:bg-[#154056] cursor-pointer transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

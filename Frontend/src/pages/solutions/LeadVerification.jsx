@@ -5,20 +5,19 @@ export default function LeadVerification() {
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
       {/* Hero Header */}
-      <header className="relative ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center md:text-left">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold bg-orange-100 text-orange-700 px-3 py-1 rounded-full shadow-sm">
-             Quality
-          </span>
-          <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
-            Lead Verification &amp; Quality
-          </h1>
-          <p className="mt-4 text-lg text-slate-600 max-w-3xl">
-            Reduce waste with <span className="font-semibold text-slate-800">duplicate checks</span>, basic
-            tele-verification and a scoring roadmap for higher trust leads.
-          </p>
-        </div>
-      </header>
+     <header className="relative text-center">
+  <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
+    
+    <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-[#154056] leading-tight">
+      Lead <span className="text-[#ff9c00]">Verification</span> &amp; Quality
+    </h1>
+    <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+      Reduce waste with <span className="font-semibold text-slate-800">duplicate checks</span>, basic
+      tele-verification and a scoring roadmap for higher trust leads.
+    </p>
+  </div>
+</header>
+
 
       {/* Features Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

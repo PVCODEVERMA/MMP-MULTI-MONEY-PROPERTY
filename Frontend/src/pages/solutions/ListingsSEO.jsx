@@ -5,20 +5,20 @@ export default function ListingsSEO() {
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
       {/* Hero Header */}
-      <header className="relative ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center md:text-left">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold bg-orange-100 text-orange-700 px-3 py-1 rounded-full shadow-sm">
-             Portal & SEO
-          </span>
-          <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
-            Listings &amp; SEO Pages
-          </h1>
-          <p className="mt-4 text-lg text-slate-600 max-w-3xl">
-            Project, city and area pages with <span className="font-semibold text-slate-800">integrated forms</span>,
-            plus auto-sitemap & optimized content to capture organic demand.
-          </p>
-        </div>
-      </header>
+      <header className="relative text-center">
+  <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
+    
+    <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+      Listings <span className="text-[#ff9c00]">&amp;</span> SEO Pages
+    </h1>
+    <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+      Project, city and area pages with{" "}
+      <span className="font-semibold text-slate-800">integrated forms</span>, plus
+      auto-sitemap & optimized content to capture organic demand.
+    </p>
+  </div>
+</header>
+
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

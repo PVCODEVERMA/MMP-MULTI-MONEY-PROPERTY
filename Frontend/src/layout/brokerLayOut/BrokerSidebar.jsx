@@ -1,248 +1,232 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import {
   HomeIcon,
+  UserGroupIcon,
   DocumentTextIcon,
   BuildingOfficeIcon,
   ChartBarIcon,
-  UserCircleIcon,
-  CubeIcon,
-  CogIcon,
-  MapPinIcon,
+  MegaphoneIcon,
+  WalletIcon,
+  Cog6ToothIcon,
   XMarkIcon,
-  PhoneIcon,
-  EnvelopeIcon,
-  StarIcon
-} from '@heroicons/react/24/outline';
+  ChevronDownIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 
 const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const { user } = useAuth();
   const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const toggleDropdown = (name) => {
+    setOpenDropdown(openDropdown === name ? null : name);
+  };
 
   const navigation = [
     {
-      name: 'Dashboard',
-      href: '/broker/dashboard',
+      name: "Dashboard Overview",
+      href: "/broker/dashboard",
       icon: HomeIcon,
-      description: 'Business Overview',
-      badge: null
     },
     {
-      name: 'My Leads',
-      href: '/broker/leads',
+      name: "Lead Management",
       icon: DocumentTextIcon,
-      description: 'Client Inquiries',
-      badge: '24'
+      subItems: [
+        { name: "All Leads", href: "/broker/leads/all" },
+        { name: "New Leads", href: "/broker/leads/new" },
+        { name: "Assigned Leads", href: "/broker/leads/assigned" },
+        { name: "Follow-up Leads", href: "/broker/leads/followups" },
+        { name: "Closed Leads", href: "/broker/leads/closed" },
+        { name: "Lost Leads", href: "/broker/leads/lost" },
+        { name: "Assign Leads", href: "/broker/leads/assign" },
+      ],
     },
     {
-      name: 'Properties',
-      href: '/broker/properties',
+      name: "Property Management",
       icon: BuildingOfficeIcon,
-      description: 'Submit & Manage',
-      badge: '18'
+      subItems: [
+        { name: "All Properties", href: "/broker/properties/all" },
+        { name: "Available Properties", href: "/broker/properties/available" },
+        { name: "Booked / Sold", href: "/broker/properties/sold" },
+        { name: "Add New Property", href: "/broker/properties/add" },
+        { name: "Attach Leads to Property", href: "/broker/properties/attach-leads" },
+      ],
     },
     {
-      name: 'Packages',
-      href: '/broker/packages',
-      icon: CubeIcon,
-      description: 'Plans & Billing',
-      badge: 'Premium'
+      name: "Contacts / Clients",
+      icon: UserGroupIcon,
+      subItems: [
+        { name: "All Contacts", href: "/broker/contacts/all" },
+        { name: "Buyers", href: "/broker/contacts/buyers" },
+        { name: "Sellers", href: "/broker/contacts/sellers" },
+        { name: "Investors", href: "/broker/contacts/investors" },
+      ],
     },
     {
-      name: 'Reports',
-      href: '/broker/reports',
+      name: "Tasks & Follow-ups",
+      icon: DocumentTextIcon,
+      subItems: [
+        { name: "Upcoming Calls", href: "/broker/tasks/calls" },
+        { name: "Site Visits", href: "/broker/tasks/visits" },
+        { name: "Meetings", href: "/broker/tasks/meetings" },
+        { name: "Missed Follow-ups", href: "/broker/tasks/missed" },
+      ],
+    },
+    {
+      name: "Reports & Analytics",
       icon: ChartBarIcon,
-      description: 'Performance Analytics',
-      badge: null
+      subItems: [
+        { name: "Lead Source Report", href: "/broker/reports/leadsources" },
+        { name: "Conversion Rate Report", href: "/broker/reports/conversion" },
+        { name: "Revenue Report", href: "/broker/reports/revenue" },
+        { name: "Top Performing Agents / Locations", href: "/broker/reports/top-agents" },
+      ],
     },
     {
-      name: 'Profile',
-      href: '/broker/profile',
-      icon: UserCircleIcon,
-      description: 'Account Settings',
-      badge: null
-    }
+      name: "Marketing",
+      icon: MegaphoneIcon,
+      subItems: [
+        { name: "Campaigns", href: "/broker/marketing/campaigns" },
+        { name: "Ad Sources", href: "/broker/marketing/adsources" },
+        { name: "Campaign ROI", href: "/broker/marketing/roi" },
+      ],
+    },
+    {
+      name: "Wallet / Billing",
+      icon: WalletIcon,
+      subItems: [
+        { name: "Lead Wallet / Recharge", href: "/broker/wallet/recharge" },
+        { name: "Transaction History", href: "/broker/wallet/history" },
+        { name: "Plan Upgrades / Subscriptions", href: "/broker/wallet/plans" },
+      ],
+    },
+    {
+      name: "Settings",
+      icon: Cog6ToothIcon,
+      subItems: [
+        { name: "Profile Settings", href: "/broker/settings/profile" },
+        { name: "Team Roles & Permissions", href: "/broker/settings/roles" },
+        { name: "Notifications", href: "/broker/settings/notifications" },
+        { name: "Integrations (CRM, WhatsApp, etc.)", href: "/broker/settings/integrations" },
+      ],
+    },
   ];
 
-  // Get user avatar URL
   const getAvatarUrl = () => {
-    if (user?.profile?.avatar?.url) {
-      return user.profile.avatar.url;
-    }
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'Broker')}&background=10B981&color=ffffff&size=100`;
+    if (user?.profile?.avatar?.url) return user.profile.avatar.url;
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      user?.name || "Broker"
+    )}&background=154056&color=ffffff&size=100`;
   };
 
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      } lg:translate-x-0 lg:static lg:inset-0`}>
-        
+      <div
+        className={`fixed inset-y-0 left-0 z-50 bg-white  border-gray-200  transition-transform duration-300
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        ${collapsed ? "w-20" : "w-64"} lg:translate-x-0 lg:static lg:inset-0`}
+        style={{ position: "sticky", top: 0, height: "100vh" }}
+      >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between h-16 px-6 bg-gradient-to-r from-green-500 to-green-600 text-white">
-          <div className="flex items-center space-x-3">
+        <div className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white">
+          <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
               <BuildingOfficeIcon className="w-5 h-5" />
             </div>
-            <div>
-              <h1 className="text-lg font-bold">Multi Money</h1>
-              <p className="text-xs text-green-100">Broker Portal</p>
-            </div>
-          </div>
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1 text-white hover:bg-white/20 rounded"
-          >
-            <XMarkIcon className="h-6 w-6" />
-          </button>
-        </div>
-
-        {/* Broker Profile Section */}
-        <div className="p-6 bg-gray-50 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="relative">
-              <img
-                src={getAvatarUrl()}
-                alt={user?.name}
-                className="w-12 h-12 rounded-full object-cover border-2 border-green-500 shadow-sm"
-              />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-gray-900 truncate">
-                {user?.name || 'Real Estate Broker'}
-              </h3>
-              <p className="text-xs text-gray-500 truncate">{user?.email}</p>
-              <div className="flex items-center mt-1">
-                <StarIcon className="w-3 h-3 text-yellow-400 mr-1 fill-current" />
-                <span className="text-xs text-gray-600">4.8 Rating</span>
-                <span className="ml-2 text-xs text-green-600 font-medium">
-                  {user?.profile?.experience || 2}+ years exp
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Info */}
-          <div className="mt-3 space-y-1">
-            {user?.phone && (
-              <div className="flex items-center text-xs text-gray-600">
-                <PhoneIcon className="w-3 h-3 mr-2" />
-                <span>{user.phone}</span>
+            {!collapsed && (
+              <div>
+                <h1 className="text-lg font-bold">Multi Money</h1>
+                <p className="text-xs text-blue-100">Broker Portal</p>
               </div>
             )}
-            <div className="flex items-center text-xs text-gray-600">
-              <EnvelopeIcon className="w-3 h-3 mr-2" />
-              <span className="truncate">{user?.email}</span>
-            </div>
-            {user?.companyName && (
-              <div className="flex items-center text-xs text-gray-600">
-                <BuildingOfficeIcon className="w-3 h-3 mr-2" />
-                <span className="truncate">{user.companyName}</span>
-              </div>
-            )}
+          </div>
+          <div className="flex items-center space-x-1">
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="p-1 hover:bg-white/20 rounded"
+            >
+              {collapsed ? "→" : "←"}
+            </button>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-1 hover:bg-white/20 rounded"
+            >
+              <XMarkIcon className="h-6 w-6" />
+            </button>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+        <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto cursor-pointer">
           {navigation.map((item) => {
-            const IconComponent = item.icon;
+            const Icon = item.icon;
             const isActive = location.pathname === item.href;
-            
+
             return (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group ${
-                  isActive
-                    ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg'
-                    : 'text-gray-700 hover:bg-green-50 hover:text-green-600'
-                }`}
-              >
-                <div className="flex items-center min-w-0 flex-1">
-                  <IconComponent
-                    className={`mr-3 h-5 w-5 flex-shrink-0 ${
-                      isActive ? 'text-white' : 'text-gray-400 group-hover:text-green-500'
+              <div key={item.name}>
+                {!item.subItems ? (
+                  <Link
+                    to={item.href}
+                    className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 cursor-pointer ${
+                      isActive
+                        ? "bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white shadow-lg"
+                        : "text-gray-700 hover:bg-orange-100 hover:text-[#ff9c00]"
                     }`}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className={`font-medium truncate ${isActive ? 'text-white' : ''}`}>
-                      {item.name}
-                    </div>
-                    <div className={`text-xs opacity-75 truncate ${
-                      isActive ? 'text-green-100' : 'text-gray-500 group-hover:text-green-400'
-                    }`}>
-                      {item.description}
-                    </div>
+                  >
+                    <Icon
+                      className={`h-5 w-5 flex-shrink-0 ${
+                        isActive ? "text-white" : "text-gray-400"
+                      }`}
+                    />
+                    {!collapsed && <span>{item.name}</span>}
+                  </Link>
+                ) : (
+                  <div>
+                    <button
+                      onClick={() => toggleDropdown(item.name)}
+                      className="flex items-center justify-between w-full p-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-[#ff9c00] cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon className="h-5 w-5 text-gray-400" />
+                        {!collapsed && <span>{item.name}</span>}
+                      </div>
+                      {!collapsed &&
+                        (openDropdown === item.name ? (
+                          <ChevronDownIcon className="h-4 w-4" />
+                        ) : (
+                          <ChevronRightIcon className="h-4 w-4" />
+                        ))}
+                    </button>
+
+                    {openDropdown === item.name && !collapsed && (
+                      <div className="ml-9 mt-1 space-y-1">
+                        {item.subItems.map((sub) => (
+                          <Link
+                            key={sub.name}
+                            to={sub.href}
+                            className={`block px-2 py-1.5 text-sm rounded-md cursor-pointer ${
+                              location.pathname === sub.href
+                                ? "bg-blue-100 text-[#154056] font-medium"
+                                : "text-gray-600 hover:text-[#154056] hover:bg-blue-50"
+                            }`}
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                </div>
-                {item.badge && (
-                  <span className={`ml-2 px-2 py-1 text-xs rounded-full font-medium ${
-                    isActive 
-                      ? 'bg-white text-green-600' 
-                      : item.badge === 'Premium' 
-                        ? 'bg-yellow-100 text-yellow-600 group-hover:bg-yellow-500 group-hover:text-white'
-                        : 'bg-green-100 text-green-600 group-hover:bg-green-500 group-hover:text-white'
-                  }`}>
-                    {item.badge}
-                  </span>
                 )}
-              </Link>
+              </div>
             );
           })}
         </nav>
-
-        {/* Performance Summary */}
-        <div className="p-4 bg-gray-50 border-t border-gray-200">
-          <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
-            <div className="text-center">
-              <BuildingOfficeIcon className="w-6 h-6 mx-auto mb-2" />
-              <h4 className="font-semibold text-sm">This Month</h4>
-              <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                <div>
-                  <div className="font-bold text-lg">7</div>
-                  <div className="text-green-100">Deals Closed</div>
-                </div>
-                <div>
-                  <div className="font-bold text-lg">₹2.4M</div>
-                  <div className="text-green-100">Revenue</div>
-                </div>
-              </div>
-              <div className="mt-3 flex items-center justify-center space-x-4 text-xs">
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full mr-1 animate-pulse"></div>
-                  <span>24 Active Leads</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="p-4 bg-white border-t border-gray-100">
-          <div className="grid grid-cols-2 gap-2">
-            <Link
-              to="/broker/properties"
-              className="flex items-center justify-center p-2 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors text-xs font-medium"
-            >
-              <BuildingOfficeIcon className="w-4 h-4 mr-1" />
-              Add Property
-            </Link>
-            <Link
-              to="/broker/leads"
-              className="flex items-center justify-center p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors text-xs font-medium"
-            >
-              <DocumentTextIcon className="w-4 h-4 mr-1" />
-              View Leads
-            </Link>
-          </div>
-        </div>
       </div>
 
-      {/* Mobile Overlay */}
+      {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 lg:hidden"

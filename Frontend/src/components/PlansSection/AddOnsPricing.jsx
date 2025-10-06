@@ -23,13 +23,13 @@ import {
 export const ADD_ONS = [
   {
     name: "Landing Page Creation",
-    price: "₹5,999/-",
+    price: "₹7,999/-",
     description: "Custom designed landing page for your campaign",
     popular: true,
     icon: <BuildingStorefrontIcon className="h-6 w-6" />,
   },
   {
-    name: "Video Editing Creation (30–60 sec)",
+    name: "Video Editing Creation (30–60 sec) single video",
     price: "₹799/-",
     description: "Professional video editing for social media",
     icon: <VideoCameraIcon className="h-6 w-6" />,
@@ -56,13 +56,13 @@ export const ADD_ONS = [
   },
   {
     name: "Google & YouTube Ads",
-    price: "₹15,000/-",
+    price: "₹25,000/-",
     description: "Maximize your reach with targeted ads",
     icon: <HeartIcon className="h-6 w-6" />,
   },
   {
     name: "Facebook & Instagram Ads",
-    price: "₹12,000/-",
+    price: "₹15,000/-",
     description: "Engage your audience on social media",
     icon: <HeartIcon className="h-6 w-6" />,
   },

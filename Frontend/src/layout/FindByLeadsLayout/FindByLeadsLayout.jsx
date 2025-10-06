@@ -9,6 +9,7 @@ const FindByLeadsLayout = ({ children }) => {
       <FindByLeadsHeader />
       <main className="flex-1  mt-3">{children}</main>
       <FindByLeadsFooter />
+      
     </div>
   );
 };

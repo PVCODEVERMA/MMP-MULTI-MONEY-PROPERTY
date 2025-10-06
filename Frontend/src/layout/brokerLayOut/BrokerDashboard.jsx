@@ -1,362 +1,512 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext.jsx';
-import { 
-  DocumentTextIcon, 
+import React, { useState, useEffect } from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar, Line, Doughnut } from 'react-chartjs-2';
+import {
+  UserPlusIcon,
+  ArrowTrendingUpIcon,
   BuildingOfficeIcon,
-  CurrencyRupeeIcon,
-  ChartBarIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
-  StarIcon,
-  ClockIcon,
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-  EyeIcon,
+
   PhoneIcon,
-  CalendarIcon
-} from '@heroicons/react/24/outline';
+  CheckCircleIcon,
+ 
+} from "@heroicons/react/24/outline";
 
-const BrokerDashboard = () => {
-  const { user } = useAuth();
-  const [currentTime, setCurrentTime] = useState(new Date());
+// Register ChartJS components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Broker Statistics
-  const brokerStats = [
-    {
-      title: 'Active Leads',
-      value: '24',
-      change: '+6%',
-      trend: 'up',
-      icon: DocumentTextIcon,
-      color: 'blue'
-    },
-    {
-      title: 'Properties Listed',
-      value: '18',
-      change: '+3%',
-      trend: 'up',
-      icon: BuildingOfficeIcon,
-      color: 'green'
-    },
-    {
-      title: 'This Month Deals',
-      value: '7',
-      change: '+40%',
-      trend: 'up',
-      icon: ChartBarIcon,
-      color: 'purple'
-    },
-    {
-      title: 'Total Commission',
-      value: '₹2.4M',
-      change: '+25%',
-      trend: 'up',
-      icon: CurrencyRupeeIcon,
-      color: 'emerald'
-    }
-  ];
-
-  const recentLeads = [
-    {
-      name: 'Rajesh Kumar',
-      property: '3BHK Apartment in Bandra',
-      budget: '₹2.5Cr',
-      time: '2 hours ago',
-      status: 'hot',
-      phone: '+91 98765 43210'
-    },
-    {
-      name: 'Priya Sharma',
-      property: '2BHK Villa in Juhu',
-      budget: '₹1.8Cr',
-      time: '5 hours ago',
-      status: 'warm',
-      phone: '+91 98765 43211'
-    },
-    {
-      name: 'Amit Gupta',
-      property: 'Office Space in BKC',
-      budget: '₹5Cr',
-      time: '1 day ago',
-      status: 'cold',
-      phone: '+91 98765 43212'
-    }
-  ];
-
-  const recentProperties = [
-    {
-      title: 'Luxury 4BHK Penthouse',
-      location: 'Worli, Mumbai',
-      price: '₹8.5Cr',
-      status: 'approved',
-      views: 234,
-      image: '/api/placeholder/300/200'
-    },
-    {
-      title: '3BHK Sea View Apartment',
-      location: 'Marine Drive, Mumbai',
-      price: '₹6.2Cr',
-      status: 'pending',
-      views: 156,
-      image: '/api/placeholder/300/200'
-    },
-    {
-      title: 'Commercial Office Space',
-      location: 'Andheri East, Mumbai',
-      price: '₹12Cr',
-      status: 'approved',
-      views: 89,
-      image: '/api/placeholder/300/200'
-    }
-  ];
-
-  const upcomingSchedule = [
-    {
-      time: '10:00 AM',
-      title: 'Site Visit with Mr. Sharma',
-      location: 'Bandra West Property',
-      type: 'meeting'
-    },
-    {
-      time: '2:30 PM',
-      title: 'Client Call - Property Discussion',
-      location: 'Phone Call',
-      type: 'call'
-    },
-    {
-      time: '4:00 PM',
-      title: 'Property Documentation',
-      location: 'Office',
-      type: 'work'
-    }
-  ];
-
-  const getGreeting = () => {
-    const hour = currentTime.getHours();
-    if (hour < 12) return 'Good Morning';
-    if (hour < 17) return 'Good Afternoon';
-    return 'Good Evening';
+// Plan Badge Component
+const PlanBadge = ({ plan }) => {
+  const planConfig = {
+    starter: { label: "Starter Plan", color: "bg-blue-100 text-blue-800" },
+    growth: { label: "Growth Plan", color: "bg-green-100 text-green-800" },
+    custom: { label: "Custom Plan", color: "bg-purple-100 text-purple-800" }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'hot': return 'bg-red-100 text-red-800';
-      case 'warm': return 'bg-yellow-100 text-yellow-800';
-      case 'cold': return 'bg-blue-100 text-blue-800';
-      case 'approved': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
+  const config = planConfig[plan] || planConfig.starter;
 
   return (
-    <div className="space-y-6">
-      {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
+    <span className={` items-center px-3 py-1 rounded-full text-sm font-medium text-[#ff9c00] ${config.color}`}>
+      {config.label}
+    </span>
+  );
+};
+
+// Feature Status Component
+const FeatureStatus = ({ enabled, label }) => (
+  <div className="flex items-center space-x-3 ">
+    {enabled ? (
+      <CheckCircleIcon className="h-5 w-5 text-green-500" />
+    ) : (
+      <div className="h-5 w-5 rounded-full border-2 border-gray-300" />
+    )}
+    <span className={`text-sm ${enabled ? 'text-gray-900' : 'text-gray-400'}`}>
+      {label}
+    </span>
+  </div>
+);
+
+// Metric Card Component
+const MetricCard = ({ title, value, change, icon: Icon, color, isLoading = false }) => {
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-pulse">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">
-              {getGreeting()}, {user?.name}! 🏠
-            </h1>
-            <p className="text-green-100 text-lg">
-              Ready to close some deals today? You have 24 active leads waiting.
-            </p>
-            <div className="mt-3 flex items-center space-x-4">
-              <div className="inline-flex items-center px-3 py-1 bg-green-500/30 rounded-full text-sm">
-                <StarIcon className="w-4 h-4 mr-2 text-yellow-400 fill-current" />
-                4.8 Broker Rating
-              </div>
-              <div className="inline-flex items-center px-3 py-1 bg-green-500/30 rounded-full text-sm">
-                <BuildingOfficeIcon className="w-4 h-4 mr-2" />
-                {user?.profile?.experience || 2}+ Years Experience
-              </div>
-            </div>
+          <div className="space-y-2 flex-1">
+            <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+            <div className="h-8 bg-gray-200 rounded w-2/3"></div>
           </div>
-          <div className="text-right">
-            <div className="text-green-100 text-sm">Today</div>
-            <div className="font-semibold text-lg">
-              {currentTime.toLocaleDateString('en-IN', { 
-                weekday: 'long', 
-                month: 'short', 
-                day: 'numeric' 
-              })}
-            </div>
-            <div className="text-green-100 text-sm">
-              {currentTime.toLocaleTimeString('en-IN', {
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
-            </div>
-          </div>
+          <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
         </div>
       </div>
+    );
+  }
 
-      {/* Statistics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {brokerStats.map((stat, index) => {
-          const IconComponent = stat.icon;
-          return (
-            <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-gray-600 text-sm font-medium">{stat.title}</p>
-                  <p className="text-3xl font-bold text-gray-900 mt-2">{stat.value}</p>
-                  <div className="flex items-center mt-3">
-                    {stat.trend === 'up' ? (
-                      <ArrowUpIcon className="h-4 w-4 text-green-500 mr-1" />
-                    ) : (
-                      <ArrowDownIcon className="h-4 w-4 text-red-500 mr-1" />
-                    )}
-                    <span className={`text-sm font-medium ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-                      {stat.change}
-                    </span>
-                    <span className="text-gray-500 text-sm ml-2">vs last month</span>
-                  </div>
-                </div>
-                <div className={`p-3 rounded-xl bg-${stat.color}-50`}>
-                  <IconComponent className={`h-8 w-8 text-${stat.color}-600`} />
-                </div>
-              </div>
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
+          <p className="text-3xl font-bold text-gray-900 mb-2">{value}</p>
+          {change && (
+            <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+              change > 0 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-red-100 text-red-800'
+            }`}>
+              {change > 0 ? '↑' : '↓'} {Math.abs(change)}%
             </div>
-          );
-        })}
-      </div>
-
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Recent Leads */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <DocumentTextIcon className="h-5 w-5 mr-2 text-green-500" />
-            Recent Leads
-          </h2>
-          <div className="space-y-4">
-            {recentLeads.map((lead, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-medium text-gray-900">{lead.name}</h3>
-                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${getStatusColor(lead.status)}`}>
-                      {lead.status.toUpperCase()}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600">{lead.property}</p>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-sm font-medium text-green-600">{lead.budget}</span>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs text-gray-400">{lead.time}</span>
-                      <button className="text-green-600 hover:text-green-700">
-                        <PhoneIcon className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 text-center">
-            <button className="text-green-600 hover:text-green-700 font-medium text-sm">
-              View All Leads →
-            </button>
-          </div>
+          )}
         </div>
-
-        {/* Today's Schedule */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <CalendarIcon className="h-5 w-5 mr-2 text-blue-500" />
-            Today's Schedule
-          </h2>
-          <div className="space-y-4">
-            {upcomingSchedule.map((item, index) => (
-              <div key={index} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                <div className="flex-shrink-0 w-12 text-xs font-medium text-gray-600 mt-1">
-                  {item.time}
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-sm font-medium text-gray-900">{item.title}</h4>
-                  <p className="text-xs text-gray-600 mt-1">{item.location}</p>
-                </div>
-                <div className={`w-2 h-2 rounded-full mt-2 ${
-                  item.type === 'meeting' ? 'bg-green-500' :
-                  item.type === 'call' ? 'bg-blue-500' : 'bg-yellow-500'
-                }`}></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Properties */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <BuildingOfficeIcon className="h-5 w-5 mr-2 text-green-500" />
-          My Recent Properties
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {recentProperties.map((property, index) => (
-            <div key={index} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-              <div className="h-48 bg-gray-200 flex items-center justify-center">
-                <BuildingOfficeIcon className="h-12 w-12 text-gray-400" />
-              </div>
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className={`px-2 py-1 text-xs rounded-full font-medium ${getStatusColor(property.status)}`}>
-                    {property.status.toUpperCase()}
-                  </span>
-                  <div className="flex items-center text-gray-400">
-                    <EyeIcon className="h-4 w-4 mr-1" />
-                    <span className="text-xs">{property.views}</span>
-                  </div>
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-1">{property.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">{property.location}</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-green-600">{property.price}</span>
-                  <button className="text-green-600 hover:text-green-700 text-sm font-medium">
-                    View Details
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Add New Property', icon: BuildingOfficeIcon, color: 'green', href: '/broker/properties' },
-            { label: 'View Active Leads', icon: DocumentTextIcon, color: 'blue', href: '/broker/leads' },
-            { label: 'Buy Package', icon: ChartBarIcon, color: 'purple', href: '/broker/packages' },
-            { label: 'Performance Report', icon: CurrencyRupeeIcon, color: 'orange', href: '/broker/reports' }
-          ].map((action, index) => {
-            const IconComponent = action.icon;
-            return (
-              <button
-                key={index}
-                onClick={() => window.location.href = action.href}
-                className="p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-all text-left group"
-              >
-                <div className={`w-12 h-12 bg-${action.color}-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                  <IconComponent className={`h-6 w-6 text-${action.color}-600`} />
-                </div>
-                <div className="text-sm font-medium text-gray-900">{action.label}</div>
-              </button>
-            );
-          })}
+        <div className={`p-3 rounded-xl ${color}`}>
+          <Icon className="h-6 w-6 text-white" />
         </div>
       </div>
     </div>
   );
 };
 
-export default BrokerDashboard;
+// Chart Container Component
+const ChartContainer = ({ title, children, className = "" }) => {
+  return (
+    <div className={`bg-white rounded-2xl shadow-sm border border-gray-100 p-6 ${className}`}>
+      <h3 className="text-lg font-semibold text-gray-900 mb-6">{title}</h3>
+      {children}
+    </div>
+  );
+};
+
+// Lead Card Component
+const LeadCard = ({ lead }) => (
+  <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
+    <div className="flex justify-between items-start mb-3">
+      <div>
+        <h4 className="font-semibold text-gray-900">{lead.name}</h4>
+        <p className="text-sm text-gray-600">{lead.phone}</p>
+        <p className="text-xs text-gray-500">{lead.location}</p>
+      </div>
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+        lead.intent === 'HIGH' ? 'bg-red-100 text-red-800' :
+        lead.intent === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' :
+        'bg-blue-100 text-blue-800'
+      }`}>
+        {lead.intent} INTENT
+      </span>
+    </div>
+    <div className="flex justify-between items-center">
+      <span className="text-sm text-gray-600">{lead.propertyType}</span>
+      <span className="text-xs text-gray-500">{lead.time}</span>
+    </div>
+  </div>
+);
+
+
+
+const AgentDashboard = () => {
+  const [currentPlan, setCurrentPlan] = useState('starter');
+  const [metrics, setMetrics] = useState({
+    monthlyLeads: 0,
+    conversionRate: 0,
+    activeProjects: 0,
+    responseRate: 0,
+    leadsChange: 0,
+    conversionChange: 0,
+    projectsChange: 0,
+    responseChange: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  // Chart data states
+  const [leadsChartData, setLeadsChartData] = useState(null);
+  const [conversionChartData, setConversionChartData] = useState(null);
+  const [sourceChartData, setSourceChartData] = useState(null);
+
+  // Recent leads data
+  const [recentLeads, setRecentLeads] = useState([]);
+
+  // Mock data - replace with actual API calls
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      setLoading(true);
+      
+      // Simulate API call
+      setTimeout(() => {
+        // Metrics data based on plan
+        const planMetrics = {
+          starter: { monthlyLeads: 65, conversionRate: 18.5, activeProjects: 1, responseRate: 72 },
+          growth: { monthlyLeads: 125, conversionRate: 23.5, activeProjects: 3, responseRate: 85 },
+          custom: { monthlyLeads: 250, conversionRate: 28.5, activeProjects: 5, responseRate: 92 }
+        };
+
+        setMetrics({
+          monthlyLeads: planMetrics[currentPlan].monthlyLeads,
+          conversionRate: planMetrics[currentPlan].conversionRate,
+          activeProjects: planMetrics[currentPlan].activeProjects,
+          responseRate: planMetrics[currentPlan].responseRate,
+          leadsChange: 12,
+          conversionChange: 5.2,
+          projectsChange: 0,
+          responseChange: 8.1,
+        });
+
+        // Leads Overview Chart Data
+        setLeadsChartData({
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [
+            {
+              label: 'Leads Received',
+              data: [45, 52, 48, 65, 58, 72],
+              backgroundColor: '#154056',
+              borderRadius: 6,
+            },
+            {
+              label: 'Leads Converted',
+              data: [8, 10, 9, 12, 11, 15],
+              backgroundColor: '#ff9c00',
+              borderRadius: 6,
+            },
+          ],
+        });
+
+        // Conversion Rate Trend Chart Data
+        setConversionChartData({
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+          datasets: [
+            {
+              label: 'Conversion Rate',
+              data: [16, 18, 15, 22],
+              borderColor: '#ff9c00',
+              backgroundColor: 'rgba(255, 156, 0, 0.1)',
+              tension: 0.4,
+              fill: true,
+            },
+          ],
+        });
+
+        // Lead Sources Chart Data
+        setSourceChartData({
+          labels: ['Website', 'Social Media', 'Referrals', 'Direct', 'Others'],
+          datasets: [
+            {
+              data: [40, 25, 20, 10, 5],
+              backgroundColor: [
+                '#154056',
+                '#ff9c00',
+                '#10B981',
+                '#3B82F6',
+                '#6B7280',
+              ],
+              borderWidth: 2,
+              borderColor: '#ffffff',
+            },
+          ],
+        });
+
+        // Recent leads data
+        setRecentLeads([
+          {
+            name: 'Rohit Sharma',
+            phone: '+91 9811000001',
+            location: 'Sector 45, Gurgaon',
+            propertyType: 'Residential Apartment',
+            intent: 'HIGH',
+            time: '2 min ago'
+          },
+          {
+            name: 'Anjali Singh',
+            phone: '+91 9811000002',
+            location: 'Sector 50, Gurgaon',
+            propertyType: 'Villa',
+            intent: 'MEDIUM',
+            time: '15 min ago'
+          },
+          {
+            name: 'Vikram Patel',
+            phone: '+91 9811000003',
+            location: 'Sector 52, Gurgaon',
+            propertyType: 'Penthouse',
+            intent: 'LOW',
+            time: '1 hour ago'
+          },
+          {
+            name: 'Priya Mehta',
+            phone: '+91 9811000004',
+            location: 'Cyber City',
+            propertyType: 'Office Space',
+            intent: 'HIGH',
+            time: '2 hours ago'
+          }
+        ]);
+
+        setLoading(false);
+      }, 1500);
+    };
+
+    fetchDashboardData();
+  }, [currentPlan]);
+
+  // Chart options
+  const barChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)',
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  const lineChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 30,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)',
+        },
+        ticks: {
+          callback: function(value) {
+            return value + '%';
+          },
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  const doughnutChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+    },
+    cutout: '70%',
+  };
+
+ 
+
+  return (
+    <div className="min-h-screen bg-[#f7f7f7]">
+      <div className="p-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex justify-between items-start ">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Agent Dashboard</h1>
+              <p className="text-gray-600">Welcome back! Here's your real estate lead performance.</p>
+            </div>
+            <PlanBadge  plan={currentPlan} />
+          </div>
+        </div>
+
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <MetricCard
+            title="Monthly Leads"
+            value={metrics.monthlyLeads}
+            change={metrics.leadsChange}
+            icon={UserPlusIcon}
+            color="bg-[#154056]"
+            isLoading={loading}
+          />
+          <MetricCard
+            title="Conversion Rate"
+            value={`${metrics.conversionRate}%`}
+            change={metrics.conversionChange}
+            icon={ArrowTrendingUpIcon}
+            color="bg-[#ff9c00]"
+            isLoading={loading}
+          />
+          <MetricCard
+            title="Active Projects"
+            value={metrics.activeProjects}
+            change={metrics.projectsChange}
+            icon={BuildingOfficeIcon}
+            color="bg-green-500"
+            isLoading={loading}
+          />
+          <MetricCard
+            title="Response Rate"
+            value={`${metrics.responseRate}%`}
+            change={metrics.responseChange}
+            icon={PhoneIcon}
+            color="bg-purple-500"
+            isLoading={loading}
+          />
+        </div>
+
+        {/* Charts Grid - Row 1 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Leads Overview Chart */}
+          <ChartContainer title="Leads Performance">
+            {loading ? (
+              <div className="h-80 bg-gray-200 animate-pulse rounded-lg"></div>
+            ) : (
+              <Bar data={leadsChartData} options={barChartOptions} height={320} />
+            )}
+          </ChartContainer>
+
+          {/* Recent Leads */}
+          <ChartContainer title="Recent Leads">
+            {loading ? (
+              <div className="space-y-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="h-20 bg-gray-200 rounded-lg"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {recentLeads.map((lead, index) => (
+                  <LeadCard key={index} lead={lead} />
+                ))}
+              </div>
+            )}
+          </ChartContainer>
+        </div>
+
+        {/* Charts Grid - Row 2 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* Conversion Rate Trend */}
+          <ChartContainer title="Conversion Trend" className="lg:col-span-1">
+            {loading ? (
+              <div className="h-64 bg-gray-200 animate-pulse rounded-lg"></div>
+            ) : (
+              <Line data={conversionChartData} options={lineChartOptions} height={256} />
+            )}
+          </ChartContainer>
+
+          {/* Lead Sources */}
+          <ChartContainer title="Lead Sources" className="lg:col-span-1">
+            {loading ? (
+              <div className="h-64 bg-gray-200 animate-pulse rounded-lg"></div>
+            ) : (
+              <Doughnut data={sourceChartData} options={doughnutChartOptions} height={256} />
+            )}
+          </ChartContainer>
+
+          {/* Plan Usage */}
+          <ChartContainer title="Plan Usage" className="lg:col-span-1">
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Leads Used</span>
+                  <span>{metrics.monthlyLeads} / {currentPlan === 'starter' ? 70 : currentPlan === 'growth' ? 150 : 'Unlimited'}</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-[#154056] h-2 rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${(metrics.monthlyLeads / (currentPlan === 'starter' ? 70 : currentPlan === 'growth' ? 150 : 200)) * 100}%` 
+                    }}
+                  ></div>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Projects Listed</span>
+                  <span>{metrics.activeProjects} / {currentPlan === 'starter' ? 1 : currentPlan === 'growth' ? 3 : 'Unlimited'}</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-[#ff9c00] h-2 rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${(metrics.activeProjects / (currentPlan === 'starter' ? 1 : currentPlan === 'growth' ? 3 : 5)) * 100}%` 
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-gray-200">
+                <p className="text-sm text-gray-600 mb-2">Plan Features:</p>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Featured Listings</span>
+                    <span>{currentPlan === 'starter' ? '0' : currentPlan === 'growth' ? '1' : 'Custom'}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Graphics Included</span>
+                    <span>{currentPlan === 'starter' ? 'No' : currentPlan === 'growth' ? '3' : 'Custom'}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Video Support</span>
+                    <span>{currentPlan === 'starter' ? 'No' : currentPlan === 'growth' ? 'Yes' : 'Yes'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ChartContainer>
+        </div>
+
+        
+      </div>
+    </div>
+  );
+};
+
+export default AgentDashboard;

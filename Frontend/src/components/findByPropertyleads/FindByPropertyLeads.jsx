@@ -63,8 +63,7 @@ export default function FindByPropertyLeads() {
     navigate({
     pathname: "/home/leads/lock",                
     search:
-      `?location=${encodeURIComponent(form.location)}` +
-      `&intent=${form.intent}`,
+      `?location=${encodeURIComponent(form.location)}`,
   });
   };
 

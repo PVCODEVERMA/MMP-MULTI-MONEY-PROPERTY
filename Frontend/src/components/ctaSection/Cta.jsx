@@ -32,11 +32,12 @@ const Cta = () => {
                 Connect with our expert advisors to explore the best properties in
                 your preferred location.
               </p>
-              <button className="bg-white text-amber-600 font-bold px-6 py-3 md:px-8 md:py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center mx-auto lg:mx-0 group cursor-pointer">
-                Contact Us Today
+              <button className="bg-white text-[#154056] font-bold px-6 py-3 md:px-8 md:py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center mx-auto lg:mx-0 group cursor-pointer">
+                <a href="/contact-property">Contact Us Today</a>
+                
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1"
+                  className="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1 text-[#ff9c00]"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >

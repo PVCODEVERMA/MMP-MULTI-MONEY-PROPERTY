@@ -10,17 +10,14 @@ export default function Integrations() {
   return (
     <div className="min-h-screen bg-[#F7F7F7] mb-10">
       {/* Hero Header */}
-      <header className="relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 text-center md:text-left">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold bg-[#FF9C00] bg-opacity-20 text-white px-3 py-1 rounded-full shadow-sm">
-            Automation
-          </span>
+      <header className="relative text-center">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
           <h1 className="mt-5 text-4xl md:text-5xl font-extrabold text-[#154956] leading-tight">
-            Webhooks &amp; Automation
+            Webhooks <span className="text-[#ff9c00]">&amp;</span> Automation
           </h1>
-          <p className="mt-4 text-lg text-slate-600 max-w-3xl">
-            Push to enterprise CRMs, auto-pause on inactivity, and trigger instant
-            SMS/Email alerts to keep the pipeline moving.
+          <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+            Push to enterprise CRMs, auto-pause on inactivity, and trigger
+            instant SMS/Email alerts to keep the pipeline moving.
           </p>
         </div>
       </header>
@@ -28,7 +25,9 @@ export default function Integrations() {
       {/* Features Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 ">
         <div className="bg-white rounded-2xl shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-[#ff9c00] mb-8 text-center">Automation Features</h2>
+          <h2 className="text-2xl font-bold text-[#ff9c00] mb-8 text-center">
+            Automation Features
+          </h2>
           <div className="grid md:grid-cols-3 gap-6 text-white">
             {[
               {
@@ -44,7 +43,9 @@ export default function Integrations() {
               {
                 title: "SMS Fallback",
                 desc: "Resilient alerts delivered by SMS when email/WhatsApp delivery fails.",
-                icon: <ChatBubbleBottomCenterTextIcon className="h-10 w-10 text-[#FF9C00]" />,
+                icon: (
+                  <ChatBubbleBottomCenterTextIcon className="h-10 w-10 text-[#FF9C00]" />
+                ),
               },
             ].map((feature, idx) => (
               <div
@@ -52,7 +53,9 @@ export default function Integrations() {
                 className="flex flex-col items-center text-center bg-[#154956] bg-opacity-5 p-6 rounded-xl hover:shadow-md transition"
               >
                 <div className="mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  {feature.title}
+                </h3>
                 <p className="mt-2 text-white text-sm">{feature.desc}</p>
               </div>
             ))}
@@ -75,7 +78,9 @@ export default function Integrations() {
 
         {/* Automation Flow */}
         <div className="mt-16">
-          <h2 className="text-xl font-bold text-[#ff9c00] mb-6 text-center">Automation Flow</h2>
+          <h2 className="text-xl font-bold text-[#ff9c00] mb-6 text-center">
+            Automation Flow
+          </h2>
           <div className="relative border-l-2 border-[#FF9C00] border-opacity-40 max-w-2xl mx-auto">
             {[
               "Lead Assigned",

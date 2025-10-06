@@ -1,318 +1,377 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
 import {
-  BuildingOfficeIcon,
-  PhoneIcon,
-  EnvelopeIcon,
-  MapPinIcon,
-  ClockIcon,
-  ArrowRightIcon,
-  PaperAirplaneIcon,
-  HomeIcon,
-  InformationCircleIcon,
-  UserGroupIcon,
-  CurrencyRupeeIcon,
-  ShieldCheckIcon,
-  ChartBarIcon,
-  CheckCircleIcon,
-  HeartIcon,
-  StarIcon,
-} from "@heroicons/react/24/outline";
-
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaInstagram,
+  FaPinterestP,
+  FaYoutube,
+} from "react-icons/fa";
 import logo from "../../assets/componyLogos/logo.jpg";
+import SubscribeForm from "../../pages/HomeSection/SubscribeForm";
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [isSubscribing, setIsSubscribing] = useState(false);
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    if (!email) {
-      toast.error("Please enter your email address");
-      return;
-    }
-
-    setIsSubscribing(true);
-    setTimeout(() => {
-      toast.success(`Thank you for subscribing! Welcome to MMP family 🎉`);
-      setEmail("");
-      setIsSubscribing(false);
-    }, 1000);
-  };
-
-  const quickLinks = [
-    { name: "Home", href: "/", icon: HomeIcon },
-    { name: "Properties", href: "/properties", icon: BuildingOfficeIcon },
-    { name: "About Us", href: "/about", icon: InformationCircleIcon },
-    { name: "Brokers", href: "/brokers", icon: UserGroupIcon },
-    { name: "Contact", href: "/contact", icon: PhoneIcon },
-  ];
-
-  const services = [
-    { name: "Lead Generation", icon: ChartBarIcon },
-    { name: "Property Verification", icon: CheckCircleIcon },
-    { name: "Broker Management", icon: UserGroupIcon },
-    { name: "Payment Processing", icon: CurrencyRupeeIcon },
-    { name: "Market Analytics", icon: ChartBarIcon },
-  ];
-
-  const legalLinks = [
-    { name: "Terms of Service", href: "/terms" },
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Cookie Policy", href: "/cookies" },
-    { name: "Refund Policy", href: "/refunds" },
-  ];
-
-  const socialLinks = [
-    {
-      name: "Facebook",
-      href: "https://facebook.com/multimoneyproperty",
-      color: "hover:bg-blue-600",
-      icon: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z",
-    },
-    {
-      name: "Instagram",
-      href: "https://instagram.com/multimoneyproperty",
-      color: "hover:bg-pink-600",
-      icon: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z",
-    },
-    {
-      name: "Twitter",
-      href: "#",
-      color: "hover:bg-sky-500",
-      icon: "M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z",
-    },
-    {
-      name: "LinkedIn",
-      href: "#",
-      color: "hover:bg-blue-700",
-      icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
-    },
-    {
-      name: "YouTube",
-      href: "https://youtube.com/@multimoneyproperty",
-      color: "hover:bg-red-600",
-      icon: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z",
-    },
-    {
-      name: "WhatsApp",
-      href: "https://wa.me/918888888888",
-      color: "hover:bg-green-600",
-      icon: "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488",
-    },
-  ];
-
-  const stats = [
-    { number: "10,000+", label: "Properties Listed" },
-    { number: "500+", label: "Verified Brokers" },
-    { number: "25,000+", label: "Happy Customers" },
-    { number: "50+", label: "Cities Covered" },
-  ];
-
   return (
-    <>
-      {/* Stats Banner */}
-      {/* <div className="bg-gradient-to-r from-[#FF9C00] to-[#FF9C00] text-white py-12 text-center">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-2">
-              Trusted by Thousands Across India
-            </h3>
-            <p className="text-blue-100">Our numbers speak for our success</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-blue-100 font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
+    <footer
+      className="relative isolate overflow-hidden bg-[#144155] text-neutral-300
+                 before:absolute before:inset-0 before:-skew-y-3
+                 before:bg-[linear-gradient(135deg,#113647_25%,transparent_25%),linear-gradient(135deg,transparent_75%,#113647_75%)]
+                 before:bg-[length:100%_100%] before:opacity-60"
+    >
+      <div className="relative mx-auto max-w-7xl px-6 py-5">
+        {/* MOBILE VIEW */}
+        <div className="flex flex-col lg:hidden w-full px-4 py-6 space-y-8 bg-[#144155] text-gray-300">
+          {/* 🔹 Logo + Quick Links */}
+          <div className="flex justify-between items-start">
+            <img src={logo} className="w-45 h-auto" alt="Logo" />
 
-      {/* Main Footer */}
-      <footer className="bg-[#f7f7f7] text-[#164057] relative overflow-hidden">
-        {/* Top Section */}
-        <div className="relative max-w-7xl mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
-            {/* Company Info */}
             <div>
-              <div className="flex items-center justify-center md:justify-start mb-6">
-                <img src={logo} alt="MMP Logo" className="h-20" />
-              </div>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                 upper ground, sarita vihar road, G-52/1, Kalindi Kunj Rd, Abul Fazal Enclave Part 2, Jamia Nagar, Okhla, New Delhi, Delhi 110025
-              </p>
-
-              {/* Social Links */}
-              <div className="flex justify-center md:justify-start space-x-3">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${social.color} bg-white hover:bg-[#ff9c00]`}
-                    aria-label={social.name}
-                  >
-                    <svg
-                      className="w-5 h-5 text-[#164057] group-hover:text-white transition-colors"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d={social.icon} />
-                    </svg>
-                  </a>
-                ))}
-              </div>
-
-              {/* Trust Badge */}
-              <div className="mt-6 flex items-center justify-center md:justify-start">
-                <ShieldCheckIcon className="w-5 h-5 text-[#ff9c00] mr-2" />
-                <span className="text-sm text-gray-600">
-                  Verified & Trusted Platform
-                </span>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-lg font-bold mb-6 flex justify-center md:justify-start items-center text-[#164057]">
-                <HomeIcon className="w-5 h-5 mr-2 text-[#ff9c00]" />
+              <h3 className="text-base font-semibold text-white mb-2">
                 Quick Links
-              </h4>
-              <ul className="space-y-3">
-                {quickLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      to={link.href}
-                      className="group flex items-center justify-center md:justify-start text-gray-600 hover:text-[#ff9c00] transition-colors"
-                    >
-                      <ArrowRightIcon className="w-3 h-3 mr-2 text-[#164057]" />
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
+              </h3>
+              <ul className="space-y-1 text-sm">
+                <li>
+                  <a href="/" className="hover:text-[#ff9c00]">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="/properties" className="hover:text-[#ff9c00]">
+                    All Properties
+                  </a>
+                </li>
+                <li>
+                  <a href="/agents" className="hover:text-[#ff9c00]">
+                    Find an Agent
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog" className="hover:text-[#ff9c00]">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="/contact" className="hover:text-[#ff9c00]">
+                    Contact Us
+                  </a>
+                </li>
               </ul>
             </div>
+          </div>
 
-            {/* Services */}
-            <div>
-              <h4 className="text-lg font-bold mb-6 flex justify-center md:justify-start items-center text-[#164057]">
-                <StarIcon className="w-5 h-5 mr-2 text-[#ff9c00]" />
-                Our Services
-              </h4>
-              <ul className="space-y-3">
-                {services.map((service, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center justify-center md:justify-start text-gray-600 hover:text-[#ff9c00]"
-                  >
-                    <service.icon className="w-4 h-4 mr-3 text-[#164057]" />
-                    {service.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* 🔹 Contact Info */}
+          <div className="space-y-3 text-sm">
+            <a
+              href="tel:+919876543210"
+              className="flex items-center gap-2 hover:text-[#ff9c00]"
+            >
+              📞 +91 85278 59176
+            </a>
+            <a
+              href="mailto:support@mmp.com"
+              className="flex items-center gap-2 hover:text-[#ff9c00]"
+            >
+              ✉️ support@mmp.com
+            </a>
+           
+            <a
+              href="https://wa.me/918527859176"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-[#ff9c00]"
+            >
+              💬 Chat on WhatsApp
+            </a>
+          </div>
 
-            {/* Contact + Newsletter */}
-            <div>
-              <h4 className="text-lg font-bold mb-6 flex justify-center md:justify-start items-center text-[#164057]">
-                <EnvelopeIcon className="w-5 h-5 mr-2 text-[#ff9c00]" />
-                Get In Touch
-              </h4>
-              <div className="space-y-4 mb-6 text-gray-600">
-                <div className="flex items-center justify-center md:justify-start">
-                  <MapPinIcon className="w-5 h-5 text-[#164057] mr-2" />
-                  <p>Kalindi Kunj Delhi – 110025, India</p>
-                </div>
-                <div className="flex items-center justify-center md:justify-start">
-                  <PhoneIcon className="w-5 h-5 text-[#164057] mr-2" />
-                  <a href="tel:+918888888888" className="hover:text-[#ff9c00]">
-                    +91-9990725864
-                  </a>
-                </div>
-                <div className="flex items-center justify-center md:justify-start">
-                  <EnvelopeIcon className="w-5 h-5 text-[#164057] mr-2" />
-                  <a
-                    href="mailto:info@multimoneyproperty.com"
-                    className="hover:text-[#ff9c00]"
-                  >
-                    Business@Multimoneyproperty.com
-                  </a>
-                </div>
-              </div>
+          {/* 🔹 Property Categories */}
+          <div>
+            <h3 className="text-base font-semibold text-white mb-2">
+              MULTI MONEY{" "}
+              <span className="lowercase font-playfair">property</span>
+            </h3>
+            <ul className="grid grid-cols-2 gap-2 text-sm">
+              <li>
+                <a href="/dashboard" className="hover:text-[#ff9c00]">
+                  Plot
+                </a>
+              </li>
+              <li>
+                <a href="/plans" className="hover:text-[#ff9c00]">
+                  House
+                </a>
+              </li>
+              <li>
+                <a href="/flat-apartment" className="hover:text-[#ff9c00]">
+                  Flat/Apartment
+                </a>
+              </li>
+              <li>
+                <a href="/independent-villa" className="hover:text-[#ff9c00]">
+                  Independent Villa
+                </a>
+              </li>
+              <li>
+                <a href="/from-house-land" className="hover:text-[#ff9c00]">
+                  Farm House/Land
+                </a>
+              </li>
+              <li>
+                <a href="/co-working-space" className="hover:text-[#ff9c00]">
+                  Co-Working Space
+                </a>
+              </li>
+            </ul>
+          </div>
 
-              {/* Newsletter */}
-              <form onSubmit={handleSubscribe} className="space-y-3">
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff9c00] text-[#164057] placeholder-gray-400"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-[#ff9c00] hover:bg-[#164057] text-white font-semibold py-3 px-4 rounded-lg transition-all cursor-pointer"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
+          {/* 🔹 Newsletter */}
+          <div className="w-full">
+            <h3 className="mb-3 text-base font-semibold text-white">
+              Your Property Updates
+            </h3>
+            <SubscribeForm />
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-200 bg-white">
-          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
-            <p>
-              © {new Date().getFullYear()} Multi Money Property. All rights
-              reserved.
+        {/* LARGE SCREEN VIEW */}
+        <div className="hidden lg:grid grid-cols-4 gap-8">
+          {/* COL-1: Brand */}
+          <div className="flex flex-col gap-4">
+            <img src={logo} className="w-25 h-20" alt="Logo" />
+            <p className="text-sm text-neutral-200">
+              Get buyer inquiries straight to your dashboard.
             </p>
-            <div className="flex gap-4 mt-2 md:mt-0">
-              {legalLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  to={link.href}
-                  className="hover:text-[#ff9c00]"
+
+            {/* Contact Info with SVG Icons */}
+            <div className="mt-4 text-sm space-y-3">
+              <a
+                href="tel:+919876543210"
+                className="flex items-center gap-2 hover:text-white transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
                 >
-                  {link.name}
-                </Link>
-              ))}
+                  <path d="M2.003 5.884l3.6-.9a1 1 0 0 1 1.142.316l2.2 2.6a1 1 0 0 1-.09 1.34l-1.3 1.3a16.018 16.018 0 0 0 6.292 6.292l1.3-1.3a1 1 0 0 1 1.34-.09l2.6 2.2a1 1 0 0 1 .316 1.142l-.9 3.6a1 1 0 0 1-.978.732A19.992 19.992 0 0 1 2 6.862a1 1 0 0 1 .003-0.978z" />
+                </svg>
+                +91 85278 59176
+              </a>
+
+              <a
+                href="mailto:support@mmp.com"
+                className="flex items-center gap-2 hover:text-white transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
+                >
+                  <path d="M2.25 4.5A2.25 2.25 0 0 1 4.5 2.25h15A2.25 2.25 0 0 1 21.75 4.5v15a2.25 2.25 0 0 1-2.25 2.25h-15A2.25 2.25 0 0 1 2.25 19.5v-15zm2.25.75v13.5l7.5-6.75-7.5-6.75zm1.5 0l6 5.4 6-5.4H5.25zm13.5 0l-7.5 6.75 7.5 6.75V5.25z" />
+                </svg>
+                support@mmp.com
+              </a>
+
+              <a
+                href="https://wa.me/918527859176"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#ff9c00] hover:underline"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
+                >
+                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.113.553 4.084 1.513 5.81L0 24l6.378-1.512A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.016 16.312c-.217.606-1.267 1.174-1.732 1.243-.463.068-1.04.095-1.79-.137-2.37-.738-3.905-2.536-4.018-2.666-.113-.13-.95-1.03-.95-1.97 0-.94.48-1.44.65-1.637.17-.196.372-.245.497-.245.124 0 .25 0 .36.002.115.003.268-.05.42.2.153.252.52.922.563.993.043.072.072.157.01.252-.062.094-.095.144-.185.242-.09.098-.192.22-.28.33-.088.11-.183.238-.075.463.108.226.6.995 1.285 1.61.888.826 1.468 1.035 1.635 1.145.166.11.26.09.35-.057.09-.146.386-.583.487-.797.1-.214.205-.174.342-.106.137.07.85.486.994.58.143.095.24.15.158.303z" />
+                </svg>
+                Chat on WhatsApp
+              </a>
             </div>
           </div>
-        </div>
-      </footer>
 
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#1f2937",
-            color: "#fff",
-            borderRadius: "12px",
-            padding: "16px",
-          },
-          success: {
-            iconTheme: {
-              primary: "#10b981",
-              secondary: "#fff",
-            },
-          },
-          error: {
-            iconTheme: {
-              primary: "#ef4444",
-              secondary: "#fff",
-            },
-          },
-        }}
-      />
-    </>
+          {/* COL-2: Quick Links */}
+          <div className="flex flex-col gap-2">
+            <h3 className="uppercase text-white">Our Company</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a href="/" className="hover:text-[#ff9c00] transition-colors">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/properties"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  All Properties
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/agents"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Find an Agent
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/blog"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/blog"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  FAQs
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/contact"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Contact Us
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* COL-3: Dashboard Links */}
+          <div className="flex flex-col gap-2">
+            <h3 className="text-lg font-bold tracking-wide text-white">
+              <span className="uppercase">MULTI MONEY</span>{" "}
+              <span className="lowercase font-playfair">property</span>
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a
+                  href="/dashboard"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Plot
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/plans"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  House
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/flat-apartment"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Flat/Apartment
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/independent-villa"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Independent Villa
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/from-house-land"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Farm House/Land
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/co-working-space"
+                  className="hover:text-[#ff9c00] transition-colors"
+                >
+                  Co-Working Space
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* COL-4: Newsletter */}
+          <div className="w-full max-w-xs">
+            <h3 className="mb-4 text-lg font-semibold text-white">
+              Remain Updated
+            </h3>
+            <SubscribeForm />
+          </div>
+        </div>
+      </div>
+
+      {/* SOCIAL + LEGAL */}
+      <div className="relative border-t border-neutral-700">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-6 sm:flex-row">
+          <p className="text-xs">
+            © {new Date().getFullYear()} MULTI MONEY PROPERTY. All rights
+            reserved.
+          </p>
+
+          <div className="flex gap-5 text-lg">
+            <a
+              href="https://www.youtube.com/@MMPProperty"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-white transition-colors"
+            >
+              <FaYoutube />
+            </a>
+            <a
+              href="https://www.facebook.com/profile.php?id=61551135478843"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-white transition-colors"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://x.com/MMP_8527"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-white transition-colors"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/mmp-property-9b42b8387/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-white transition-colors"
+            >
+              <FaLinkedinIn />
+            </a>
+            <a
+              href="https://www.instagram.com/multimoneyproperty/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-white transition-colors"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://www.pinterest.com/multimoneyproperty_8527/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-white transition-colors"
+            >
+              <FaPinterestP />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }

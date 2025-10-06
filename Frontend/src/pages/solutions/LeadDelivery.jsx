@@ -19,7 +19,7 @@ export default function LeadDelivery() {
       <header className="relative overflow-hidden">
       
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32">
           <div className="text-center md:text-left">
             <div className="inline-flex items-center gap-2 bg-[#ff9c00] text-white px-4 py-2 rounded-full shadow-lg border border-[#ff9c00]/30 mb-6">
               <CloudArrowUpIcon className="h-4 w-4" />
@@ -168,7 +168,7 @@ export default function LeadDelivery() {
             
             <div className="relative">
               {/* Connection Line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-[#ff9c00] to-[#154956] hidden lg:block"></div>
+              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-[#ff9c00] to-[#ff9c00] hidden lg:block"></div>
               
               <div className="space-y-8 lg:space-y-0">
                 {[
@@ -217,14 +217,14 @@ export default function LeadDelivery() {
                     idx % 2 === 0 ? 'lg:flex-row-reverse' : ''
                   }`}>
                     {/* Step Number */}
-                    <div className={`flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-r ${item.color} text-white flex items-center justify-center text-lg font-bold shadow-lg`}>
+                    <div className={`flex-shrink-0 w-16 h-16 rounded-full bg-[#ff9c00] ${item.color} text-white flex items-center justify-center text-lg font-bold shadow-lg`}>
                       {item.step}
                     </div>
                     
                     {/* Content */}
                     <div className="flex-1 text-center lg:text-left">
                       <div className="flex items-center gap-3 justify-center lg:justify-start mb-2">
-                        <div className={`p-2 rounded-lg bg-gradient-to-r ${item.color} bg-opacity-10`}>
+                        <div className={`p-2 rounded-lg bg-[#ff9c00] ${item.color} bg-opacity-10`}>
                           {item.icon}
                         </div>
                         <div>
@@ -235,12 +235,12 @@ export default function LeadDelivery() {
                     </div>
                     
                     {/* Status Badge */}
-                    <div className={`px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${item.color} bg-opacity-10 text-[#154956]`}>
+                    <div className={`px-3 py-1 rounded-full text-xs font-semibold bg-[#ff9c00] ${item.color} bg-opacity-10 text-[#154956]`}>
                       {item.status}
                     </div>
                     
                     {/* Connector Dot */}
-                    <div className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-r from-[#ff9c00] to-[#154956] rounded-full hidden lg:block" 
+                    <div className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] rounded-full hidden lg:block" 
                          style={{ left: idx % 2 === 0 ? 'calc(100% - 2rem)' : '2rem' }}>
                     </div>
                   </div>
@@ -254,22 +254,22 @@ export default function LeadDelivery() {
             <h3 className="text-2xl font-bold text-[#154956] mb-8">Trusted Integration Partners</h3>
             <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60">
               <div className="bg-white p-4 rounded-xl shadow-lg border border-[#154956]/10">
-                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#154956] rounded-lg flex items-center justify-center text-white font-bold">
+                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] rounded-lg flex items-center justify-center text-white font-bold">
                   Interakt
                 </div>
               </div>
               <div className="bg-white p-4 rounded-xl shadow-lg border border-[#154956]/10">
-                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#154956] rounded-lg flex items-center justify-center text-white font-bold">
+                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] rounded-lg flex items-center justify-center text-white font-bold">
                   Gupshup
                 </div>
               </div>
               <div className="bg-white p-4 rounded-xl shadow-lg border border-[#154956]/10">
-                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#154956] rounded-lg flex items-center justify-center text-white font-bold">
+                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] rounded-lg flex items-center justify-center text-white font-bold">
                   WhatsApp
                 </div>
               </div>
-              <div className="bg-white p-4 rounded-xl shadow-lg border border-[#154956]/10">
-                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#154956] rounded-lg flex items-center justify-center text-white font-bold">
+              <div className="bg-white p-4 rounded-xl shadow-lg /10">
+                <div className="w-32 h-8 bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] rounded-lg flex items-center justify-center text-white font-bold">
                   Gmail
                 </div>
               </div>

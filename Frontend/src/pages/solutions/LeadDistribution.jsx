@@ -12,7 +12,7 @@ export default function LeadDistribution() {
     <div className="min-h-screen bg-[#F7F7F7]">
       {/* Hero Header */}
       <header className="relative ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center md:text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 text-center md:text-left">
           <span className="inline-flex items-center gap-2 text-xs font-semibold bg-orange-100 text-orange-700 px-3 py-1 rounded-full shadow-sm">
              Routing
           </span>
