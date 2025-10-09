@@ -19,7 +19,7 @@ const PropertyTypesSection = ({ handleGetStarted, handleBookDemo }) => {
 
   const propertyTypes = [
     { id: "plot", name: "Plot", image: Plot, count: "296 Properties" },
-    { id: "house", name: "House", image: House, count: "130 Properties" },
+    // { id: "house", name: "House", image: performance, count: "130 Properties" },
     {
       id: "farmhouse",
       name: "Farm House/Land",
