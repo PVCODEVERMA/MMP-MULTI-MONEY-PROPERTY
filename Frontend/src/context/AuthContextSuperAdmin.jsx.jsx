@@ -12,28 +12,18 @@ export function AuthProviderSuperAdmin({ children }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // ✅ Utility: Normalize role
+  //  Utility: Normalize role
   const normalizeRole = (role) =>
     role ? role.toString().trim().toLowerCase().replace(/[_-]/g, "") : "";
 
-  // ✅ Fetch profile if token exists
+  // Fetch profile if token exists
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("superAdminToken");
-      console.log("🔐 Stored Token:", token);
-
-      if (!token) {
-        console.log("⚠️ No token found, skipping profile fetch");
-        setLoading(false);
-        return;
-      }
-
       try {
-        console.log("📡 Fetching SuperAdmin profile...");
         const res = await api.get("/superadmin/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("✅ Profile fetch response:", res.data);
 
         const backendRole = normalizeRole(res.data?.superAdmin?.role);
         if (backendRole === "superadmin") {
@@ -54,15 +44,13 @@ export function AuthProviderSuperAdmin({ children }) {
     fetchProfile();
   }, []);
 
-  // ✅ Login handler
+  //  Login handler
   const login = async (email, password) => {
     try {
       const res = await api.post("/superadmin/login", { email, password });
-      console.log("✅ Login API response:", res.data);
 
       const backendRole = normalizeRole(res.data?.superAdmin?.role);
       if (res.data?.accessToken && backendRole === "superadmin") {
-        console.log("✅ Valid SuperAdmin login detected");
 
         localStorage.setItem("superAdminToken", res.data.accessToken);
         setSuperAdmin(res.data.superAdmin);
@@ -82,7 +70,6 @@ export function AuthProviderSuperAdmin({ children }) {
   const register = async (formData) => {
     try {
       const res = await api.post("/superadmin/register", formData);
-      console.log("✅ Register response:", res.data);
       toast.success("SuperAdmin registered successfully!");
       return res.data;
     } catch (err) {
@@ -92,9 +79,8 @@ export function AuthProviderSuperAdmin({ children }) {
     }
   };
 
-  // ✅ Logout handler
+  //  Logout handler
   const logout = () => {
-    console.log("🚪 Logging out SuperAdmin...");
     localStorage.removeItem("superAdminToken");
     setSuperAdmin(null);
     toast.success("Logged out successfully");

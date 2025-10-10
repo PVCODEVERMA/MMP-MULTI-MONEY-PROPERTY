@@ -148,7 +148,7 @@ export default function RegisterLeads({ onClose }) {
   // Role Selection Screen
   if (showRoleSelection) {
     return (
-      <div className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg space-y-8">
+      <div className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl  space-y-8">
         <div className="text-center space-y-3">
           <h1 className="text-3xl font-bold text-gray-800">
             Join as <span className="text-[#ff9c00]">Professional</span>
@@ -177,7 +177,7 @@ export default function RegisterLeads({ onClose }) {
   // Registration Form Screen
   return (
     <form
-      className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg space-y-6 max-h-[85vh] overflow-y-auto no-scrollbar"
+      className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl space-y-6 max-h-[85vh] overflow-y-auto no-scrollbar"
       onSubmit={handleSubmit}
     >
       {/* Back Button */}
