@@ -19,38 +19,35 @@ export default function Register() {
   const [profileImage, setProfileImage] = useState(null);
   const [profilePreview, setProfilePreview] = useState(null);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { register } = useAuth(); // API call
   const fileInputRef = useRef(null);
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please select a valid image file");
+        return;
+      }
+      try {
+        const options = {
+          maxSizeMB: 1, // compress to max 1MB
+          maxWidthOrHeight: 800,
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        setProfileImage(compressedFile);
 
-
-const handleImageChange = async (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select a valid image file");
-      return;
+        const reader = new FileReader();
+        reader.onload = () => setProfilePreview(reader.result);
+        reader.readAsDataURL(compressedFile);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to compress image");
+      }
     }
-    try {
-      const options = {
-        maxSizeMB: 1,       // compress to max 1MB
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      };
-      const compressedFile = await imageCompression(file, options);
-      setProfileImage(compressedFile);
-
-      const reader = new FileReader();
-      reader.onload = () => setProfilePreview(reader.result);
-      reader.readAsDataURL(compressedFile);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to compress image");
-    }
-  }
-};
-
+  };
 
   const handleAvatarClick = () => fileInputRef.current?.click();
 
@@ -93,7 +90,7 @@ const handleImageChange = async (e) => {
       setProfileImage(null);
       setProfilePreview(null);
 
-     navigate("/login");
+      navigate("/login");
     } catch (err) {
       console.error(err);
       toast.error(err.message || "Registration failed");
@@ -231,23 +228,38 @@ const handleImageChange = async (e) => {
             </div>
 
             <button
-  type="submit"
-  disabled={loading}
-  className="w-full py-4 bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] text-white font-semibold rounded-lg hover:from-[#ff7b00] hover:to-[#ff9c00] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center"
->
-  {loading ? (
-    <>
-      <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-      </svg>
-      Setting up your account...
-    </>
-  ) : (
-    "Start Your Journey"
-  )}
-</button>
-
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 bg-gradient-to-r from-[#ff9c00] to-[#ff9c00] text-white font-semibold rounded-lg hover:from-[#ff7b00] hover:to-[#ff9c00] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center"
+            >
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                  Setting up your account...
+                </>
+              ) : (
+                "Start Your Journey"
+              )}
+            </button>
 
             <div className="text-center mt-4">
               <p className="text-xs sm:text-sm text-gray-600">
@@ -310,7 +322,7 @@ const handleImageChange = async (e) => {
               ))}
             </div>
             {/* Upgrade to Premium Section */}
-            <div className="mt-10 sm:mt-12 bg-white/10 backdrop-blur-md text-white rounded-2xl shadow-lg p-6 sm:p-10 text-center">
+            {/* <div className="mt-10 sm:mt-12 bg-white/10 backdrop-blur-md text-white rounded-2xl shadow-lg p-6 sm:p-10 text-center">
               <h3 className="text-xl sm:text-2xl font-bold mb-3">
                 Upgrade to <span className="text-[#ff9c00]">Premium</span>
               </h3>
@@ -349,7 +361,7 @@ const handleImageChange = async (e) => {
               >
                 Upgrade to Premium Leads
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

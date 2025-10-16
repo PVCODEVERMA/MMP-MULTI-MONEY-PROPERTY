@@ -1,4 +1,4 @@
-// AuthContextSubAdmin.jsx
+
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "../lib/api";
 import toast from "react-hot-toast";
@@ -18,6 +18,7 @@ export const AuthProviderSubAdmin = ({ children }) => {
   const [subAdminToken, setSubAdminToken] = useState(
     localStorage.getItem("subAdminToken")
   );
+  
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -41,20 +42,22 @@ export const AuthProviderSubAdmin = ({ children }) => {
   // ------------------------
   // Fetch SubAdmin profile
   // ------------------------
-  const fetchSubAdminProfile = async () => {
-    if (!subAdminToken) return;
+let profileFetchTimeout;
+const fetchSubAdminProfile = async () => {
+  if (!subAdminToken) return;
+  if (profileFetchTimeout) clearTimeout(profileFetchTimeout);
 
+  profileFetchTimeout = setTimeout(async () => {
     try {
       const res = await api.get("/subadmin/profile");
       setSubAdmin(res.data.subAdmin);
     } catch (err) {
       console.error("Profile fetch error:", err.response?.data || err.message);
-      if (err.response?.status === 401) {
-        toast.error("Session expired. Please log in again.");
-        logout();
-      }
+      if (err.response?.status === 401) logout();
     }
-  };
+  }, 300); // 300ms delay
+};
+
 
   // ------------------------
   // Login
@@ -109,21 +112,39 @@ export const AuthProviderSubAdmin = ({ children }) => {
     setSubAdmin(null);
     setSubAdminToken(null);
     toast.success("Logged out successfully");
-    navigate("/loginSubAdmin");
+    setTimeout(() => {
     navigate("/");
+  }, 50);
   };
 
+    // Get all users (admin only)
+    const getAllUsers = async () => {
+       if (!subAdminToken) {
+    console.warn(" No sub-admin token found. Skipping profile fetch.");
+    return;
+  }
+      try {
+        const res = await api.get("/users/all-users", {
+          headers: { Authorization: `Bearer ${subAdminToken}` }
+        });
+        return res.data; 
+      } catch (err) {
+        toast.error(err.response?.data?.message || "Failed to fetch users");
+        throw err;
+      }
+    };
   // ------------------------
   // Auto fetch profile when token changes
   // ------------------------
-  useEffect(() => {
-    if (subAdminToken) {
-      console.log("Fetching profile for token:", subAdminToken);
-      fetchSubAdminProfile();
-    } else {
-      console.warn("⚠️ No token found, skipping profile fetch");
-    }
-  }, [subAdminToken]);
+ useEffect(() => {
+  const token = localStorage.getItem("subAdminToken");
+  if (token && !subAdmin) {
+    
+    fetchSubAdminProfile();
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
 
   return (
     <AuthContextSubAdmin.Provider
@@ -137,6 +158,7 @@ export const AuthProviderSubAdmin = ({ children }) => {
         isAuthenticated: !!subAdmin,
         fetchSubAdminProfile,
         setSubAdmin,
+        getAllUsers
       }}
     >
       {children}

@@ -92,9 +92,9 @@ export default function LoginBroker() {
 
             <button
               disabled={busy}
-              className={`w-full py-4 text-white font-semibold rounded-lg shadow-lg transition-all cursor-pointer${
+              className={`w-full py-4 text-white font-semibold rounded-lg shadow-lg bg-[#ff9c00] transition-all cursor-pointer ${
                 !busy
-                  ? "bg-gradient-to-r from-[#ff9c00] to-[#ff7b00] hover:from-[#ff7b00] hover:to-[#ff9c00]"
+                  ? "bg-gradient-to-r from-[#154056] to-[#154056] hover:from-[#ff7b00] hover:to-[#ff9c00]"
                   : "bg-gray-300 cursor-not-allowed"
               }`}
             >

@@ -15,6 +15,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 
+
 const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const { user } = useAuth();
   const location = useLocation();
@@ -35,33 +36,31 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       name: "Lead Management",
       icon: DocumentTextIcon,
       subItems: [
+       { name: "latest leads", href: "/broker/leads/new" },
         { name: "All Leads", href: "/broker/leads/all" },
-        { name: "New Leads", href: "/broker/leads/new" },
-        { name: "Assigned Leads", href: "/broker/leads/assigned" },
-        { name: "Follow-up Leads", href: "/broker/leads/followups" },
-        { name: "Closed Leads", href: "/broker/leads/closed" },
-        { name: "Lost Leads", href: "/broker/leads/lost" },
-        { name: "Assign Leads", href: "/broker/leads/assign" },
+        // { name: "Follow-up Leads", href: "/broker/leads/followups" },
+        // { name: "Closed Leads", href: "/broker/leads/closed" },
+        // { name: "Lost Leads", href: "/broker/leads/lost" },
+        
       ],
     },
-    {
-      name: "Property Management",
-      icon: BuildingOfficeIcon,
-      subItems: [
-        { name: "All Properties", href: "/broker/properties/all" },
-        { name: "Available Properties", href: "/broker/properties/available" },
-        { name: "Booked / Sold", href: "/broker/properties/sold" },
-        { name: "Add New Property", href: "/broker/properties/add" },
-        { name: "Attach Leads to Property", href: "/broker/properties/attach-leads" },
-      ],
-    },
+    // {
+    //   name: "Property Management",
+    //   icon: BuildingOfficeIcon,
+    //   subItems: [
+    //     { name: "All Properties", href: "/broker/properties/all" },
+    //     { name: "Available Properties", href: "/broker/properties/available" },
+    //     { name: "Booked / Sold", href: "/broker/properties/sold" },
+    //     { name: "Add New Property", href: "/broker/properties/add" },
+    //     { name: "Attach Leads to Property", href: "/broker/properties/attach-leads" },
+    //   ],
+    // },
     {
       name: "Contacts / Clients",
       icon: UserGroupIcon,
       subItems: [
         { name: "All Contacts", href: "/broker/contacts/all" },
         { name: "Buyers", href: "/broker/contacts/buyers" },
-        { name: "Sellers", href: "/broker/contacts/sellers" },
         { name: "Investors", href: "/broker/contacts/investors" },
       ],
     },
@@ -79,28 +78,18 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       name: "Reports & Analytics",
       icon: ChartBarIcon,
       subItems: [
-        { name: "Lead Source Report", href: "/broker/reports/leadsources" },
         { name: "Conversion Rate Report", href: "/broker/reports/conversion" },
         { name: "Revenue Report", href: "/broker/reports/revenue" },
-        { name: "Top Performing Agents / Locations", href: "/broker/reports/top-agents" },
       ],
     },
-    {
-      name: "Marketing",
-      icon: MegaphoneIcon,
-      subItems: [
-        { name: "Campaigns", href: "/broker/marketing/campaigns" },
-        { name: "Ad Sources", href: "/broker/marketing/adsources" },
-        { name: "Campaign ROI", href: "/broker/marketing/roi" },
-      ],
-    },
+
     {
       name: "Wallet / Billing",
       icon: WalletIcon,
       subItems: [
-        { name: "Lead Wallet / Recharge", href: "/broker/wallet/recharge" },
+        { name: "Recharge Wallet", href: "/broker/wallet/recharge" },
         { name: "Transaction History", href: "/broker/wallet/history" },
-        { name: "Plan Upgrades / Subscriptions", href: "/broker/wallet/plans" },
+        { name: "Plan Upgrades / Subscriptions", href: "/home/leads/plans" },
       ],
     },
     {
@@ -108,11 +97,16 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       icon: Cog6ToothIcon,
       subItems: [
         { name: "Profile Settings", href: "/broker/settings/profile" },
-        { name: "Team Roles & Permissions", href: "/broker/settings/roles" },
+        // { name: "Team Roles & Permissions", href: "/broker/settings/roles" },
         { name: "Notifications", href: "/broker/settings/notifications" },
-        { name: "Integrations (CRM, WhatsApp, etc.)", href: "/broker/settings/integrations" },
+        // { name: "Integrations (CRM, WhatsApp, etc.)", href: "/broker/settings/integrations" },
       ],
     },
+    {
+    name: "Back to Home",
+    href: "/home/leads",
+    icon: HomeIcon,
+  }
   ];
 
   const getAvatarUrl = () => {

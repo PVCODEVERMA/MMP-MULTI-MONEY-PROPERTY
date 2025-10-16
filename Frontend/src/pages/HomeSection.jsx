@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import LocationSelector from "../components/locationSelector/LocationSelector.jsx";
 import Ads from "../components/ctaSection/Ads";
 
@@ -29,7 +28,7 @@ export default function HomeSection() {
 
   return (
     <section className="flex items-center justify-center bg-[#f7f7f7] px-4 py-10 sm:p-10">
-      <div className="flex flex-col lg:flex-row w-full lg:w-[80%] gap-10">
+      <div className="flex flex-col lg:flex-row w-full lg:w-[82%] gap-10">
         {/* ---------- left column ---------- */}
         <div className="flex-1 text-center lg:text-left lg:flex lg:flex-col lg:justify-center">
           {/* heading */}
@@ -66,23 +65,12 @@ export default function HomeSection() {
               />
             </div>
 
-            {/* search button */}
-            {/* <button
-              type="submit"
-              className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-4
-                         bg-[#FF9C00] text-white font-semibold rounded-xl shadow-md
-                         hover:bg-orange-600 transition-colors disabled:opacity-60
-                         min-w-[120px] sm:min-w-[140px]"
-              disabled={!loc}
-            >
-              <MagnifyingGlassIcon className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-sm sm:text-base">Search</span>
-            </button> */}
+           
           </form>
         </div>
 
         {/* ---------- right column: ads (desktop only) ---------- */}
-        <div className="hidden lg:block lg:w-1/3">
+        <div className="hidden lg:block lg:w-1/3 ">
           <Ads />
         </div>
       </div>

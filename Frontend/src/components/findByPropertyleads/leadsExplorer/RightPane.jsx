@@ -1,4 +1,4 @@
-// src/pages/leadsExplorer/RightPane.jsx
+
 import {
   DummyLeads,
   TrendingLeads,

@@ -122,7 +122,7 @@ export default function LoginSubAdmin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-[#ff9c00] to-[#ff7b00] text-white font-semibold rounded-lg shadow-md disabled:opacity-50"
+              className="w-full py-3 bg-gradient-to-r from-[#ff9c00] to-[#ff7b00] text-white font-semibold rounded-lg shadow-md disabled:opacity-50 cursor-pointer"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>

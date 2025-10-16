@@ -1,93 +1,144 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { LogOut, User, Settings, HelpCircle, ChevronDown } from "lucide-react";
+import { ChevronDown, User, LogOut, Settings, LayoutDashboard } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
-export default function ProfileMenu() {
-  const [open, setOpen] = useState(false);
-  const menuRef = useRef(null);
+const ProfileMenu = ({ closeMobile }) => {
+  const { user, isAuthenticated, logout } = useAuth();
 
-  /* close on outside click */
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [mobProfile, setMobProfile] = useState(false);
+  const profileRef = useRef(null);
+
+  /* outside-click for desktop */
   useEffect(() => {
-    const close = (e) => {
-      if (open && !menuRef.current?.contains(e.target)) setOpen(false);
+    const close = e => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) setProfileOpen(false);
     };
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
-  }, [open]);
+  }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <Link 
+        to="/login" 
+        className="px-4 py-2 hover:text-[#FF9C00] hover:bg-gray-100 rounded-lg transition-colors font-medium"
+        onClick={closeMobile}
+      >
+        Sign In / Join Free
+      </Link>
+    );
+  }
 
   return (
-    <div ref={menuRef} className="relative">
-      
-      <button
-        onClick={() => setOpen((p) => !p)}
-        className="flex items-center gap-2 p-2 rounded-xl hover:bg-gray-50 transition-all duration-200 border border-transparent hover:border-gray-200 cursor-pointer"
-      >
-        <div className="h-10 w-10 rounded-full bg-gradient-to-r from-[#FF9C00] to-[#ff6b00] flex items-center justify-center text-white shadow-lg">
-          <User size={20} />
-        </div>
-        <ChevronDown 
-          size={16} 
-          className={`text-gray-600 transition-transform duration-200 ${open ? "rotate-180" : ""}`} 
-        />
-      </button>
-
-      {/* Dropdown Menu */}
-      {open && (
-        <div className="absolute right-0 mt-3 w-64 bg-white border border-gray-200 rounded-2xl shadow-2xl py-3 z-50 animate-in fade-in-50 slide-in-from-top-2">
-          {/* Header section */}
-          <div className="px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100/30 rounded-t-2xl">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide text-center">Welcome back</p>
-            <p className="text-lg font-bold text-[#154056] mt-1 text-center">name</p>
-          
+    <>
+      {/* Desktop */}
+      <div ref={profileRef} className="relative hidden md:block">
+        <button
+          onClick={() => setProfileOpen(!profileOpen)}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-all duration-200"
+        >
+          <div className="relative">
+            <img 
+              src={user.profileImage || "/default-avatar.png"} 
+              alt={user.fullName} 
+              className="w-8 h-8 rounded-full object-cover border-2 border-gray-300 hover:border-[#FF9C00] transition-colors" 
+            />
+            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
           </div>
+          <span className="font-medium text-gray-800">Hi, {user.fullName}</span>
+          <ChevronDown size={14} className={`duration-200 text-gray-500 ${profileOpen ? "rotate-180" : ""}`} />
+        </button>
+        {profileOpen && (
+          <div className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-xl border border-gray-200 p-0 z-50 overflow-hidden">
+            {/* Menu Items */}
+            <div className="p-2 border-t border-gray-100">
+              <Link to="/broker/dashboard" onClick={() => setProfileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors group">
+                <User size={18} className="text-gray-500 group-hover:text-[#FF9C00]" />
+                <span className="font-medium">Leads Dashboard</span>
+              </Link>
+              <Link to="/home/leads/profile" onClick={() => setProfileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors group">
+                <User size={18} className="text-gray-500 group-hover:text-[#FF9C00]" />
+                <span className="font-medium">My Profile</span>
+              </Link>
+              <Link to="/settings" onClick={() => setProfileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors group">
+                <Settings size={18} className="text-gray-500 group-hover:text-[#FF9C00]" />
+                <span className="font-medium">Settings</span>
+              </Link>
+            </div>
 
-          {/* Menu items */}
-          <div className="py-2">
-            <Link
-              to="/home/leads/profile"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-4 px-5 py-3 hover:bg-orange-50 transition-all duration-200 group"
-            >
-              <div className="h-9 w-9 rounded-lg bg-orange-100 flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                <User size={18} className="text-orange-600" />
-              </div>
-              <div className="flex-1">
-                <span className="text-sm font-semibold text-[#154056]">My Profile</span>
-                <p className="text-xs text-gray-500 mt-0.5">Manage your account</p>
-              </div>
-            </Link>
-            <Link
-              to="/home/leads/help"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-4 px-5 py-3 hover:bg-purple-50 transition-all duration-200 group"
-            >
-              <div className="h-9 w-9 rounded-lg bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                <HelpCircle size={18} className="text-purple-600" />
-              </div>
-              <div className="flex-1">
-                <span className="text-sm font-semibold text-gray-900">Help & Support</span>
-                <p className="text-xs text-gray-500 mt-0.5">Get help 24/7</p>
-              </div>
-            </Link>
+            {/* Logout */}
+            <div className="p-2 border-t border-gray-100">
+              <button onClick={() => { logout(); setProfileOpen(false); }}
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-red-50 text-red-600 transition-colors group cursor-pointer">
+                <LogOut size={18} className="group-hover:text-red-700" />
+                <span className="font-medium">Logout</span>
+              </button>
+            </div>
           </div>
+        )}
+      </div>
 
-          {/* Logout section */}
-          <div className="px-5 py-3 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
-            <button
-              onClick={() => {
-                console.log("logout");
-                setOpen(false);
-              }}
-              className="flex w-full items-center gap-4 px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 group cursor-pointer"
-            >
-              <div className="h-8 w-8 rounded-lg bg-red-100 flex items-center justify-center group-hover:bg-red-200 transition-colors">
-                <LogOut size={16} className="text-red-600" />
+      {/* Mobile */}
+      <div className="md:hidden border-t border-gray-200 mt-4 pt-4">
+        <button onClick={() => setMobProfile(!mobProfile)} 
+          className="flex w-full justify-between items-center py-4 font-medium text-gray-700 hover:bg-orange-50 rounded-lg px-4">
+          <div className="flex items-center gap-3">
+            <img 
+              src={user.profileImage || "/default-avatar.png"} 
+              alt={user.fullName} 
+              className="w-10 h-10 rounded-full object-cover border-2 border-gray-300" 
+            />
+            <span>My Account</span>
+          </div>
+          <ChevronDown size={18} className={`duration-200 cursor-pointer ${mobProfile?"rotate-180":""}`} />
+        </button>
+        
+        {mobProfile && (
+          <div className="pl-6 space-y-4 bg-gray-50 rounded-lg mx-4 p-4">
+            {/* User Info */}
+            <div className="space-y-2">
+              <p className="text-gray-900 font-bold text-lg">{user.fullName}</p>
+              <p className="text-gray-600 text-sm">{user.email}</p>
+              {user.phone && <p className="text-gray-600 text-sm">{user.phone}</p>}
+              {user.city && <p className="text-gray-600 text-sm"> {user.city}</p>}
+              <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                {user.role}
               </div>
-              <span className="text-sm font-semibold">Logout</span>
+            </div>
+
+            {/* Menu Items */}
+            <div className="space-y-2">
+              <Link to="/dashboardAll" onClick={closeMobile} 
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors group">
+                <LayoutDashboard size={18} className="text-gray-500 group-hover:text-[#FF9C00]" />
+                <span className="font-medium">My Dashboard</span>
+              </Link>
+              <Link to="/profile" onClick={closeMobile} className="flex items-center gap-3 py-3 text-gray-700 hover:text-[#FF9C00] transition-colors">
+                <User size={18} />
+                <span>My Profile</span>
+              </Link>
+              <Link to="/settings" onClick={closeMobile} className="flex items-center gap-3 py-3 text-gray-700 hover:text-[#FF9C00] transition-colors">
+                <Settings size={18} />
+                <span>Settings</span>
+              </Link>
+            </div>
+
+            {/* Logout */}
+            <button onClick={() => { logout(); closeMobile(); }} 
+              className="flex items-center gap-3 w-full py-3 text-red-600 hover:text-red-700 transition-colors font-medium">
+              <LogOut size={18} />
+              <span>Logout</span>
             </button>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
-}
+};
+
+export default ProfileMenu;

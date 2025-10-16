@@ -16,7 +16,7 @@ import { AuthProviderSuperAdmin } from "./context/AuthContextSuperAdmin.jsx";
 
 /* Protected Wrappers */
 import ProtectedUser from "./Protected/ProtectedUser.jsx";
-import ProtectedBroker from "./Protected/ProtectedBroker.jsx";
+// import ProtectedBroker from "./Protected/ProtectedBroker.jsx";
 import ProtectedSubAdmin from "./Protected/ProtectedSubAdmin.jsx";
 import ProtectedSuperAdmin from "./Protected/ProtectedSuperAdmin.jsx";
 
@@ -57,6 +57,24 @@ import RealEstateLeads from "./pages/solutions/RealEstateLeads.jsx";
 import LeadVerification from "./pages/solutions/LeadVerification.jsx";
 import NewLeads from "./components/Broker/NewLeads.jsx";
 import LeadsLayout from "./layout/LeadsPageLayout/LeadsLayout.jsx";
+import TransactionHistory from "./components/Broker/TransactionHistory.jsx";
+import WalletRecharge from "./components/Broker/WalletRecharge.jsx";
+import ProfileSettings from "./components/Broker/ProfileSettings.jsx";
+import FollowupLeads from "./components/Broker/Followups.jsx";
+import ClosedLeads from "./components/Broker/ClosedLeads.jsx";
+import LostLeads from "./components/Broker/LostLeads.jsx";
+import AllContacts from "./components/Broker/AllContacts.jsx";
+import BuyersContacts from "./components/Broker/BuyersContacts.jsx";
+import InvestorsContacts from "./components/Broker/InvestorsContacts.jsx";
+import ConversionRateReport from "./components/Broker/ConversionRateReport.jsx";
+import LowLeadForm from "./components/SubAdmin/LeadManagement/LowLeadForm.jsx";
+import MediumLeadForm from "./components/SubAdmin/leadManagement/MediumLeadForm.jsx";
+import HighLeadForm from "./components/SubAdmin/leadManagement/HighLeadForm.jsx";
+import LeadInvoice from "./components/SubAdmin/leadManagement/LeadInvoice.jsx";
+
+
+
+
 /* Lazy Imports */
 const Login = lazy(() => import("./Auth/Login.jsx"));
 const Register = lazy(() => import("./Auth/Register.jsx"));
@@ -65,7 +83,7 @@ const ForgotPwd = lazy(() => import("./Auth/ForgotPassword.jsx"));
 const ResetPwd = lazy(() => import("./Auth/ResetPassword.jsx"));
 const Dashboard = lazy(() => import("./components/User/Dashboard.jsx"));
 
-/* Sub-Admin */
+// ---- Lazy imports sub admin  for pages ----
 const SubAdminLayout = lazy(() =>
   import("./layout/subAdminLayOut/SubAdmin.jsx")
 );
@@ -82,6 +100,22 @@ const LeadMgmt = lazy(() => import("./components/SubAdmin/LeadManagement.jsx"));
 const PropertyMgmt = lazy(() =>
   import("./components/SubAdmin/PropertyManagement.jsx")
 );
+
+const ActivateUsers = lazy(() => import("./components/SubAdmin/ActivateUsers.jsx"));
+const AllUsers = lazy(() => import("./components/SubAdmin/AllUsers.jsx"));
+const ActiveUsers = lazy(() => import("./components/SubAdmin/ActiveUsers.jsx"));
+const UserRoles = lazy(() => import("./components/SubAdmin/UserRoles.jsx"));
+const NewLeadsSubAdmin = lazy(() => import("./components/SubAdmin/NewLeadsSubAdmin.jsx"));
+const AssignedLeads = lazy(() => import("./components/SubAdmin/AssignedLeads.jsx"));
+const ClosedLeadsSubAdmin = lazy(() => import("./components/SubAdmin/ClosedLeadsSubAdmin.jsx"));
+const AutoDistributeLeads = lazy(() => import("./components/SubAdmin/AutoDistributeLeads.jsx"));
+const AddEditProperty = lazy(() => import("./components/SubAdmin/AddEditProperty.jsx"));
+const AttachLeads = lazy(() => import("./components/SubAdmin/AttachLeads.jsx"));
+const PlatformManagement = lazy(() => import("./components/SubAdmin/PropertyManagement.jsx"));
+const Addleads = lazy(() => import("./components/SubAdmin/Addleads.jsx"));
+
+
+// Auth SubAdmin
 const LoginSubAdmin = lazy(() => import("./Auth/subAdmin/LoginSubAdmin.jsx"));
 const RegisterSubAdmin = lazy(() =>
   import("./Auth/subAdmin/RegisterSubAdmin.jsx")
@@ -92,6 +126,10 @@ const ForgotPasswordSubAdmin = lazy(() =>
 const ResetPasswordSubAdmin = lazy(() =>
   import("./Auth/subAdmin/ResetPasswordSubAdmin.jsx")
 );
+
+
+
+
 
 /* Super-Admin */
 const SuperLayout = lazy(() =>
@@ -392,6 +430,8 @@ function App() {
               </AuthLayout>
             }
           />
+
+        
           <Route
             path="/register"
             element={
@@ -606,12 +646,43 @@ function App() {
               </AuthProviderSubAdmin>
             }
           >
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<SubAdminDash />} />
-            <Route path="brokers" element={<BrokerMgmt />} />
-            <Route path="performance" element={<BrokerPerf />} />
-            <Route path="leads" element={<LeadMgmt />} />
-            <Route path="properties" element={<PropertyMgmt />} />
+          {/* Default redirect */}
+          <Route index element={<Navigate to="dashboard" replace />} />
+             
+           {/* Dashboard */}
+          <Route path="dashboard" element={<SubAdminDash />} />
+
+          {/* Broker Management */}
+          <Route path="brokers" element={<BrokerMgmt />} />
+          <Route path="performance" element={<BrokerPerf />} />
+
+          {/* Lead Management */}
+          <Route path="leads" element={<LeadMgmt />} />
+          <Route path="addNewleads" element={<Addleads />} />
+          <Route path="new-leads" element={<NewLeadsSubAdmin />} />
+          <Route path="assigned-leads" element={<AssignedLeads />} />
+          <Route path="closed-leads" element={<ClosedLeadsSubAdmin />} />
+          <Route path="auto-leads" element={<AutoDistributeLeads />} />
+
+          {/* Intent Level post */}
+            <Route path="low" element={<LowLeadForm />} />
+            <Route path="medium" element={<MediumLeadForm />} />
+            <Route path="high" element={<HighLeadForm />} />
+            <Route path="leadInvoice" element={<LeadInvoice />} />
+          {/* Property Management */}
+          <Route path="properties" element={<PropertyMgmt />} />
+          <Route path="properties/add" element={<AddEditProperty />} />
+          <Route path="properties/attach-leads" element={<AttachLeads />} />
+
+          {/* Customers / Users */}
+          <Route path="all-user" element={<AllUsers />} />
+          <Route path="activate-users" element={<ActivateUsers />} />
+          <Route path="active-users" element={<ActiveUsers />} />
+          <Route path="user-roles" element={<UserRoles />} />
+
+          {/* Platform Management */}
+          <Route path="platform-management" element={<PlatformManagement />} />
+            
           </Route>
           {/* ------------------- SUPER-ADMIN DASHBOARD ------------------- */}
           <Route element={<AuthProviderSuperAdmin />}>
@@ -661,11 +732,33 @@ function App() {
               element={<Navigate to="/broker/dashboard" replace />}
             />
             <Route path="dashboard" element={<BrokerDash />} />
+          {/* Lead management */}
             <Route path="leads/all" element={<AllLeadsPage />} />
             <Route path="leads/new" element={<NewLeads />} />
+            <Route path="leads/followups" element={<FollowupLeads />} />
+            <Route path="leads/closed" element={<ClosedLeads />} />
+            <Route path="leads/lost" element={<LostLeads />} />
+           
+
+            {/* Contacts / Clients */}
+             <Route path="contacts/all" element={<AllContacts />} />
+             <Route path="contacts/buyers" element={<BuyersContacts />} />
+             <Route path="contacts/investors" element={<InvestorsContacts />} />
+
+            {/* Reports & Analytics */}
+            
+             <Route path="reports/conversion" element={<ConversionRateReport />} />
+             {/* <Route path="reports/revenue" element={<RevenueReport />} /> */}
+
             <Route path="properties" element={<BrokerProps />} />
             <Route path="packages" element={<BrokerPackages />} />
-            <Route path="reports" element={<BrokerReports />} />
+            <Route path="reports/revenue" element={<BrokerReports />} /> 
+            {/* Recharge  */}
+            <Route path="wallet/recharge" element={<WalletRecharge />} />
+            <Route path="wallet/history" element={<TransactionHistory />} />
+
+            <Route path="settings/profile" element={<ProfileSettings />} />
+            
           </Route>
           {/* ------------------- MISC ------------------- */}
           <Route

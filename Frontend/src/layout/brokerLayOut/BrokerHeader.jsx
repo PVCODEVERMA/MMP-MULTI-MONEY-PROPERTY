@@ -12,6 +12,7 @@ import {
   PhoneIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import ProfileMenu from "../../components/Shared/ProfileMenu";
 
 const BrokerHeader = () => {
   const { user, logout } = useAuth();
@@ -269,71 +270,7 @@ const BrokerHeader = () => {
           )}
         </div>
 
-        {/* Profile Dropdown */}
-        <div className="relative" ref={profileRef}>
-          <button
-            onClick={() => setProfileOpen(!profileOpen)}
-            className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200 cursor-pointer"
-          >
-            <img
-              src={avatar}
-              alt="avatar"
-              className="w-8 h-8 rounded-full ring-2 ring-orange-500/20 object-cover"
-            />
-
-            <ChevronDownIcon
-              className={`h-4 w-4 transition-transform duration-200 ${
-                profileOpen ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-
-          {profileOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-white shadow-xl border border-gray-200 rounded-lg overflow-hidden">
-              {/* Profile Header */}
-              <div className="px-4 py-3 bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white text-center">
-                <p className="text-sm font-semibold truncate">
-                  {user?.fullName || "Broker"}
-                </p>
-                <p className="text-xs text-blue-100 truncate">
-                  {user?.email || "broker@example.com"}
-                </p>
-                <div className="flex items-center justify-center mt-2">
-                  <BuildingOfficeIcon className="w-3 h-3 text-green-300 mr-1" />
-                  <span className="inline-flex items-center  px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Real Estate Broker
-                  </span>
-                </div>
-              </div>
-
-              {/* Profile Menu */}
-              <div className="py-2">
-                <button className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150 cursor-pointer">
-                  <UserCircleIcon className="h-4 w-4 mr-3 text-gray-400" />
-                  <span>My Profile</span>
-                </button>
-                <button className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150 cursor-pointer">
-                  <CogIcon className="h-4 w-4 mr-3 text-gray-400" />
-                  <span>Account Settings</span>
-                </button>
-                <button className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150 cursor-pointer">
-                  <EyeIcon className="h-4 w-4 mr-3 text-gray-400" />
-                  <span>View Dashboard</span>
-                </button>
-
-                <div className="border-t border-gray-100 my-2"></div>
-
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150 cursor-pointer"
-                >
-                  <ArrowRightOnRectangleIcon className="h-4 w-4 mr-3" />
-                  <span>Sign Out</span>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+       <ProfileMenu />
       </div>
     </header>
   );

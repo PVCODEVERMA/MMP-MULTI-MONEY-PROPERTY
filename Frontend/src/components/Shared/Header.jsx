@@ -486,7 +486,7 @@ export default function Header() {
                       key={name}
                       to={href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`flex items-center px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 cursor-pointer ${
+                      className={`flex items-center px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 cursor-pointer  ${
                         active
                           ? "bg-[#ff9c00] text-white shadow-md"
                           : "text-slate-700 hover:text-[#ff9c00] hover:bg-orange-50"

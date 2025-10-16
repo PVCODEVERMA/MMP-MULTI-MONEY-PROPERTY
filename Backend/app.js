@@ -11,13 +11,17 @@ import { globalErrorHandler, notFound } from "./src/middleware/errorHandler.js";
 dotenv.config();
 console.log(
   "Loaded environment:",
-  process.env.MONGODB_URI ? "✅ Mongo URI loaded" : "❌ Missing Mongo URI"
+  process.env.MONGODB_URI ? "Mongo URI loaded" : "Missing Mongo URI"
 );
 
 // Import routes
 import userRoutes from "./src/routes/auth/auth.routes.js";
 import subAdminRoutes from "./src/routes/adminAuth/subAdmin.routes.js";
 import superAdminRoutes from "./src/routes/adminAuth/superAdmin.routes.js";
+import leadsRouter from "./src/routes/lead/lead.routes.js"
+import lowLeadRoutes from "./src/routes/propertypost/lowProperty.routes.js"
+import mediumLeadRoutes from "./src/routes/propertypost/MediumLead.routes.js"
+import highLeadRoutes from "./src/routes/propertypost/HighLead.routes.js"
 // import paymentRoutes from "./src/routes/payment/paymentRoutes.js"; 
 
 // Initialize app
@@ -34,7 +38,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow non-browser requests (Postman, server-side)
+    if (!origin) return callback(null, true); 
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg = "The CORS policy for this site does not allow access from the specified Origin.";
       return callback(new Error(msg), false);
@@ -55,6 +59,11 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/subadmin", subAdminRoutes);
 app.use("/api/superadmin", superAdminRoutes);
+app.use("/api/leads", leadsRouter);
+app.use("/api/low", lowLeadRoutes);
+app.use("/api/medium", mediumLeadRoutes);
+app.use("/api/high", highLeadRoutes);
+
 // app.use("/api/payment", paymentRoutes);
 
 // Default route

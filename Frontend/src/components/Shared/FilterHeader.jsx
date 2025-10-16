@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import { X, Search } from "lucide-react";
 
 import LocationSelector from "../locationSelector/LocationSelector.jsx";
-// import ProfileMenu from "../profile/ProfileMenu.jsx";   // ✅ NEW
 import logo from "../../assets/componyLogos/logo.jpg";
 import ProfileMenu from "./ProfileMenu.jsx";
 

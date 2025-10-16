@@ -55,10 +55,9 @@ const FindByLeadsHeader = () => {
   }, []);
 
   const closeMobile = () => { setMobMenu(false); setMobSol(false); setMobProfile(false); };
-   // ✅ Define who should see the dashboard link
-  const showDashboard =
-    user &&
-    ["Developer", "Builder", "Broker", "SubAdmin", "SuperAdmin"].includes(user.role);
+  // const showDashboard =
+  //   user &&
+  //   ["Developer", "Builder", "Broker", "SubAdmin", "SuperAdmin"].includes(user.role);
 
   return (
     <header className="bg-[#f7f7f7] fixed top-0 left-0 w-full z-50">
@@ -271,7 +270,7 @@ const FindByLeadsHeader = () => {
                       <p className="text-gray-900 font-bold text-lg">{user.fullName}</p>
                       <p className="text-gray-600 text-sm">{user.email}</p>
                       {user.phone && <p className="text-gray-600 text-sm">{user.phone}</p>}
-                      {user.city && <p className="text-gray-600 text-sm">📍 {user.city}</p>}
+                      {user.city && <p className="text-gray-600 text-sm"> {user.city}</p>}
                       <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
                         {user.role}
                       </div>
@@ -280,8 +279,7 @@ const FindByLeadsHeader = () => {
                     {/* Menu Items */}
                     <div className="space-y-2">
 
-                        {/* ✅ Conditionally render dashboard link */}
-                    {showDashboard && (
+            
                       <Link
                         to="/dashboardAll"
                         onClick={() => setProfileOpen(false)}
@@ -293,7 +291,7 @@ const FindByLeadsHeader = () => {
                         />
                         <span className="font-medium">My Dashboard</span>
                       </Link>
-                    )}
+                  
 
                       <Link to="/profile" onClick={closeMobile} 
                         className="flex items-center gap-3 py-3 text-gray-700 hover:text-[#FF9C00] transition-colors">

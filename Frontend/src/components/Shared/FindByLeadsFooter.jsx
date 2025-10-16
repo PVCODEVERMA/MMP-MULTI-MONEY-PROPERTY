@@ -81,7 +81,7 @@ export default function FindByLeadsFooter() {
   };
 
   return (
-    <footer className="relative isolate overflow-hidden bg-[#144155] text-neutral-300
+    <footer className="relative  isolate overflow-hidden bg-[#144155] text-neutral-300
                        before:absolute before:inset-0 before:-skew-y-3
                        before:bg-[linear-gradient(135deg,#113647_25%,transparent_25%),linear-gradient(135deg,transparent_75%,#113647_75%)]
                        before:bg-[length:100%_100%] before:opacity-60">

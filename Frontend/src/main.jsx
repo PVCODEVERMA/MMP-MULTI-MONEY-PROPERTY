@@ -15,6 +15,10 @@ import { AuthProviderSuperAdmin } from "./context/AuthContextSuperAdmin.jsx"; //
 
 /* Error Boundary */
 import ErrorBoundary from "./common/ErrorBoundary.jsx";
+import { LowLeadProvider } from "./context/LowLeadContext.jsx";
+import { PropertyProvider } from "./context/LeadContext.jsx";
+import { MediumLeadProvider } from "./context/MediumLeadContext.jsx";
+import { HighLeadProvider } from "./context/HighLeadContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -24,7 +28,15 @@ createRoot(document.getElementById("root")).render(
           <AuthProvider>
             <AuthProviderSubAdmin>
               <AuthProviderSuperAdmin>
-                <App />
+                <PropertyProvider>
+                  <MediumLeadProvider>
+                    <HighLeadProvider>
+                      <LowLeadProvider>
+                        <App />
+                      </LowLeadProvider>
+                    </HighLeadProvider>
+                  </MediumLeadProvider>
+                </PropertyProvider>
                 <Toaster position="top-center" reverseOrder={false} />
               </AuthProviderSuperAdmin>
             </AuthProviderSubAdmin>

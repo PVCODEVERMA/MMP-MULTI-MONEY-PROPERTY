@@ -47,16 +47,11 @@ const SubAdminHeader = ({ sidebarCollapsed, setSidebarCollapsed }) => {
   const unreadCount = notifications.filter((n) => n.unread).length;
 
   // Fetch profile on mount
-  useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        await fetchSubAdminProfile();
-      } catch (err) {
-        console.error("Failed to load sub-admin profile:", err);
-      }
-    };
-    loadProfile();
-  }, [fetchSubAdminProfile]);
+useEffect(() => {
+  const loadProfile = async () => { await fetchSubAdminProfile(); };
+  loadProfile();
+}, [fetchSubAdminProfile]);
+
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -71,13 +66,8 @@ const SubAdminHeader = ({ sidebarCollapsed, setSidebarCollapsed }) => {
   }, []);
 
   // Handle logout
-  const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
+ const handleLogout = async () => { await logout(); };
+
 
   // Profile info
   const displayName = subAdmin?.fullName || subAdmin?.name || "SubAdmin";

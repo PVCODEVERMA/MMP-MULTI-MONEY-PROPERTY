@@ -1,4 +1,4 @@
-// src/components/findByPropertyleads/leadsExplorer/Modal.jsx
+
 export default function Modal({ open, onClose, children }) {
   if (!open) return null;
 

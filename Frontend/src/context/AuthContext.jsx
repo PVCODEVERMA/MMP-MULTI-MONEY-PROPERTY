@@ -26,7 +26,8 @@ export const AuthProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       
-      setUser(data.user);        
+      setUser(data.user);      
+      toast.success("Profile updated successfully!");  
     } catch (err) {
       console.error("Error fetching user profile:", err.response?.data || err.message);
       setAccessToken(null);
@@ -112,6 +113,52 @@ export const AuthProvider = ({ children }) => {
     toast.success("Logged out successfully!");
   };
 
+    // Update user profile
+  const updateUserProfile = async (formData) => {
+    try {
+      const res = await api.put("/users/profile", formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data"
+        },
+      });
+      if (res.data.user) setUser(res.data.user);
+      toast.success("Profile updated");
+      return res.data;
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Profile update failed");
+      throw err;
+    }
+  };
+
+ 
+
+    // Forgot password
+  const forgotPassword = async (email) => {
+    try {
+      const res = await api.post("/users/forgot-password", { email });
+      toast.success(res.data.message || "Reset link sent");
+      return res.data;
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send reset link");
+      throw err;
+    }
+  };
+
+   // Reset password
+  const resetPassword = async ({ token, password, confirmPassword }) => {
+    try {
+      const res = await api.post(`/users/reset-password/${token}`, {
+        password,
+        confirmPassword
+      });
+      toast.success(res.data.message || "Password reset successful");
+      return res.data;
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Password reset failed");
+      throw err;
+    }
+  };
 
   // New: Handle upgradeUserPlan API call
   const upgradeUserPlan = async ({ plan, addOns, role }) => {
@@ -147,6 +194,9 @@ export const AuthProvider = ({ children }) => {
         upgradeUserPlan,
         isAuthenticated: !!user,
         loading,
+        updateUserProfile,
+        forgotPassword,
+        resetPassword,
       }}
     >
       {children}

@@ -47,6 +47,7 @@ export default function LeftPane() {
           <Star size={18} />
           {open && "Popular Leads"}
         </NavLink>
+        
 
         <NavLink
           to="/home/leads/lock/allLeads"

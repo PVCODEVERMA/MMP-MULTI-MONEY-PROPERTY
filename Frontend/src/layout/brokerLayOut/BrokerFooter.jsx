@@ -28,7 +28,7 @@ const BrokerFooter = () => {
   };
 
   return (
-    <footer className="bg-white border-t border-gray-200">
+    <footer className="fixed bottom-0 w-[96%] bg-white border-t border-gray-200">
       {/* Emergency Contact Strip */}
       <div className="bg-[#154056] text-white px-6 py-1">
         <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
@@ -43,7 +43,7 @@ const BrokerFooter = () => {
               }`}></div>
               <span>Support: {supportStatus === 'online' ? 'Online' : 'Offline'}</span>
             </div>
-            <span>•</span>
+            
             <span>Time: {formatTime(currentTime)}</span>
           </div>
         </div>

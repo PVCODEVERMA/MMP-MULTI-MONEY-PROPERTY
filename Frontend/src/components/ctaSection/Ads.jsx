@@ -46,7 +46,7 @@ const Ads = () => {
   const goToSlide = (index) => setCurrentSlide(index);
 
   return (
-    <div className="relative h-40 md:h-40 w-64 rounded-xl overflow-hidden shadow-xl border-2 border-white/20">
+    <div className="relative h-40 md:h-40 w-64 rounded-xl overflow-hidden shadow-xl border-2 border-white/20 ml-32">
       {/* Slides container */}
       <div
         className="h-full flex transition-transform duration-700 ease-in-out"
