@@ -79,7 +79,7 @@ import NotificationSettings from "./components/Broker/NotificationSettings.jsx";
 import AddProperty from "./components/Broker/AddProperty.jsx";
 import MyListings from "./components/Broker/MyListings.jsx";
 import HighLeadForm from "./components/SubAdmin/leadManagement/HighLeadForm.jsx";
-import LowLeadForm from "./components/SubAdmin/LeadManagement/LowLeadForm.jsx";
+
 
 
 /* Lazy Imports */
@@ -678,7 +678,7 @@ function App() {
             {/* Intent Level post */}
 
             <Route path="high" element={<HighLeadForm />} />
-            <Route path="low" element={<LowLeadForm />} />
+            {/* <Route path="low" element={<LowLea />} /> */}
             <Route path="medium" element={<MediumLeadForm />} />
             
             <Route path="leadInvoice" element={<LeadInvoice />} />
