@@ -65,7 +65,8 @@ import AllContacts from "./components/Broker/AllContacts.jsx";
 import BuyersContacts from "./components/Broker/BuyersContacts.jsx";
 import InvestorsContacts from "./components/Broker/InvestorsContacts.jsx";
 import ConversionRateReport from "./components/Broker/ConversionRateReport.jsx";
-import LowLeadForm from "./components/SubAdmin/LeadManagement/LowLeadForm.jsx";
+
+
 import MediumLeadForm from "./components/SubAdmin/leadManagement/MediumLeadForm.jsx";
 
 import LeadInvoice from "./components/SubAdmin/leadManagement/LeadInvoice.jsx";
@@ -78,6 +79,8 @@ import NotificationSettings from "./components/Broker/NotificationSettings.jsx";
 import AddProperty from "./components/Broker/AddProperty.jsx";
 import MyListings from "./components/Broker/MyListings.jsx";
 import HighLeadForm from "./components/SubAdmin/leadManagement/HighLeadForm.jsx";
+import LowLeadForm from "./components/SubAdmin/LeadManagement/LowLeadForm.jsx";
+
 
 /* Lazy Imports */
 const Login = lazy(() => import("./Auth/Login.jsx"));
@@ -674,9 +677,10 @@ function App() {
 
             {/* Intent Level post */}
 
+            <Route path="high" element={<HighLeadForm />} />
             <Route path="low" element={<LowLeadForm />} />
             <Route path="medium" element={<MediumLeadForm />} />
-            <Route path="high" element={<HighLeadForm />} />
+            
             <Route path="leadInvoice" element={<LeadInvoice />} />
             {/* Property Management */}
             <Route path="properties" element={<PropertyMgmt />} />
