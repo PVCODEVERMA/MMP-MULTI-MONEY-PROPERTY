@@ -67,6 +67,30 @@ export const HighLeadProvider = ({ children }) => {
     }
   };
 
+
+  // ------------------------
+  // Assign a High Intent lead
+  // ------------------------
+  const assignHighLead = async (id, assignedTo, assignedRole) => {
+    if (!assignedTo || !assignedRole) {
+      toast.error("Assigned user and role are required");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await api.put(`/high/${id}/assign`, { assignedTo, assignedRole });
+      toast.success(res.data.message || "Lead assigned successfully");
+      fetchHighLeads();
+    } catch (err) {
+      console.error("Assign high lead error:", err);
+      toast.error(err.response?.data?.message || "Failed to assign lead");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
     fetchHighLeads();
   }, []);
@@ -80,6 +104,7 @@ export const HighLeadProvider = ({ children }) => {
         createHighLead,
         updateHighLead,
         deleteHighLead,
+        assignHighLead,
       }}
     >
       {children}

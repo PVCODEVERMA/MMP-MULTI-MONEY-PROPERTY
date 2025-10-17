@@ -1,5 +1,5 @@
 import HighLead from "../../models/HighLead.model.js";
-
+import User from "../../models/user.model.js";
 // Create a High Intent Lead
 export const createHighLead = async (req, res) => {
   try {
@@ -108,5 +108,18 @@ export const assignHighLead = async (req, res) => {
   } catch (error) {
     console.error("Assign Lead Error:", error);
     res.status(500).json({ message: "Server error while assigning lead" });
+  }
+};
+
+
+export const getLeadsByUser = async (req, res) => {
+  try {
+    const leads = await User.find({ userId: req.params.userId });
+    if (leads.length === 0) {
+      return res.json({ message: "No leads assigned yet", data: [] });
+    }
+    res.json(leads);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };

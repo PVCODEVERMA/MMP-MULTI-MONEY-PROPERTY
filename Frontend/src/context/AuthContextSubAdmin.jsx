@@ -1,6 +1,5 @@
-
-import { createContext, useContext, useState, useEffect } from "react";
-import api from "../lib/api";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import api from "../lib/api"; // Axios instance
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -14,17 +13,21 @@ export const useAuthSubAdmin = () => useContext(AuthContextSubAdmin);
 // Provider
 // ------------------------
 export const AuthProviderSubAdmin = ({ children }) => {
-  const [subAdmin, setSubAdmin] = useState(null);
-  const [subAdminToken, setSubAdminToken] = useState(
-    localStorage.getItem("subAdminToken")
-  );
-  
-  const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
   // ------------------------
-  // Axios interceptor for attaching token
+  // State
+  // ------------------------
+  const [subAdmin, setSubAdmin] = useState(null);
+  const [subAdminToken, setSubAdminToken] = useState(
+    localStorage.getItem("subAdminToken") || null
+  );
+  const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState("");
+
+  // ------------------------
+  // Axios interceptor for token
   // ------------------------
   useEffect(() => {
     const interceptor = api.interceptors.request.use(
@@ -33,31 +36,27 @@ export const AuthProviderSubAdmin = ({ children }) => {
         if (token) config.headers.Authorization = `Bearer ${token}`;
         return config;
       },
-      (error) => Promise.reject(error)
+      (err) => Promise.reject(err)
     );
-
     return () => api.interceptors.request.eject(interceptor);
   }, []);
 
   // ------------------------
-  // Fetch SubAdmin profile
+  // Fetch sub-admin profile
   // ------------------------
-let profileFetchTimeout;
-const fetchSubAdminProfile = async () => {
-  if (!subAdminToken) return;
-  if (profileFetchTimeout) clearTimeout(profileFetchTimeout);
-
-  profileFetchTimeout = setTimeout(async () => {
+  const fetchSubAdminProfile = useCallback(async () => {
+    if (!subAdminToken) return;
+    setLoading(true);
     try {
       const res = await api.get("/subadmin/profile");
       setSubAdmin(res.data.subAdmin);
     } catch (err) {
       console.error("Profile fetch error:", err.response?.data || err.message);
       if (err.response?.status === 401) logout();
+    } finally {
+      setLoading(false);
     }
-  }, 300); // 300ms delay
-};
-
+  }, [subAdminToken]);
 
   // ------------------------
   // Login
@@ -68,15 +67,15 @@ const fetchSubAdminProfile = async () => {
       const res = await api.post("/subadmin/login", { email, password });
 
       if (res.data?.subAdmin?.role === "SubAdmin") {
-        localStorage.setItem("subAdminToken", res.data.accessToken);
-        setSubAdminToken(res.data.accessToken);
+        const token = res.data.accessToken;
+        localStorage.setItem("subAdminToken", token);
+        setSubAdminToken(token);
         setSubAdmin(res.data.subAdmin);
-        toast.success("Login successful");
+        toast.success("Login successful!");
         navigate("/subadmin-dashboard");
       } else {
         toast.error("Unauthorized role");
       }
-
       return res.data;
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
@@ -112,39 +111,38 @@ const fetchSubAdminProfile = async () => {
     setSubAdmin(null);
     setSubAdminToken(null);
     toast.success("Logged out successfully");
-    setTimeout(() => {
-    navigate("/");
-  }, 50);
+    setTimeout(() => navigate("/"), 50);
   };
 
-    // Get all users (admin only)
-    const getAllUsers = async () => {
-       if (!subAdminToken) {
-    console.warn(" No sub-admin token found. Skipping profile fetch.");
-    return;
-  }
-      try {
-        const res = await api.get("/users/all-users", {
-          headers: { Authorization: `Bearer ${subAdminToken}` }
-        });
-        return res.data; 
-      } catch (err) {
-        toast.error(err.response?.data?.message || "Failed to fetch users");
-        throw err;
-      }
-    };
   // ------------------------
-  // Auto fetch profile when token changes
+  // Get all users
   // ------------------------
- useEffect(() => {
-  const token = localStorage.getItem("subAdminToken");
-  if (token && !subAdmin) {
-    
-    fetchSubAdminProfile();
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+  const getAllUsers = useCallback(async () => {
+    if (!subAdminToken) return [];
+    setLoading(true);
+    try {
+      const res = await api.get("/users/all-users", {
+        headers: { Authorization: `Bearer ${subAdminToken}` },
+      });
+      const data = res.data?.users || res.data || [];
+      setUsers(Array.isArray(data) ? data : []);
+      return data;
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to fetch users");
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  }, [subAdminToken]);
 
+  // ------------------------
+  // Auto fetch profile on token change
+  // ------------------------
+  useEffect(() => {
+    if (subAdminToken && !subAdmin) {
+      fetchSubAdminProfile();
+    }
+  }, [subAdminToken, subAdmin, fetchSubAdminProfile]);
 
   return (
     <AuthContextSubAdmin.Provider
@@ -152,13 +150,15 @@ const fetchSubAdminProfile = async () => {
         subAdmin,
         subAdminToken,
         loading,
+        users,
+        error,
         login,
         register,
         logout,
-        isAuthenticated: !!subAdmin,
         fetchSubAdminProfile,
+        getAllUsers,
         setSubAdmin,
-        getAllUsers
+        isAuthenticated: !!subAdmin,
       }}
     >
       {children}

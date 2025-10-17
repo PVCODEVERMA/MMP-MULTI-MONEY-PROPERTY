@@ -5,6 +5,7 @@ import {
   updateHighLead,
   deleteHighLead,
   assignHighLead,
+  getLeadsByUser,
 } from "../../controllers/lead/HighLead.controller.js";
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.put("/:id", updateHighLead);     // Update
 router.delete("/:id", deleteHighLead);  // Delete
 
 router.put("/:id/assign", assignHighLead);
+router.get("/user/:userId", getLeadsByUser);
 
 export default router;

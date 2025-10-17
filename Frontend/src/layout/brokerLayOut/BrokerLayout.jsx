@@ -5,28 +5,42 @@ import BrokerSidebar from '../../layout/brokerLayOut/BrokerSidebar.jsx';
 import BrokerFooter from '../../layout/brokerLayOut/BrokerFooter.jsx';
 
 const BrokerLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true); 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-[#f7f7f7]">
       {/* Sidebar */}
       <BrokerSidebar 
         sidebarOpen={sidebarOpen} 
-        setSidebarOpen={setSidebarOpen} 
+        setSidebarOpen={setSidebarOpen}
+        sidebarCollapsed={sidebarCollapsed}
+        setSidebarCollapsed={setSidebarCollapsed}
       />
 
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : 'ml-62'}`}>
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'
+      }`}>
         {/* Header */}
-        <BrokerHeader />
+        <BrokerHeader 
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          sidebarCollapsed={sidebarCollapsed}
+          setSidebarCollapsed={setSidebarCollapsed}
+        />
 
         {/* Page Content */}
-        <main className="flex-1 p-6">
-          <Outlet />
+        <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${
+          sidebarCollapsed ? 'lg:ml-0' : 'lg:ml-0'
+        }`}>
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
 
         {/* Footer */}
-        <BrokerFooter />
+        <BrokerFooter sidebarCollapsed={sidebarCollapsed} />
       </div>
     </div>
   );

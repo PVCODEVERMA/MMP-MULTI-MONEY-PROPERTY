@@ -103,14 +103,10 @@ const SubAdminDashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Company Dashboard</h1>
-        <p className="text-gray-600">Overview of your company's real estate operations</p>
-      </div>
+     
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6  mt-5 mx-5">
         {statsCards.map((stat, index) => (
           <motion.div
             key={stat.title}
@@ -146,7 +142,7 @@ const SubAdminDashboard = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mx-5">
         {/* Recent Activities */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activities</h3>
@@ -205,7 +201,7 @@ const SubAdminDashboard = () => {
       </div>
 
       {/* Pending Tasks */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white rounded-lg shadow-sm p-6 mx-5 mb-5">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Pending Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">

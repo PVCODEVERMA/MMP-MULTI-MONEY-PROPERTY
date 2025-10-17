@@ -7,23 +7,28 @@ import {
   DocumentTextIcon,
   BuildingOfficeIcon,
   ChartBarIcon,
-  MegaphoneIcon,
   WalletIcon,
   Cog6ToothIcon,
   XMarkIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  Bars3Icon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
 } from "@heroicons/react/24/outline";
 
-
-const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
+const BrokerSidebar = ({ sidebarOpen, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed }) => {
   const { user } = useAuth();
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const toggleDropdown = (name) => {
-    setOpenDropdown(openDropdown === name ? null : name);
+    if (sidebarCollapsed) {
+      setSidebarCollapsed(false);
+      setTimeout(() => setOpenDropdown(openDropdown === name ? null : name), 300);
+    } else {
+      setOpenDropdown(openDropdown === name ? null : name);
+    }
   };
 
   const navigation = [
@@ -36,25 +41,10 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       name: "Lead Management",
       icon: DocumentTextIcon,
       subItems: [
-       { name: "latest leads", href: "/broker/leads/new" },
+        { name: "Latest Leads", href: "/broker/leads/new" },
         { name: "All Leads", href: "/broker/leads/all" },
-        // { name: "Follow-up Leads", href: "/broker/leads/followups" },
-        // { name: "Closed Leads", href: "/broker/leads/closed" },
-        // { name: "Lost Leads", href: "/broker/leads/lost" },
-        
       ],
     },
-    // {
-    //   name: "Property Management",
-    //   icon: BuildingOfficeIcon,
-    //   subItems: [
-    //     { name: "All Properties", href: "/broker/properties/all" },
-    //     { name: "Available Properties", href: "/broker/properties/available" },
-    //     { name: "Booked / Sold", href: "/broker/properties/sold" },
-    //     { name: "Add New Property", href: "/broker/properties/add" },
-    //     { name: "Attach Leads to Property", href: "/broker/properties/attach-leads" },
-    //   ],
-    // },
     {
       name: "Contacts / Clients",
       icon: UserGroupIcon,
@@ -64,6 +54,15 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
         { name: "Investors", href: "/broker/contacts/investors" },
       ],
     },
+    {
+      name: "Property Post",
+      icon: BuildingOfficeIcon,
+      subItems: [
+        { name: "Add New Property", href: "/broker/property/add" },
+        { name: "My Listings", href: "/broker/property/listings" },
+      ],
+    },
+    
     {
       name: "Tasks & Follow-ups",
       icon: DocumentTextIcon,
@@ -82,14 +81,13 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
         { name: "Revenue Report", href: "/broker/reports/revenue" },
       ],
     },
-
     {
       name: "Wallet / Billing",
       icon: WalletIcon,
       subItems: [
         { name: "Recharge Wallet", href: "/broker/wallet/recharge" },
         { name: "Transaction History", href: "/broker/wallet/history" },
-        { name: "Plan Upgrades / Subscriptions", href: "/home/leads/plans" },
+        { name: "Plan Upgrades", href: "/home/leads/plans" },
       ],
     },
     {
@@ -97,133 +95,270 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       icon: Cog6ToothIcon,
       subItems: [
         { name: "Profile Settings", href: "/broker/settings/profile" },
-        // { name: "Team Roles & Permissions", href: "/broker/settings/roles" },
         { name: "Notifications", href: "/broker/settings/notifications" },
-        // { name: "Integrations (CRM, WhatsApp, etc.)", href: "/broker/settings/integrations" },
       ],
     },
     {
-    name: "Back to Home",
-    href: "/home/leads",
-    icon: HomeIcon,
-  }
+      name: "Back to Home",
+      href: "/home/leads",
+      icon: HomeIcon,
+    }
   ];
 
-  const getAvatarUrl = () => {
-    if (user?.profile?.avatar?.url) return user.profile.avatar.url;
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      user?.name || "Broker"
-    )}&background=154056&color=ffffff&size=100`;
-  };
+  // Mobile menu component
+  const MobileMenu = () => (
+    <div className="lg:hidden">
+      {/* Mobile Navigation Menu */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 bg-[#154056]">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[#154056] to-[#2c6b8a] border-b border-[#2c6b8a]">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <BuildingOfficeIcon className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white">Multi Money Property</h1>
+                
+              </div>
+            </div>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+            >
+              <XMarkIcon className="h-6 w-6 text-white cursor-pointer" />
+            </button>
+          </div>
+
+          {/* Mobile Navigation */}
+          <nav className="p-4 space-y-2 overflow-y-auto h-[calc(100vh-80px)] no-scrollbar ">
+            {navigation.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.href;
+              const hasSubItems = item.subItems && item.subItems.length > 0;
+
+              return (
+                <div key={item.name} className="border-b border-[#2c6b8a] pb-2 last:border-b-0 cursor-pointer">
+                  {!hasSubItems ? (
+                    <Link
+                      to={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                        isActive
+                          ? "bg-[#ff9c00] text-white shadow-lg"
+                          : "text-white hover:bg-[#2c6b8a]"
+                      }`}
+                    >
+                      <Icon className="h-6 w-6 flex-shrink-0" />
+                      <span className="font-medium">{item.name}</span>
+                    </Link>
+                  ) : (
+                    <div>
+                      <button
+                        onClick={() => toggleDropdown(item.name)}
+                        className="flex items-center justify-between w-full p-3 rounded-lg text-white hover:bg-[#2c6b8a] transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Icon className="h-6 w-6" />
+                          <span className="font-medium">{item.name}</span>
+                        </div>
+                        {openDropdown === item.name ? (
+                          <ChevronDownIcon className="h-5 w-5" />
+                        ) : (
+                          <ChevronRightIcon className="h-5 w-5" />
+                        )}
+                      </button>
+
+                      {openDropdown === item.name && (
+                        <div className="ml-4 mt-2 space-y-2 border-l-2 border-[#ff9c00] pl-4">
+                          {item.subItems.map((sub) => (
+                            <Link
+                              key={sub.name}
+                              to={sub.href}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-2.5 rounded-lg transition-colors ${
+                                location.pathname === sub.href
+                                  ? "bg-[#ff9c00] text-white font-medium"
+                                  : "text-blue-100 hover:bg-[#2c6b8a] hover:text-white"
+                              }`}
+                            >
+                              {sub.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+        </div>
+      )}
+    </div>
+  );
+
+  // Desktop sidebar component
+  const DesktopSidebar = () => (
+    <div className={`hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:z-40 bg-white border-r border-gray-200 shadow-lg transition-all duration-300 ${
+      sidebarCollapsed ? 'w-20' : 'w-64'
+    }`}>
+      {/* Sidebar Header */}
+      <div className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white">
+        {!sidebarCollapsed && (
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+              <BuildingOfficeIcon className="w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold">Multi Money</h1>
+              <p className="text-xs text-blue-100">Broker Portal</p>
+            </div>
+          </div>
+        )}
+        
+        {sidebarCollapsed && (
+          <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center mx-auto">
+            <BuildingOfficeIcon className="w-6 h-6  cursor-pointer" />
+          </div>
+        )}
+        
+        {!sidebarCollapsed && (
+          <button
+            onClick={() => setSidebarCollapsed(true)}
+            className="p-1 hover:bg-white/20 rounded transition-colors"
+            title="Collapse sidebar"
+          >
+            <ChevronDoubleLeftIcon className="h-5 w-5 cursor-pointer" />
+          </button>
+        )}
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto no-scrollbar">
+        {navigation.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.href;
+          const hasSubItems = item.subItems && item.subItems.length > 0;
+
+          if (sidebarCollapsed) {
+            // Collapsed state - icons only with tooltip
+            return (
+              <div key={item.name} className="relative group">
+                {!hasSubItems ? (
+                  <Link
+                    to={item.href}
+                    className={`flex items-center justify-center p-3 rounded-xl transition-all duration-200  cursor-pointer ${
+                      isActive
+                        ? "bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white shadow-lg cursor-pointer"
+                        : "text-gray-700 hover:bg-[#ff9c00] hover:text-white cursor-pointer"
+                    }`}
+                    title={item.name}
+                  >
+                    <Icon className="h-6 w-6 flex-shrink-0" />
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => toggleDropdown(item.name)}
+                    className={`flex items-center justify-center w-full p-3 rounded-lg transition-colors cursor-pointer ${
+                      openDropdown === item.name
+                        ? "bg-[#ff9c00] text-white"
+                        : "text-gray-700 hover:bg-[#ff9c00] hover:text-white"
+                    }`}
+                    title={item.name}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </button>
+                )}
+                
+                {/* Tooltip for collapsed state */}
+                <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 whitespace-nowrap">
+                  {item.name}
+                </div>
+              </div>
+            );
+          }
+
+          // Expanded state
+          return (
+            <div key={item.name}>
+              {!hasSubItems ? (
+                <Link
+                  to={item.href}
+                  className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? "bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white shadow-lg"
+                      : "text-gray-700 hover:bg-[#ff9c00] hover:text-white"
+                  }`}
+                >
+                  <Icon className="h-5 w-5 flex-shrink-0" />
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              ) : (
+                <div>
+                  <button
+                    onClick={() => toggleDropdown(item.name)}
+                    className="flex items-center justify-between w-full p-3 rounded-lg text-gray-700 hover:bg-[#ff9c00] hover:text-white transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className="h-5 w-5" />
+                      <span className="font-medium">{item.name}</span>
+                    </div>
+                    {openDropdown === item.name ? (
+                      <ChevronDownIcon className="h-4 w-4" />
+                    ) : (
+                      <ChevronRightIcon className="h-4 w-4" />
+                    )}
+                  </button>
+
+                  {openDropdown === item.name && (
+                    <div className="ml-9 mt-1 space-y-1">
+                      {item.subItems.map((sub) => (
+                        <Link
+                          key={sub.name}
+                          to={sub.href}
+                          className={`block px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                            location.pathname === sub.href
+                              ? "bg-[#154056] text-white font-medium"
+                              : "text-gray-600 hover:bg-[#ff9c00] hover:text-white"
+                          }`}
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </nav>
+
+      {/* Collapse/Expand Button at Bottom */}
+      {sidebarCollapsed && (
+        <div className="p-4 border-t border-gray-200">
+          <button
+            onClick={() => setSidebarCollapsed(false)}
+            className="flex items-center justify-center w-full p-2 text-gray-600 hover:text-[#ff9c00] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+            title="Expand sidebar"
+          >
+            <ChevronDoubleRightIcon className="h-5 w-5 cursor-pointer" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <>
-      <div
-        className={`fixed inset-y-0 left-0 z-50 bg-white  border-gray-200  transition-transform duration-300
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-        ${collapsed ? "w-20" : "w-64"} lg:translate-x-0 lg:static lg:inset-0`}
-        style={{ position: "sticky", top: 0, height: "100vh" }}
-      >
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-              <BuildingOfficeIcon className="w-5 h-5" />
-            </div>
-            {!collapsed && (
-              <div>
-                <h1 className="text-lg font-bold">Multi Money</h1>
-                <p className="text-xs text-blue-100">Broker Portal</p>
-              </div>
-            )}
-          </div>
-          <div className="flex items-center space-x-1">
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="p-1 hover:bg-white/20 rounded"
-            >
-              {collapsed ? "→" : "←"}
-            </button>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="lg:hidden p-1 hover:bg-white/20 rounded"
-            >
-              <XMarkIcon className="h-6 w-6" />
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto cursor-pointer">
-          {navigation.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.href;
-
-            return (
-              <div key={item.name}>
-                {!item.subItems ? (
-                  <Link
-                    to={item.href}
-                    className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 cursor-pointer ${
-                      isActive
-                        ? "bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white shadow-lg"
-                        : "text-gray-700 hover:bg-orange-100 hover:text-[#ff9c00]"
-                    }`}
-                  >
-                    <Icon
-                      className={`h-5 w-5 flex-shrink-0 ${
-                        isActive ? "text-white" : "text-gray-400"
-                      }`}
-                    />
-                    {!collapsed && <span>{item.name}</span>}
-                  </Link>
-                ) : (
-                  <div>
-                    <button
-                      onClick={() => toggleDropdown(item.name)}
-                      className="flex items-center justify-between w-full p-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-[#ff9c00] cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <Icon className="h-5 w-5 text-gray-400" />
-                        {!collapsed && <span>{item.name}</span>}
-                      </div>
-                      {!collapsed &&
-                        (openDropdown === item.name ? (
-                          <ChevronDownIcon className="h-4 w-4" />
-                        ) : (
-                          <ChevronRightIcon className="h-4 w-4" />
-                        ))}
-                    </button>
-
-                    {openDropdown === item.name && !collapsed && (
-                      <div className="ml-9 mt-1 space-y-1">
-                        {item.subItems.map((sub) => (
-                          <Link
-                            key={sub.name}
-                            to={sub.href}
-                            className={`block px-2 py-1.5 text-sm rounded-md cursor-pointer ${
-                              location.pathname === sub.href
-                                ? "bg-blue-100 text-[#154056] font-medium"
-                                : "text-gray-600 hover:text-[#154056] hover:bg-blue-50"
-                            }`}
-                          >
-                            {sub.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-      </div>
-
+      <MobileMenu />
+      <DesktopSidebar />
+      
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}

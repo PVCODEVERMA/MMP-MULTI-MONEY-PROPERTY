@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useHighLeads } from "../../../context/HighLeadContext";
-import { useAuthSubAdmin } from "../../../context/AuthContextSubAdmin"; // Adjust import path if needed
+import { useAuthSubAdmin } from "../../../context/AuthContextSubAdmin"; 
 
 const HighLeadForm = () => {
-  const { highLeads, createHighLead, updateHighLead, deleteHighLead } = useHighLeads();
+  const { highLeads, createHighLead, updateHighLead, deleteHighLead, assignHighLead} = useHighLeads();
   const { getAllUsers } = useAuthSubAdmin();
+  
 
   const initialForm = {
     name: "",
@@ -46,8 +47,6 @@ const HighLeadForm = () => {
     console.log(data)
     const usersData = data?.users || data?.data?.users || data || [];
     setAssignUsers(Array.isArray(usersData) ? usersData : []);
-    console.log("usersData after parsing:", usersData);
-      console.log("All roles found:", usersData.map(u => u.role)); 
   } catch (e) {
     setAssignError("Failed to load users for assignment.");
     setAssignUsers([]);
@@ -56,15 +55,33 @@ const HighLeadForm = () => {
 };
 
 
- // POST handler with confirmation and feedback
-  const assignLeadToUser = async (leadId, userId) => {
-    if (window.confirm("Are you sure you want to assign this lead to this user?")) {
-      // Replace with your API call. Example:
-      alert(`Lead ${leadId} assigned to user ${userId}`);
-      // e.g. await api.assignLeadToUser(leadId, userId);
-      // Optionally refresh data here.
+const assignLeadToUser = async (leadId, userId) => {
+  if (!leadId || !userId) return;
+
+  if (window.confirm("Are you sure you want to assign this lead to this user?")) {
+    try {
+      // Find the role of the selected user
+      const selectedUserObj = assignUsers.find(u => u._id === userId);
+      const assignedRole = selectedUserObj?.role;
+
+      // Call context API to assign lead
+      await assignHighLead(leadId, userId, assignedRole);
+      toast.success("Lead assigned successfully");
+      setTimeout(() => setShowPopup(false), 800);
+
+      // Remove assigned user from the list
+      setAssignUsers(prev => prev.filter(u => u._id !== userId));
+
+      // Reset selected user
+      setSelectedUser("");
+
+    } catch (err) {
+      console.error("Assign Lead Error:", err);
+      toast.error("Failed to assign lead");
     }
-  };
+  }
+};
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -341,7 +358,7 @@ const HighLeadForm = () => {
       {showAssignPopup && (
         <div className="fixed inset-0 bg-transparent bg-opacity-30 flex items-center justify-center z-50 p-4">
           <div className="bg-white p-6 rounded-2xl w-full max-w-md shadow-2xl">
-            <h2 className="text-xl font-bold mb-4">Assign Lead</h2>
+            <h2 className="text-3xl font-bold mb-4 text-center">Assign Lead</h2>
             {assignLoading ? (
               <div>Loading users...</div>
             ) : (
@@ -350,18 +367,18 @@ const HighLeadForm = () => {
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
-                  className="w-full mb-4 border px-3 py-2 rounded"
+                  className="w-full mb-7 border px-3 py-2 rounded cursor-pointer"
                 >
                   <option value="all">All Roles</option>
                   <option value="developer">Developer</option>
                   <option value="builder">Builder</option>
                   <option value="broker">Broker</option>
                   <option value="channel-partner">Channel-Partner</option>
-                  <option value="user">User</option>
+                  
                 </select>
                 
                 <select
-                  className="w-full mb-4 border px-3 py-2 rounded"
+                  className="w-full mb-4 border px-3 py-2 rounded cursor-pointer"
                   value={selectedUser}
                   onChange={(e) => setSelectedUser(e.target.value)}
                 >
@@ -383,8 +400,8 @@ const HighLeadForm = () => {
                     ))}
                 </select>
                 {assignError && <div className="text-red-600 mb-2">{assignError}</div>}
-                <div className="flex gap-3">
-                  <button onClick={() => setShowAssignPopup(false)} className="bg-gray-300 px-4 py-2 rounded">
+                <div className="flex gap-3 justify-end">
+                  <button onClick={() => setShowAssignPopup(false)} className="bg-gray-300 px-4 py-2 rounded cursor-pointer">
                     Cancel
                   </button>
                   <button
@@ -393,7 +410,7 @@ const HighLeadForm = () => {
                       setShowAssignPopup(false);
                     }}
                     disabled={!selectedUser}
-                    className="bg-[#ff9c00] text-white px-4 py-2 rounded"
+                    className="bg-[#ff9c00] text-white px-4 py-2 rounded cursor-pointer"
                   >
                     Assign to Post
                   </button>

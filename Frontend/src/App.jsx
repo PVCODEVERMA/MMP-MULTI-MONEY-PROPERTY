@@ -71,6 +71,7 @@ import LowLeadForm from "./components/SubAdmin/LeadManagement/LowLeadForm.jsx";
 import MediumLeadForm from "./components/SubAdmin/leadManagement/MediumLeadForm.jsx";
 import HighLeadForm from "./components/SubAdmin/leadManagement/HighLeadForm.jsx";
 import LeadInvoice from "./components/SubAdmin/leadManagement/LeadInvoice.jsx";
+import AssignLeadTableHigh from "./components/SubAdmin/AssignLeadTable/AssignLeadTableHigh.jsx";
 
 
 
@@ -664,7 +665,11 @@ function App() {
           <Route path="closed-leads" element={<ClosedLeadsSubAdmin />} />
           <Route path="auto-leads" element={<AutoDistributeLeads />} />
 
+          {/* AssignLeadTable */}
+          <Route path="AssignLeadTable" element={<AssignLeadTableHigh />} />
+
           {/* Intent Level post */}
+            
             <Route path="low" element={<LowLeadForm />} />
             <Route path="medium" element={<MediumLeadForm />} />
             <Route path="high" element={<HighLeadForm />} />

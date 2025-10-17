@@ -1,52 +1,60 @@
-import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
+import React from 'react';
+import { HeartIcon } from '@heroicons/react/24/solid';
 
-const BrokerFooter = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [supportStatus, setSupportStatus] = useState('online');
-
-  // Update time every second and check support status
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-      
-      // Simulate support status (in real app, this would be an API call)
-      const hour = new Date().getHours();
-      const isOnline = hour >= 9 && hour < 21; // 9 AM to 9 PM
-      setSupportStatus(isOnline ? 'online' : 'offline');
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (date) => {
-    return date.toLocaleTimeString('en-IN', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      second: '2-digit'
-    });
-  };
+const BrokerFooter = ({ sidebarCollapsed }) => {
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="fixed bottom-0 w-[96%] bg-white border-t border-gray-200">
-      {/* Emergency Contact Strip */}
-      <div className="bg-[#154056] text-white px-6 py-1">
-        <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
-          <div className="flex items-center">
-            <ExclamationTriangleIcon className="w-3 h-3 mr-2" />
-            <span>24/7 Emergency Support: +91-98765 432101</span>
+    <footer className="bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white transition-all duration-300">
+      <div className="px-4 sm:px-6 py-4 sm:py-3">
+        {/* Main Footer Content */}
+        <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 max-w-7xl mx-auto">
+          
+         {/* Left Section - Hidden on Mobile */}
+          <div className="hidden sm:flex items-center justify-center lg:justify-start w-full lg:w-auto order-2 lg:order-1">
+            <p className="flex items-center text-xs sm:text-sm text-center lg:text-left text-blue-100">
+              © {currentYear} Multi Money Property. Made with 
+              <HeartIcon className="w-3 h-3 sm:w-4 sm:h-4 text-[#ff9c00] mx-1" /> 
+              for real estate professionals.
+            </p>
           </div>
-          <div className="flex items-center space-x-4 mt-1 sm:mt-0">
-            <div className="flex items-center">
-              <div className={`w-2 h-2 rounded-full mr-2 ${
-                supportStatus === 'online' ? 'bg-[#ff9c00] animate-pulse' : 'bg-[#ff9c00]'
-              }`}></div>
-              <span>Support: {supportStatus === 'online' ? 'Online' : 'Offline'}</span>
+
+          {/* Right Section - Links */}
+          <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 lg:space-x-6 text-center w-full lg:w-auto order-1 lg:order-2">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 lg:gap-6">
+              <a 
+                href="/privacy" 
+                className="text-blue-100 hover:text-white transition-colors duration-200 text-xs sm:text-sm font-medium hover:underline whitespace-nowrap"
+              >
+                Privacy Policy
+              </a>
+              <a 
+                href="/terms" 
+                className="text-blue-100 hover:text-white transition-colors duration-200 text-xs sm:text-sm font-medium hover:underline whitespace-nowrap"
+              >
+                Terms of Service
+              </a>
+              <a 
+                href="/support" 
+                className="text-blue-100 hover:text-white transition-colors duration-200 text-xs sm:text-sm font-medium hover:underline whitespace-nowrap"
+              >
+                Support
+              </a>
+              <a 
+                href="/contact" 
+                className="text-blue-100 hover:text-white transition-colors duration-200 text-xs sm:text-sm font-medium hover:underline whitespace-nowrap"
+              >
+                Contact
+              </a>
             </div>
-            
-            <span>Time: {formatTime(currentTime)}</span>
           </div>
         </div>
+
+        
+       
+        
+
+       
       </div>
     </footer>
   );
