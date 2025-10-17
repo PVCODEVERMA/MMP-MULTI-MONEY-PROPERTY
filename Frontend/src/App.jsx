@@ -67,7 +67,7 @@ import InvestorsContacts from "./components/Broker/InvestorsContacts.jsx";
 import ConversionRateReport from "./components/Broker/ConversionRateReport.jsx";
 import LowLeadForm from "./components/SubAdmin/LeadManagement/LowLeadForm.jsx";
 import MediumLeadForm from "./components/SubAdmin/leadManagement/MediumLeadForm.jsx";
-import HighLeadForm from "./components/SubAdmin/leadManagement/HighLeadForm.jsx";
+
 import LeadInvoice from "./components/SubAdmin/leadManagement/LeadInvoice.jsx";
 import AssignLeadTableHigh from "./components/SubAdmin/AssignLeadTable/AssignLeadTableHigh.jsx";
 import UpcomingCalls from "./components/Broker/UpcomingCalls.jsx";
@@ -77,6 +77,7 @@ import RevenueReport from "./components/Broker/RevenueReport.jsx";
 import NotificationSettings from "./components/Broker/NotificationSettings.jsx";
 import AddProperty from "./components/Broker/AddProperty.jsx";
 import MyListings from "./components/Broker/MyListings.jsx";
+import HighLeadForm from "./components/SubAdmin/leadManagement/HighLeadForm.jsx";
 
 /* Lazy Imports */
 const Login = lazy(() => import("./Auth/Login.jsx"));
