@@ -5,7 +5,7 @@ const BrokerFooter = ({ sidebarCollapsed }) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white transition-all duration-300">
+    <footer className=" sticky bg-gradient-to-r from-[#154056] to-[#2c6b8a] text-white transition-all duration-300">
       <div className="px-4 sm:px-6 py-4 sm:py-3">
         {/* Main Footer Content */}
         <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 max-w-7xl mx-auto">

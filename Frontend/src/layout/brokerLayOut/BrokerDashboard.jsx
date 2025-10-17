@@ -38,7 +38,7 @@ ChartJS.register(
 const PlanBadge = () => {
   return (
     <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-[#ff9c00] bg-opacity-20 text-[#154045]">
-      Starter Plan - Low Level Leads
+      Starter Plan 
     </span>
   );
 };
@@ -116,8 +116,8 @@ const LeadCard = ({ lead }) => (
         <p className="text-xs text-gray-600 truncate">{lead.phone}</p>
         <p className="text-xs text-gray-500 truncate">{lead.location}</p>
       </div>
-      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#ff9c00] bg-opacity-20 text-[#154045] flex-shrink-0">
-        LOW INTENT
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#ff9c00] bg-opacity-20 text-white flex-shrink-0">
+       {lead.intent}
       </span>
     </div>
     <div className="flex justify-between items-center">
@@ -129,9 +129,9 @@ const LeadCard = ({ lead }) => (
 
 const AgentDashboard = () => {
   const [metrics, setMetrics] = useState({
-    monthlyLowLeads: 0,
-    lowConversionRate: 0,
-    activeLowLeads: 0,
+    monthlyLeads: 0,
+    conversionRate: 0,
+    activeLeads: 0,
     responseRate: 0,
     leadsChange: 0,
     conversionChange: 0,
@@ -141,12 +141,12 @@ const AgentDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   // Chart data states
-  const [lowLeadsChartData, setLowLeadsChartData] = useState(null);
-  const [lowConversionChartData, setLowConversionChartData] = useState(null);
-  const [lowSourceChartData, setLowSourceChartData] = useState(null);
+  const [leadsChartData, setLeadsChartData] = useState(null);
+  const [conversionChartData, setConversionChartData] = useState(null);
+  const [sourceChartData, setSourceChartData] = useState(null);
 
   // Recent low leads data
-  const [recentLowLeads, setRecentLowLeads] = useState([]);
+  const [recentLeads, setRecentLeads] = useState([]);
 
   // Mock data for Starter Low Level Leads
   useEffect(() => {
@@ -157,9 +157,9 @@ const AgentDashboard = () => {
       setTimeout(() => {
         // Metrics data for Starter Low Level Leads
         setMetrics({
-          monthlyLowLeads: 45,
-          lowConversionRate: 8.5,
-          activeLowLeads: 28,
+          monthlyLeads: 45,
+          conversionRate: 8.5,
+          activeLeads: 28,
           responseRate: 65,
           leadsChange: 5,
           conversionChange: 2.2,
@@ -168,17 +168,17 @@ const AgentDashboard = () => {
         });
 
         // Low Leads Overview Chart Data
-        setLowLeadsChartData({
+        setLeadsChartData({
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
           datasets: [
             {
-              label: 'Low Leads Received',
+              label: 'Leads Received',
               data: [35, 42, 38, 45, 48, 52],
               backgroundColor: '#ff9c00',
               borderRadius: 6,
             },
             {
-              label: 'Low Leads Converted',
+              label: 'Leads Converted',
               data: [3, 4, 3, 4, 4, 5],
               backgroundColor: '#154045',
               borderRadius: 6,
@@ -186,12 +186,12 @@ const AgentDashboard = () => {
           ],
         });
 
-        // Low Conversion Rate Trend Chart Data
-        setLowConversionChartData({
+        // Conversion Rate Trend Chart Data
+        setConversionChartData({
           labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
           datasets: [
             {
-              label: 'Low Lead Conversion Rate',
+              label: 'Conversion Rate',
               data: [6, 8, 7, 10],
               borderColor: '#ff9c00',
               backgroundColor: 'rgba(255, 156, 0, 0.1)',
@@ -201,8 +201,8 @@ const AgentDashboard = () => {
           ],
         });
 
-        // Low Lead Sources Chart Data - Only Website Forms
-        setLowSourceChartData({
+        // Lead Sources Chart Data - Only Website Forms
+        setSourceChartData({
           labels: ['multimoneyproperty.com'],
           datasets: [
             {
@@ -214,35 +214,39 @@ const AgentDashboard = () => {
           ],
         });
 
-        // Recent low leads data
-        setRecentLowLeads([
+        // Recent leads data
+        setRecentLeads([
           {
             name: 'Rohit Sharma',
             phone: '+91 9811000001',
             location: 'Sector 45, Gurgaon',
             propertyType: '2BHK Apartment',
-            time: '2 min ago'
+            time: '2 min ago',
+            intent: "High",
           },
           {
             name: 'Anjali Singh',
             phone: '+91 9811000002',
             location: 'Sector 50, Gurgaon',
             propertyType: '1BHK Rental',
-            time: '15 min ago'
+            time: '15 min ago',
+            intent: "Medium",
           },
           {
             name: 'Vikram Patel',
             phone: '+91 9811000003',
             location: 'Sector 52, Gurgaon',
             propertyType: 'Studio Apartment',
-            time: '1 hour ago'
+            time: '1 hour ago',
+            intent: "Low",
           },
           {
             name: 'Priya Mehta',
             phone: '+91 9811000004',
             location: 'Cyber City',
             propertyType: '1BHK Purchase',
-            time: '2 hours ago'
+            time: '2 hours ago',
+            intent: "High",
           }
         ]);
 
@@ -362,24 +366,24 @@ const AgentDashboard = () => {
         {/* Metrics Grid - Optimized for mobile */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
           <MetricCard
-            title="Monthly Low Leads"
-            value={metrics.monthlyLowLeads}
+            title="Monthly Leads"
+            value={metrics.monthlyLeads}
             change={metrics.leadsChange}
             icon={TagIcon}
             color="bg-[#ff9c00]"
             isLoading={loading}
           />
           <MetricCard
-            title="Low Lead Conversion"
-            value={`${metrics.lowConversionRate}%`}
+            title="Conversion"
+            value={`${metrics.conversionRate}%`}
             change={metrics.conversionChange}
             icon={ArrowTrendingUpIcon}
             color="bg-[#154045]"
             isLoading={loading}
           />
           <MetricCard
-            title="Active Low Leads"
-            value={metrics.activeLowLeads}
+            title="Active Leads"
+            value={metrics.activeLeads}
             change={metrics.activeChange}
             icon={UserPlusIcon}
             color="bg-[#ff9c00]"
@@ -397,18 +401,18 @@ const AgentDashboard = () => {
 
         {/* Charts Grid - Row 1 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-4 lg:mb-6">
-          {/* Low Leads Overview Chart */}
+          {/* Leads Overview Chart */}
           <ChartContainer title="Leads Performance">
             {loading ? (
               <div className="h-64 sm:h-72 lg:h-80 bg-gray-200 animate-pulse rounded-lg"></div>
             ) : (
               <div className="h-64 sm:h-72 lg:h-80">
-                <Bar data={lowLeadsChartData} options={barChartOptions} />
+                <Bar data={leadsChartData} options={barChartOptions} />
               </div>
             )}
           </ChartContainer>
 
-          {/* Recent Low Leads */}
+          {/* Recent Leads */}
           <ChartContainer title="Recent Leads">
             {loading ? (
               <div className="space-y-3">
@@ -420,7 +424,7 @@ const AgentDashboard = () => {
               </div>
             ) : (
               <div className="space-y-3 max-h-64 sm:max-h-72 lg:max-h-80 overflow-y-auto no-scrollbar">
-                {recentLowLeads.map((lead, index) => (
+                {recentLeads.map((lead, index) => (
                   <LeadCard key={index} lead={lead} />
                 ))}
               </div>
@@ -430,25 +434,25 @@ const AgentDashboard = () => {
 
         {/* Charts Grid - Row 2 */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
-          {/* Low Conversion Rate Trend */}
-          <ChartContainer title="Low Lead Conversion Trend" className="lg:col-span-1">
+          {/* Conversion Rate Trend */}
+          <ChartContainer title="Lead Conversion Trend" className="lg:col-span-1">
             {loading ? (
               <div className="h-56 sm:h-64 bg-gray-200 animate-pulse rounded-lg"></div>
             ) : (
               <div className="h-56 sm:h-64">
-                <Line data={lowConversionChartData} options={lineChartOptions} />
+                <Line data={conversionChartData} options={lineChartOptions} />
               </div>
             )}
           </ChartContainer>
 
-          {/* Low Lead Sources - Updated to show only multimoneyproperty.com */}
-          <ChartContainer title="Low Lead Sources" className="lg:col-span-1">
+          {/* Lead Sources - Updated to show only multimoneyproperty.com */}
+          <ChartContainer title="Lead Sources" className="lg:col-span-1">
             {loading ? (
               <div className="h-56 sm:h-64 bg-gray-200 animate-pulse rounded-lg"></div>
             ) : (
               <div className="h-56 sm:h-64 flex flex-col items-center justify-center">
                 <div className="w-full h-full">
-                  <Doughnut data={lowSourceChartData} options={doughnutChartOptions} />
+                  <Doughnut data={sourceChartData} options={doughnutChartOptions} />
                 </div>
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-600">All leads are sourced from</p>
@@ -458,19 +462,19 @@ const AgentDashboard = () => {
             )}
           </ChartContainer>
 
-          {/* Low Lead Plan Usage */}
-          <ChartContainer title="Low Lead Plan Usage" className="lg:col-span-1">
+          {/* Lead Plan Usage */}
+          <ChartContainer title="Lead Plan Usage" className="lg:col-span-1">
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-xs sm:text-sm mb-1">
-                  <span>Low Leads Used</span>
-                  <span>{metrics.monthlyLowLeads} / 50</span>
+                  <span>Leads Used</span>
+                  <span>{metrics.monthlyLeads} / 50</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
                     className="bg-[#ff9c00] h-2 rounded-full transition-all duration-500"
                     style={{ 
-                      width: `${(metrics.monthlyLowLeads / 50) * 100}%` 
+                      width: `${(metrics.monthlyLeads / 50) * 100}%` 
                     }}
                   ></div>
                 </div>
@@ -478,14 +482,14 @@ const AgentDashboard = () => {
               
               <div>
                 <div className="flex justify-between text-xs sm:text-sm mb-1">
-                  <span>Active Low Leads</span>
-                  <span>{metrics.activeLowLeads} / 30</span>
+                  <span>Active Leads</span>
+                  <span>{metrics.activeLeads} / 30</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
                     className="bg-[#154045] h-2 rounded-full transition-all duration-500"
                     style={{ 
-                      width: `${(metrics.activeLowLeads / 30) * 100}%` 
+                      width: `${(metrics.activeLeads / 30) * 100}%` 
                     }}
                   ></div>
                 </div>
@@ -494,13 +498,13 @@ const AgentDashboard = () => {
               <div>
                 <div className="flex justify-between text-xs sm:text-sm mb-1">
                   <span>Conversion Progress</span>
-                  <span>{metrics.lowConversionRate}% / 15%</span>
+                  <span>{metrics.conversionRate}% / 15%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
                     className="bg-[#ff9c00] h-2 rounded-full transition-all duration-500"
                     style={{ 
-                      width: `${(metrics.lowConversionRate / 15) * 100}%` 
+                      width: `${(metrics.conversionRate / 15) * 100}%` 
                     }}
                   ></div>
                 </div>

@@ -15,7 +15,12 @@ import {
   Bars3Icon,
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
+  PhoneIcon,
+  MapPinIcon,
+  CalendarDaysIcon,
+  ClipboardDocumentListIcon,
 } from "@heroicons/react/24/outline";
+
 
 const BrokerSidebar = ({ sidebarOpen, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed }) => {
   const { user } = useAuth();
@@ -32,78 +37,78 @@ const BrokerSidebar = ({ sidebarOpen, setSidebarOpen, sidebarCollapsed, setSideb
   };
 
   const navigation = [
+  {
+    name: "Dashboard",
+    href: "/broker/dashboard",
+    icon: HomeIcon,
+  },
+  {
+    name: "Lead Management",
+    icon: DocumentTextIcon,
+    subItems: [
+      { name: "Latest Leads", href: "/broker/leads/new" },
+      { name: "All Leads", href: "/broker/leads/all" },
+      { name: "Follow-up Leads", href: "/broker/leads/followups" },
+    ],
+  },
     {
-      name: "Dashboard Overview",
-      href: "/broker/dashboard",
-      icon: HomeIcon,
-    },
-    {
-      name: "Lead Management",
-      icon: DocumentTextIcon,
-      subItems: [
-        { name: "Latest Leads", href: "/broker/leads/new" },
-        { name: "All Leads", href: "/broker/leads/all" },
-      ],
-    },
-    {
-      name: "Contacts / Clients",
-      icon: UserGroupIcon,
-      subItems: [
-        { name: "All Contacts", href: "/broker/contacts/all" },
-        { name: "Buyers", href: "/broker/contacts/buyers" },
-        { name: "Investors", href: "/broker/contacts/investors" },
-      ],
-    },
-    {
-      name: "Property Post",
-      icon: BuildingOfficeIcon,
-      subItems: [
-        { name: "Add New Property", href: "/broker/property/add" },
-        { name: "My Listings", href: "/broker/property/listings" },
-      ],
-    },
-    
-    {
-      name: "Tasks & Follow-ups",
-      icon: DocumentTextIcon,
-      subItems: [
-        { name: "Upcoming Calls", href: "/broker/tasks/calls" },
-        { name: "Site Visits", href: "/broker/tasks/visits" },
-        { name: "Meetings", href: "/broker/tasks/meetings" },
-        { name: "Missed Follow-ups", href: "/broker/tasks/missed" },
-      ],
-    },
-    {
-      name: "Reports & Analytics",
-      icon: ChartBarIcon,
-      subItems: [
-        { name: "Conversion Rate Report", href: "/broker/reports/conversion" },
-        { name: "Revenue Report", href: "/broker/reports/revenue" },
-      ],
-    },
-    {
-      name: "Wallet / Billing",
-      icon: WalletIcon,
-      subItems: [
-        { name: "Recharge Wallet", href: "/broker/wallet/recharge" },
-        { name: "Transaction History", href: "/broker/wallet/history" },
-        { name: "Plan Upgrades", href: "/home/leads/plans" },
-      ],
-    },
-    {
-      name: "Settings",
-      icon: Cog6ToothIcon,
-      subItems: [
-        { name: "Profile Settings", href: "/broker/settings/profile" },
-        { name: "Notifications", href: "/broker/settings/notifications" },
-      ],
-    },
-    {
-      name: "Back to Home",
-      href: "/home/leads",
-      icon: HomeIcon,
-    }
-  ];
+    name: "Tasks & Activities",
+    icon: ClipboardDocumentListIcon,
+    subItems: [
+      { name: "Upcoming Calls", href: "/broker/tasks/calls" },
+      { name: "Meetings", href: "/broker/tasks/meetings" },
+      { name: "All Tasks", href: "/broker/tasks/all" },
+    ],
+  },
+  {
+    name: "Contacts & Clients",
+    icon: UserGroupIcon,
+    subItems: [
+      { name: "All Contacts", href: "/broker/contacts/all" },
+      { name: "Buyers", href: "/broker/contacts/buyers" },
+
+    ],
+  },
+  {
+    name: "Properties",
+    icon: BuildingOfficeIcon,
+    subItems: [
+      { name: "Add New Property", href: "/broker/properties/add" },
+      { name: "My Listings", href: "/broker/property/listings" },
+      { name: "Site Visits", href: "/broker/tasks/visits" },
+    ],
+  },
+
+  {
+    name: "Analytics & Reports",
+    icon: ChartBarIcon,
+    href: "/broker/analytics/performance",
+  },
+  {
+    name: "Wallet & Billing",
+    icon: WalletIcon,
+    subItems: [
+      // { name: "Wallet Balance", href: "/broker/wallet/balance" },
+      { name: "Recharge Wallet", href: "/broker/wallet/recharge" },
+      { name: "Transaction History", href: "/broker/wallet/transactions" },
+      { name: "Billing & Invoices", href: "/broker/wallet/invoices" },
+      { name: "Upgrade Plan", href: "/home/leads/plans" },
+    ],
+  },
+  {
+    name: "Settings",
+    icon: Cog6ToothIcon,
+    subItems: [
+      { name: "Profile Settings", href: "/broker/settings/profile" },
+      { name: "Notification Preferences", href: "/broker/settings/notifications" },
+    ],
+  },
+  {
+    name: "Back to Main Site",
+    href: "/home/leads",
+    icon: HomeIcon,
+  }
+];
 
   // Mobile menu component
   const MobileMenu = () => (
