@@ -178,15 +178,7 @@ const BrokerDash = lazy(() =>
   import("./layout/brokerLayOut/BrokerDashboard.jsx")
 );
 const AllLeadsPage = lazy(() => import("./components/Broker/AllLeadsPage.jsx"));
-const BrokerProps = lazy(() =>
-  import("./components/Broker/PropertySubmission.jsx")
-);
-const BrokerPackages = lazy(() =>
-  import("./components/Broker/PackagePurchase.jsx")
-);
-const BrokerReports = lazy(() =>
-  import("./components/Broker/BrokerReports.jsx")
-);
+
 
 /* Layout Wrappers */
 const PublicLayout = ({ children }) => (

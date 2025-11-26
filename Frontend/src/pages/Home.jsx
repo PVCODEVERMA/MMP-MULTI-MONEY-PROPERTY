@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import PropertyDetailsModal from "../components/propertyCards/PropertyDetailsModal.jsx";
 
 
-import FAQSection from "./FAQSection.jsx";
+
 import PropertyTypesSection from "../components/propertyCards/PropertyTypesSection.jsx";
-import TestimonialsSection from "../components/reviewComponents/TestimonialsSection.jsx";
 import PropertyCategories from "../components/propertyCategories/PropertyCategories.jsx";
 import Cta from "../components/ctaSection/Cta.jsx";
 

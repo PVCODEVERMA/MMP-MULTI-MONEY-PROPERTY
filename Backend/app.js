@@ -67,7 +67,7 @@ app.use("/api/high", highLeadRoutes);
 // app.use("/api/payment", paymentRoutes);
 
 // Default route
-app.get("/", (req, res) => res.send("API Running ✅"));
+app.get("/", (req, res) => res.send("API Running Successfully"));
 
 // Error handling
 app.use(notFound);
