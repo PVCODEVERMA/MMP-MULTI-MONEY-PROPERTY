@@ -10,30 +10,26 @@ const userSchema = new mongoose.Schema({
   profileImage: { type: String, default: "" },
   role: {
     type: String,
-    enum: ["User", "Developer", "Builder", "Broker" ,"Channel-Partner"],
+    enum: ["User", "Developer", "Builder", "Broker", "Channel-Partner"],
     default: "User",
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
 
-    // ADD THESE FIELDS
-  selectedPlan: { type: String, default: "" },          // Stores current plan name
-  addOns: { type: [Object], default: [] },              // Array for add-ons purchased/selected
-  dashboardAccess: { type: Boolean, default: false },   // Flag to enable dashboard access
-
+  // ADDITIONAL FIELDS
+  selectedPlan: { type: String, default: "" },
+  addOns: { type: [Object], default: [] },
+  dashboardAccess: { type: Boolean, default: false },
 }, { timestamps: true });
 
-
-
-
 // Hash password before save
-userSchema.pre("save", async function(next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function() {
+  if (!this.isModified("password")) return;
   const salt = Number(process.env.BCRYPT_ROUNDS) || 10;
   this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 
+// Compare password method
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
