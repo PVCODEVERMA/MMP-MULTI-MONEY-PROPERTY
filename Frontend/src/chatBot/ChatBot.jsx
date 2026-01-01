@@ -1,6 +1,5 @@
-
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ChatBubbleLeftRightIcon,
   XMarkIcon,
@@ -9,29 +8,33 @@ import {
   ComputerDesktopIcon,
   HomeIcon,
   PhoneIcon,
- 
-  SparklesIcon
-} from '@heroicons/react/24/outline';
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
-      type: 'bot',
-      text: 'Hello! 👋 Welcome to Multi Money Property! I\'m your AI assistant. How can I help you find your dream property today?',
+      type: "bot",
+      text: "Hello! 👋 Welcome to Multi Money Property! I'm your AI assistant. How can I help you find your dream property today?",
       timestamp: new Date(),
-      suggestions: ['Find Properties', 'Connect with Brokers', 'Get Pricing Info', 'Learn About Services']
-    }
+      suggestions: [
+        "Find Properties",
+        "Connect with Brokers",
+        "Get Pricing Info",
+        "Learn About Services",
+      ],
+    },
   ]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
   // Scroll to bottom when new messages arrive
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -47,29 +50,34 @@ const ChatBot = () => {
 
   // Predefined responses for common queries
   const predefinedResponses = {
-    'hello': 'Hello! How can I assist you with your property needs today?',
-    'hi': 'Hi there! Welcome to Multi Money Property. What can I help you with?',
-    'properties': 'We have thousands of verified properties across 50+ cities in India! You can browse by location, budget, or property type. Would you like me to help you find something specific?',
-    'brokers': 'We have 500+ verified brokers ready to help you! Our brokers are KYC verified and performance-tracked. Would you like me to connect you with a broker in your preferred location?',
-    'pricing': 'Our broker packages start from ₹5,000/month with different lead quotas. We offer Starter (50 leads), Growth (150 leads), and Enterprise (300+ leads) plans. Which package interests you?',
-    'contact': 'You can reach us at:\n📞 +91 88888 88888\n📧 info@multimoneyproperty.com\n🕒 Available 9AM-6PM, Mon-Sat\n\nWould you like me to connect you with our team directly?',
-    'help': 'I can help you with:\n• Finding properties\n• Connecting with brokers\n• Understanding our services\n• Getting pricing information\n• Contact details\n\nWhat would you like to know more about?',
-    'thanks': 'You\'re welcome! Is there anything else I can help you with regarding properties or our services?',
-    'bye': 'Thank you for using Multi Money Property! Feel free to reach out anytime. Have a great day! 👋'
+    hello: "Hello! How can I assist you with your property needs today?",
+    hi: "Hi there! Welcome to Multi Money Property. What can I help you with?",
+    properties:
+      "We have thousands of verified properties across 50+ cities in India! You can browse by location, budget, or property type. Would you like me to help you find something specific?",
+    brokers:
+      "We have 500+ verified brokers ready to help you! Our brokers are KYC verified and performance-tracked. Would you like me to connect you with a broker in your preferred location?",
+    pricing:
+      "Our broker packages start from ₹5,000/month with different lead quotas. We offer Starter (50 leads), Growth (150 leads), and Enterprise (300+ leads) plans. Which package interests you?",
+    contact:
+      "You can reach us at:\n📞 +91 88888 88888\n📧 info@multimoneyproperty.com\n🕒 Available 9AM-6PM, Mon-Sat\n\nWould you like me to connect you with our team directly?",
+    help: "I can help you with:\n• Finding properties\n• Connecting with brokers\n• Understanding our services\n• Getting pricing information\n• Contact details\n\nWhat would you like to know more about?",
+    thanks:
+      "You're welcome! Is there anything else I can help you with regarding properties or our services?",
+    bye: "Thank you for using Multi Money Property! Feel free to reach out anytime. Have a great day! 👋",
   };
 
   // Quick action buttons
   const quickActions = [
-    { label: 'Find Properties', icon: HomeIcon, action: 'properties' },
-    { label: 'Contact Brokers', icon: UserIcon, action: 'brokers' },
-    { label: 'Get Pricing', icon: SparklesIcon, action: 'pricing' },
-    { label: 'Contact Us', icon: PhoneIcon, action: 'contact' }
+    { label: "Find Properties", icon: HomeIcon, action: "properties" },
+    { label: "Contact Brokers", icon: UserIcon, action: "brokers" },
+    { label: "Get Pricing", icon: SparklesIcon, action: "pricing" },
+    { label: "Contact Us", icon: PhoneIcon, action: "contact" },
   ];
 
   // Generate bot response
   const generateBotResponse = (userMessage) => {
     const message = userMessage.toLowerCase();
-    
+
     // Check for keyword matches
     for (const [keyword, response] of Object.entries(predefinedResponses)) {
       if (message.includes(keyword)) {
@@ -78,22 +86,40 @@ const ChatBot = () => {
     }
 
     // Location-based responses
-    if (message.includes('mumbai') || message.includes('delhi') || message.includes('bangalore') || 
-        message.includes('chennai') || message.includes('hyderabad') || message.includes('pune')) {
-      return `Great choice! We have excellent properties in ${message.includes('mumbai') ? 'Mumbai' : 
-             message.includes('delhi') ? 'Delhi' : 
-             message.includes('bangalore') ? 'Bangalore' : 
-             message.includes('chennai') ? 'Chennai' : 
-             message.includes('hyderabad') ? 'Hyderabad' : 'Pune'}. Our verified brokers can show you the best options. Would you like me to connect you with a local broker?`;
+    if (
+      message.includes("mumbai") ||
+      message.includes("delhi") ||
+      message.includes("bangalore") ||
+      message.includes("chennai") ||
+      message.includes("hyderabad") ||
+      message.includes("pune")
+    ) {
+      return `Great choice! We have excellent properties in ${
+        message.includes("mumbai")
+          ? "Mumbai"
+          : message.includes("delhi")
+          ? "Delhi"
+          : message.includes("bangalore")
+          ? "Bangalore"
+          : message.includes("chennai")
+          ? "Chennai"
+          : message.includes("hyderabad")
+          ? "Hyderabad"
+          : "Pune"
+      }. Our verified brokers can show you the best options. Would you like me to connect you with a local broker?`;
     }
 
     // Budget-related responses
-    if (message.includes('budget') || message.includes('price') || message.includes('cost')) {
-      return 'I\'d be happy to help you find properties within your budget! What\'s your preferred price range? We have options from ₹50L to ₹5Cr+ across different cities.';
+    if (
+      message.includes("budget") ||
+      message.includes("price") ||
+      message.includes("cost")
+    ) {
+      return "I'd be happy to help you find properties within your budget! What's your preferred price range? We have options from ₹50L to ₹5Cr+ across different cities.";
     }
 
     // Default response
-    return 'I understand you\'re looking for assistance with real estate. Let me connect you with our expert team who can provide detailed information. You can also call us at +91 88888 88888 for immediate support!';
+    return "I understand you're looking for assistance with real estate. Let me connect you with our expert team who can provide detailed information. You can also call us at +91 88888 88888 for immediate support!";
   };
 
   // Handle sending message
@@ -102,30 +128,45 @@ const ChatBot = () => {
 
     const userMessage = {
       id: Date.now(),
-      type: 'user',
+      type: "user",
       text: inputMessage,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
+    setMessages((prev) => [...prev, userMessage]);
+    setInputMessage("");
     setIsTyping(true);
 
     // Simulate AI thinking time
     setTimeout(() => {
       const botResponse = {
         id: Date.now() + 1,
-        type: 'bot',
+        type: "bot",
         text: generateBotResponse(inputMessage),
         timestamp: new Date(),
-        suggestions: inputMessage.toLowerCase().includes('properties') ? 
-          ['Mumbai Properties', 'Delhi Properties', 'Bangalore Properties', 'Budget Properties'] :
-          inputMessage.toLowerCase().includes('brokers') ?
-          ['Find Local Broker', 'Broker Packages', 'Broker Reviews', 'Contact Broker'] :
-          ['Find Properties', 'Connect Brokers', 'Get Pricing', 'Contact Support']
+        suggestions: inputMessage.toLowerCase().includes("properties")
+          ? [
+              "Mumbai Properties",
+              "Delhi Properties",
+              "Bangalore Properties",
+              "Budget Properties",
+            ]
+          : inputMessage.toLowerCase().includes("brokers")
+          ? [
+              "Find Local Broker",
+              "Broker Packages",
+              "Broker Reviews",
+              "Contact Broker",
+            ]
+          : [
+              "Find Properties",
+              "Connect Brokers",
+              "Get Pricing",
+              "Contact Support",
+            ],
       };
 
-      setMessages(prev => [...prev, botResponse]);
+      setMessages((prev) => [...prev, botResponse]);
       setIsTyping(false);
     }, 1500);
   };
@@ -134,23 +175,23 @@ const ChatBot = () => {
   const handleQuickAction = (action) => {
     const actionMessage = {
       id: Date.now(),
-      type: 'user',
+      type: "user",
       text: `Tell me about ${action}`,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, actionMessage]);
+    setMessages((prev) => [...prev, actionMessage]);
     setIsTyping(true);
 
     setTimeout(() => {
       const botResponse = {
         id: Date.now() + 1,
-        type: 'bot',
-        text: predefinedResponses[action] || predefinedResponses['help'],
-        timestamp: new Date()
+        type: "bot",
+        text: predefinedResponses[action] || predefinedResponses["help"],
+        timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, botResponse]);
+      setMessages((prev) => [...prev, botResponse]);
       setIsTyping(false);
     }, 1000);
   };
@@ -163,7 +204,7 @@ const ChatBot = () => {
 
   // Handle enter key press
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -173,7 +214,7 @@ const ChatBot = () => {
     <>
       {/*  Responsive Chat Button */}
       <motion.div
-        className="fixed bottom-4 sm:bottom-2 right-4 sm:right-6 z-50 cursor-pointer"
+        className="fixed bottom-4 sm:bottom-2 right-4 sm:right-6 z-30 cursor-pointer"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 2, type: "spring", stiffness: 260, damping: 20 }}
@@ -205,7 +246,7 @@ const ChatBot = () => {
               </motion.div>
             )}
           </AnimatePresence>
-          
+
           {/* Notification dot */}
           <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
         </button>
@@ -219,14 +260,17 @@ const ChatBot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.8 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className={`fixed z-50 flex flex-col overflow-hidden border border-gray-200 bg-white shadow-2xl
-              /* Mobile: Full screen */
-              inset-0 rounded-none
-              /* Tablet: Positioned window */
-              sm:inset-auto sm:bottom-20 sm:right-4 sm:w-80 sm:h-[500px] sm:rounded-2xl
-              /* Desktop: Larger window */
-              md:w-96 md:h-[600px] md:bottom-24 md:right-6
-            `}
+            className={`fixed  z-30 flex flex-col overflow-hidden border bg-white shadow-2xl
+  /* Mobile */
+  top-16 bottom-0 left-0 right-0 rounded-none
+
+  /* Tablet */
+  sm:top-auto sm:bottom-20 sm:right-4 sm:left-auto
+  sm:w-80 sm:h-[500px] sm:rounded-2xl
+
+  /* Desktop */
+  md:w-96 md:h-[600px] md:bottom-24 md:right-6
+`}
           >
             {/*  Responsive Header */}
             <div className=" bg-[#FF9C00] text-white p-3 sm:p-4 flex items-center justify-between">
@@ -235,7 +279,9 @@ const ChatBot = () => {
                   <ComputerDesktopIcon className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
                 </div>
                 <div>
-                  <h3 className="font-heading font-bold text-sm sm:text-base">MMP Assistant</h3>
+                  <h3 className="font-heading font-bold text-sm sm:text-base">
+                    MMP Assistant
+                  </h3>
                   <p className="text-xs opacity-90">Online • Ready to help</p>
                 </div>
               </div>
@@ -257,7 +303,9 @@ const ChatBot = () => {
                     className="flex flex-col items-center p-1.5 sm:p-2 rounded-lg hover:bg-white transition-colors group"
                   >
                     <action.icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-orange-500 transition-colors cursor-pointer" />
-                    <span className="text-xs text-gray-600 mt-1 text-center leading-tight cursor-pointer">{action.label}</span>
+                    <span className="text-xs text-gray-600 mt-1 text-center leading-tight cursor-pointer">
+                      {action.label}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -271,21 +319,29 @@ const ChatBot = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex ${
+                    message.type === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
-                  <div className={`max-w-[85%] sm:max-w-[80%] ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
+                  <div
+                    className={`max-w-[85%] sm:max-w-[80%] ${
+                      message.type === "user" ? "order-2" : "order-1"
+                    }`}
+                  >
                     <div
                       className={`p-2.5 sm:p-3 rounded-2xl ${
-                        message.type === 'user'
-                          ? 'bg-[#FF9C00] text-white'
-                          : 'bg-gray-100 text-gray-800'
+                        message.type === "user"
+                          ? "bg-[#FF9C00] text-white"
+                          : "bg-gray-100 text-gray-800"
                       }`}
                     >
-                      <p className="font-body text-sm whitespace-pre-line">{message.text}</p>
+                      <p className="font-body text-sm whitespace-pre-line">
+                        {message.text}
+                      </p>
                     </div>
-                    
+
                     {/* Suggestions */}
-                    {message.suggestions && message.type === 'bot' && (
+                    {message.suggestions && message.type === "bot" && (
                       <div className="mt-2 flex flex-wrap gap-1">
                         {message.suggestions.map((suggestion, index) => (
                           <button
@@ -298,16 +354,23 @@ const ChatBot = () => {
                         ))}
                       </div>
                     )}
-                    
+
                     <p className="text-xs text-gray-500 mt-1">
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </p>
                   </div>
-                  
-                  <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ml-2 mr-2 mt-1 ${
-                    message.type === 'user' ? 'order-1 bg-blue-700' : 'order-2 bg-gray-200'
-                  }`}>
-                    {message.type === 'user' ? (
+
+                  <div
+                    className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ml-2 mr-2 mt-1 ${
+                      message.type === "user"
+                        ? "order-1 bg-blue-700"
+                        : "order-2 bg-gray-200"
+                    }`}
+                  >
+                    {message.type === "user" ? (
                       <UserIcon className="w-3 h-3  sm:w-4 sm:h-4 text-white" />
                     ) : (
                       <ComputerDesktopIcon className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
@@ -315,7 +378,7 @@ const ChatBot = () => {
                   </div>
                 </motion.div>
               ))}
-              
+
               {/*  Responsive Typing Indicator */}
               {isTyping && (
                 <motion.div
@@ -326,13 +389,19 @@ const ChatBot = () => {
                   <div className="bg-gray-100 p-2.5 sm:p-3 rounded-2xl">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.1s" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
                     </div>
                   </div>
                 </motion.div>
               )}
-              
+
               <div ref={messagesEndRef} />
             </div>
 
@@ -348,7 +417,7 @@ const ChatBot = () => {
                     placeholder="Type your message..."
                     className="font-body w-full p-2.5 sm:p-3 pr-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none text-sm sm:text-base"
                     rows="1"
-                    style={{ minHeight: '40px', maxHeight: '80px' }}
+                    style={{ minHeight: "40px", maxHeight: "80px" }}
                   />
                 </div>
                 <button
@@ -359,7 +428,7 @@ const ChatBot = () => {
                   <PaperAirplaneIcon className="w-4 h-4  sm:w-5 sm:h-5" />
                 </button>
               </div>
-              
+
               <p className="text-xs text-gray-500 text-center mt-2">
                 Powered by MMP AI • Always learning to serve you better
               </p>

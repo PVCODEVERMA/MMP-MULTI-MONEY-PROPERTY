@@ -4,60 +4,121 @@ import toast from "react-hot-toast";
 
 const MediumLeadContext = createContext();
 
+// Custom hook
+export const useMediumLeads = () => useContext(MediumLeadContext);
+
 export const MediumLeadProvider = ({ children }) => {
   const [mediumLeads, setMediumLeads] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch all Medium Intent leads
+  // 🔐 Auth config (same as Low & High)
+  const getAuthConfig = () => {
+    const token = localStorage.getItem("superAdminToken");
+    if (!token) return null;
+
+    return {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  };
+
+  // =========================
+  // FETCH MEDIUM LEADS
+  // =========================
   const fetchMediumLeads = async () => {
+    const config = getAuthConfig();
+    if (!config) return;
+
     setLoading(true);
     try {
-      const res = await api.get("/medium"); // API path matches your route
-      setMediumLeads(res.data || []);
+      const res = await api.get("/medium", config);
+      setMediumLeads(res.data?.leads || []);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to fetch medium leads");
+      console.error("❌ Fetch medium leads error:", err.message);
+      toast.error(
+        err.response?.data?.message || "Failed to fetch medium leads"
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // Create a Medium Intent lead
+  // =========================
+  // CREATE MEDIUM LEAD
+  // =========================
   const createMediumLead = async (data) => {
+    const config = getAuthConfig();
+    if (!config) return;
+
+    setLoading(true);
     try {
-      const res = await api.post("/medium", data);
-      setMediumLeads(prev => [res.data, ...prev]); // Add new lead to state
-      toast.success(res.data.message || "Lead added successfully");
+      const res = await api.post("/medium", data, config);
+      toast.success(res.data?.message || "Medium lead added successfully");
+      fetchMediumLeads(); // 🔥 always sync from backend
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to create lead");
+      console.error("❌ Create medium lead error:", err.message);
+      toast.error(
+        err.response?.data?.message || "Failed to create medium lead"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Update a Medium Intent lead
+  // =========================
+  // UPDATE MEDIUM LEAD
+  // =========================
   const updateMediumLead = async (id, data) => {
+    const config = getAuthConfig();
+    if (!config) return;
+
+    setLoading(true);
     try {
-      const res = await api.put(`/medium/${id}`, data);
-      setMediumLeads(prev =>
-        prev.map(lead => (lead._id === id ? res.data : lead))
-      ); // Update state directly
-      toast.success(res.data.message || "Lead updated successfully");
+      const res = await api.put(`/medium/${id}`, data, config);
+      toast.success(res.data?.message || "Medium lead updated successfully");
+      fetchMediumLeads();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to update lead");
+      console.error("❌ Update medium lead error:", err.message);
+      toast.error(
+        err.response?.data?.message || "Failed to update medium lead"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Delete a Medium Intent lead
+  // =========================
+  // DELETE MEDIUM LEAD
+  // =========================
   const deleteMediumLead = async (id) => {
+    const config = getAuthConfig();
+    if (!config) return;
+
+    setLoading(true);
     try {
-      await api.delete(`/medium/${id}`);
-      setMediumLeads(prev => prev.filter(lead => lead._id !== id)); // Remove from state
-      toast.success("Lead deleted successfully");
+      const res = await api.delete(`/medium/${id}`, config);
+      toast.success(res.data?.message || "Medium lead deleted successfully");
+      fetchMediumLeads();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to delete lead");
+      console.error("❌ Delete medium lead error:", err.message);
+      toast.error(
+        err.response?.data?.message || "Failed to delete medium lead"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
+  // =========================
+  // INITIAL LOAD (SAFE)
+  // =========================
   useEffect(() => {
-    fetchMediumLeads();
+    const token = localStorage.getItem("superAdminToken");
+    if (token) {
+      fetchMediumLeads();
+    }
   }, []);
 
   return (
@@ -75,6 +136,3 @@ export const MediumLeadProvider = ({ children }) => {
     </MediumLeadContext.Provider>
   );
 };
-
-// Custom hook
-export const useMediumLeads = () => useContext(MediumLeadContext);

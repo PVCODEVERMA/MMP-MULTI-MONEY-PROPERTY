@@ -149,7 +149,7 @@ export default function Header() {
   return (
     <>
       {/* Top Navbar */}
-      <nav className="fixed inset-x-0 top-0 z-40 bg-[#F7F7F7] ">
+      <nav className="fixed inset-x-0 top-0 z-50 bg-[#F7F7F7]  ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-20 lg:h-20">
             {/* Logo */}

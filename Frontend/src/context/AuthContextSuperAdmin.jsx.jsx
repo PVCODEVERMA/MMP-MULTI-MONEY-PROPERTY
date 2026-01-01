@@ -17,32 +17,62 @@ export function AuthProviderSuperAdmin({ children }) {
     role ? role.toString().trim().toLowerCase().replace(/[_-]/g, "") : "";
 
   // Fetch profile if token exists
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     const token = localStorage.getItem("superAdminToken");
+  //     try {
+  //       const res = await api.get("/superadmin/profile", {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       });
+
+  //       const backendRole = normalizeRole(res.data?.superAdmin?.role);
+  //       if (backendRole === "superadmin") {
+  //         setSuperAdmin(res.data.superAdmin);
+  //       } else {
+  //         toast.error("Unauthorized role. Logging out...");
+  //         logout();
+  //       }
+  //     } catch (err) {
+  //       console.error("🚨 Profile fetch error:", err.response?.data || err.message);
+  //       toast.error(err.response?.data?.message || "Failed to fetch profile");
+  //       logout();
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchProfile();
+  // }, []);
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      const token = localStorage.getItem("superAdminToken");
-      try {
-        const res = await api.get("/superadmin/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+  const token = localStorage.getItem("superAdminToken");
+  if (!token) {
+    setLoading(false);
+    return;
+  }
 
-        const backendRole = normalizeRole(res.data?.superAdmin?.role);
-        if (backendRole === "superadmin") {
-          setSuperAdmin(res.data.superAdmin);
-        } else {
-          toast.error("Unauthorized role. Logging out...");
-          logout();
-        }
-      } catch (err) {
-        console.error("🚨 Profile fetch error:", err.response?.data || err.message);
-        toast.error(err.response?.data?.message || "Failed to fetch profile");
-        logout();
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchProfile = async () => {
+    try {
+      const res = await api.get("/superadmin/profile", {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    fetchProfile();
-  }, []);
+      setSuperAdmin(res.data.superAdmin);
+    } catch (err) {
+      console.error("Profile fetch failed");
+      localStorage.removeItem("superAdminToken");
+      setSuperAdmin(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProfile();
+}, []); // ✅ empty dependency
+
 
   //  Login handler
   const login = async (email, password) => {
@@ -66,7 +96,7 @@ export function AuthProviderSuperAdmin({ children }) {
     }
   };
 
-  // ✅ Register handler
+  //  Register handler
   const register = async (formData) => {
     try {
       const res = await api.post("/superadmin/register", formData);

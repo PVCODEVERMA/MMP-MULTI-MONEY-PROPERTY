@@ -8,6 +8,8 @@ import {
 } from "react-icons/fa";
 import logo from "../../assets/componyLogos/logo.jpg";
 import SubscribeForm from "../../pages/HomeSection/SubscribeForm";
+import BackToTop from "../../common/BackToTop";
+import ChatBot from "../../chatBot/ChatBot";
 
 export default function Footer() {
   return (
@@ -372,6 +374,10 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+        {/* Floating Actions */}
+      <BackToTop />
+      {/* <ChatBot  /> */}
     </footer>
   );
 }
