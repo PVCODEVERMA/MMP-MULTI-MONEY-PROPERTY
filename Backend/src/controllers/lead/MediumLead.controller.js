@@ -1,5 +1,6 @@
-import MediumLead from "../../models/mediumLead.model.js";
+
 import asyncHandler from "express-async-handler";
+import MediumLeadModel from "../../models/MediumLead.model";
 
 // Create a new Medium Lead
 export const createMediumLead = asyncHandler(async (req, res) => {
@@ -9,19 +10,19 @@ export const createMediumLead = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Name and phone are required" });
   }
 
-  const lead = await MediumLead.create({ name, phone, email, propertyType, status });
+  const lead = await MediumLeadModel.create({ name, phone, email, propertyType, status });
   res.status(201).json(lead);
 });
 
 // Get all Medium Leads
 export const getMediumLeads = asyncHandler(async (req, res) => {
-  const leads = await MediumLead.find().sort({ createdAt: -1 });
+  const leads = await MediumLeadModel.find().sort({ createdAt: -1 });
   res.json(leads);
 });
 
 // Get single Medium Lead by ID
 export const getMediumLeadById = asyncHandler(async (req, res) => {
-  const lead = await MediumLead.findById(req.params.id);
+  const lead = await MediumLeadModel.findById(req.params.id);
   if (!lead) {
     return res.status(404).json({ message: "Lead not found" });
   }
@@ -30,7 +31,7 @@ export const getMediumLeadById = asyncHandler(async (req, res) => {
 
 // Update Medium Lead by ID
 export const updateMediumLead = asyncHandler(async (req, res) => {
-  const lead = await MediumLead.findById(req.params.id);
+  const lead = await MediumLeadModel.findById(req.params.id);
   if (!lead) {
     return res.status(404).json({ message: "Lead not found" });
   }
@@ -49,7 +50,7 @@ export const updateMediumLead = asyncHandler(async (req, res) => {
 
 // Delete Medium Lead by ID
 export const deleteMediumLead = asyncHandler(async (req, res) => {
-  const lead = await MediumLead.findById(req.params.id);
+  const lead = await MediumLeadModel.findById(req.params.id);
   if (!lead) {
     return res.status(404).json({ message: "Lead not found" });
   }

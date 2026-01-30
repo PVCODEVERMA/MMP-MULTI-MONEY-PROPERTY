@@ -14,7 +14,7 @@ import subAdminRoutes from "./src/routes/adminAuth/subAdmin.routes.js";
 import superAdminRoutes from "./src/routes/adminAuth/superAdmin.routes.js";
 import leadsRouter from "./src/routes/lead/lead.routes.js";
 import lowLeadRoutes from "./src/routes/propertypost/lowProperty.routes.js";
-import mediumLeadRoutes from "./src/routes/propertypost/MediumLead.routes.js";
+// import mediumLeadRoutes from "./src/routes/propertypost/MediumLead.routes.js";
 import highLeadRoutes from "./src/routes/propertypost/HighLead.routes.js";
 
 dotenv.config();
@@ -55,7 +55,7 @@ app.use("/api/subadmin", subAdminRoutes);
 app.use("/api/superadmin", superAdminRoutes);
 app.use("/api/leads", leadsRouter);
 app.use("/api/low", lowLeadRoutes);
-app.use("/api/medium", mediumLeadRoutes);
+// app.use("/api/medium", mediumLeadRoutes);
 app.use("/api/high", highLeadRoutes);
 
 // Health check
